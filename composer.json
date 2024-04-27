@@ -1,0 +1,23 @@
+{
+    "name": "tonyv/inventario-web",
+    "description": "Sistema de Inventario Web - Bay Island Cruises SRL",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "./",
+            "Controllers\\": "./controllers",
+            "Model\\": "./models",
+            "Classes\\": "./classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anthony Johel Valenzuela Torres",
+            "email": "tonyvaltor@outlook.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

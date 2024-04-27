@@ -1,0 +1,350 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.container {
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 30px;
+}
+
+.form {
+	background: #FFF;
+	padding: 30px 25px 40px;
+    position: absolute;
+    width: 40rem;
+	.campo {
+		position: relative;
+		height: 50px;
+		width: 100%;
+		border-radius: 6px;
+		margin-top: 2rem;
+
+
+		
+		&.select-buscar{
+			width: 100%;
+			margin: 0;
+		}
+		
+		&.w-100{
+			width: 100%;
+		}
+		
+		&.w-80{
+			width: 80%;
+		}
+
+		&.w-60{
+			width: 60%;
+		}
+
+		&.w-40{
+			width: 40%;
+		}
+
+		&.w-30{
+			width: 30%;
+		}
+		
+		&.w-20{
+			width: 20%;
+		}
+	}
+	a {
+		text-decoration: none;
+	}
+}
+
+.form-contenido {
+	width: 100%;
+	position: inherit;
+}
+
+.contenedor-flex{
+	display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.form-flex{
+	display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+	gap: 2rem;
+}
+
+.div-flex{
+	display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-bottom: 1px solid #d9d9d9;
+    flex-direction: row;
+    gap: 2rem;
+	width: 100%;
+}
+
+.form-botones {
+	padding: 20px 30px;
+	display: flex;
+	justify-content: flex-start;
+	gap: 2rem;
+}
+
+.form-buscar{
+	display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+	padding: 2rem;
+}
+
+.form-tabla {
+	overflow-x: scroll;
+}
+
+.campo-buscar{
+	padding: 4px;
+	width: 100%;
+	box-sizing: border-box;
+	height: 4rem;
+	margin: 0;
+	outline: none;
+	padding: 0 15px;
+	width: 100%;
+}
+
+.campo-unido {
+	margin-bottom: 3rem;
+}
+
+.campo-separado {
+	margin-bottom: 3rem;
+
+	&.campo-flex{
+		width: 50%;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.select2-container {
+		box-sizing: border-box;
+		display: inline-block;
+		margin: 0;
+		position: relative;
+		vertical-align: middle;
+		color: #1a1b15;
+		font-size: 16px;
+		font-weight: 700;
+		height: 100%;
+		margin-top: 1rem;
+		outline: none;
+		width: 100%;
+	}
+
+	.select2-container--default .select2-selection--single {
+		height: 100%;
+	}
+
+	.select2-container--default .select2-selection--single .select2-selection__rendered {
+		align-content: center;
+		height: 100%;
+		border-radius: .5rem;
+	}
+
+	.select2-results__option--selectable {
+		cursor: pointer;
+		color: black;
+	}
+
+	.select2-search--dropdown .select2-search__field {
+		input{
+			padding: 4px;
+			width: 100%;
+			box-sizing: border-box;
+			height: 4rem;
+			margin-top: 1rem;
+			outline: none;
+			padding: 0 15px;
+			width: 100%;
+		}
+	}
+}
+
+header {
+	font-size: 28px;
+	font-weight: 600;
+	color: v.$negro;
+	text-align: center;
+	margin-bottom: 1rem;
+}
+form {
+	margin-top: 0px;
+
+	
+}
+.no-margin{
+	margin: 0;
+}
+
+.campo {
+	input,
+	select {
+		height: 100%;
+		width: 100%;
+		font-size: 16px;
+		font-weight: bold;
+		outline: none;
+		padding: 0 15px;
+		color: v.$negro;
+		margin-top: 1rem;
+		border: 1px solid black;
+
+		&.select-menu-buscar{
+			margin: 0;
+		}
+	}
+
+
+
+	.login-input{
+		color: v.$negro;
+		border: none;
+		border-bottom: 2px solid v.$naranjalogin;
+		background-color: transparent;
+	}
+	
+
+	#correo::placeholder,
+	#password::placeholder{
+		color: lighten(v.$negro, 20);
+	}
+		
+	
+}
+
+
+
+// .input,
+// .password{
+// 	background-color: transparent;
+// }
+
+// .bk-transparente {
+// 	background-color: transparent;
+// }
+
+
+.eye-icon {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	font-size: 18px;
+	color: v.$negro;
+	cursor: pointer;
+	padding: 5px;
+}
+.form-enlace {
+	display: block;
+	text-align: center;
+	margin: 1.2rem;
+	span,
+	a {
+		font-size: 14px;
+		font-weight: 400;
+		color: v.$negro;
+	}
+}
+.form-contenedor {
+	a {
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+label {
+	color: v.$negro;
+	font-size: 1.6rem;
+}
+
+.label-pedido{
+	color: v.$negro;
+    font-size: 2.6rem;
+    margin-top: 3rem;
+	width: 100%;
+}
+
+
+@media (max-width: 762px) {
+
+	.form-botones {
+		display: flex;
+		gap: 2rem;
+		text-align: center;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	label{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 2rem;
+		text-align: center;
+	}
+
+	
+
+}
+
+
+@media (max-width: 580px) {
+
+	.form-botones {
+		display: flex;
+		gap: 2rem;
+		padding: 10px 30px;
+		flex-direction: column;
+		align-items: stretch;
+		text-align: center;
+	}
+
+	.campo-buscar{
+		width: 100%;
+	}
+
+	.input-buscar,
+	.boton-exportar{
+		width: 100%;
+	}
+
+	label{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 2rem;
+		text-align: center;
+	}
+
+}
+
+
+// @media screen and (max-width: 400px) {
+// 	.form {
+// 		padding: 20px 10px;
+// 	}
+// }
+
+
+
+
+
+

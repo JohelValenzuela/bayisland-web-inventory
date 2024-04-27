@@ -1,0 +1,32 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.form-contenedor {
+	text-align: center;
+}
+
+.form-campo {
+	margin-top: 0rem;
+}
+
+.forms {
+	//background-color: v.$fondoAzul;
+	background-image: url("/build/img/login.webp");
+	background-repeat: no-repeat;
+ 	background-size: cover;
+	background-position: center;
+}
+
+.login {
+	background: none;
+	backdrop-filter: blur(5px);
+	box-shadow: 0 0 20px 0px #0f0d1d;
+}
+
+.header-registro {
+	margin-bottom: 3rem;
+}
+
+.logo-login{
+	width: 30rem;
+}

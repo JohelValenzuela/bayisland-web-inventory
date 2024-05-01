@@ -11,8 +11,6 @@
         <link rel="stylesheet" href="../build/css/datatables.css">
         <link rel="stylesheet" href="../build/css/select.css">
         <link rel="stylesheet" href="../build/css/responsive.css">
-        
-
     </head>
 
     <body>

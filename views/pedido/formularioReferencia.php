@@ -21,7 +21,14 @@
         </thead>
 
         <tbody>
+        <?php 
+            // Inicializa la variable para almacenar la suma total de la cantidad pedida
+            $totalCantidadPedida = 0;
+        ?>
+
         <?php foreach($pedido as $pedidos) : ?>
+
+
             <tr>
                 <td data-titulo="Id"><?php echo $pedidos->id; ?></td>
                 <td data-titulo="Referencia"><?php echo $pedidos->referencia; ?></td>
@@ -39,6 +46,13 @@
 
                 <td data-titulo="Empaque"><?php echo $pedidos->cantidad; ?></td>
 
+                <?php
+                    // Obtiene la cantidad pedida del producto actual
+                    $cantidadpedida = $pedidos->cantidad;
+                    // Suma la cantidad pedida al totalCantidadPedida
+                    $totalCantidadPedida += $cantidadpedida;
+                ?>
+
                 <td data-titulo="Creador"><?php echo $pedidos->usuario->nombre . " " . $pedidos->usuario->apellido  ; ?></td>
                 <td data-titulo="Creado"><?php echo $pedidos->fechaCreacion; ?></td>
 
@@ -47,13 +61,13 @@
         <tbody>   
     </table>
 </div>
-<label class="label-pedido" for="cantidad" ><strong>Cantidad Pedida:</strong> <?php echo s($pedidos->cantidad . " " . $pedidos->producto->unidad_empaque); ?></label>
-<input name="referencia" id="referencia" type="hidden" value="<?php echo s($_POST['referencia']) ?>"/>
+<label class="label-pedido" for="cantidad" ><strong>Cantidad Pedida:</strong> <?php echo s($totalCantidadPedida . " " . $pedidos->producto->unidad_empaque); ?></label>
+<input name="referencia" id="referencia" type="hidden" value="<?php echo s($pedidos->referencia) ?>"/>
 
 <div class="div-flex" >
-    <div class="campo campo-separado w-20">
+    <div class="campo campo-separado w-20 ">
         <label for="cantidad" >Cantidad</label>
-        <input disabled name="cantidad" id="cantidad" type="text" placeholder="Ingrese la cantidad aceptada"  value="<?php echo s($pedidos->cantidad) ?>"/>
+        <input class="estado deshabilitado" disabled name="cantidad" id="cantidad" type="text" placeholder="Ingrese la cantidad aceptada"  value="<?php echo s($totalCantidadPedida) ?>"/>
     </div>
 
     <div class="campo campo-separado w-60">
@@ -63,7 +77,7 @@
 
     <div class="campo campo-separado w-20">
         <label for="estado" >Estado</label>
-        <select name="estado" id="estado">
+        <select name="estado" id="">
             <option selected value>-- Seleccione --</option>
             <option value="<?php echo s($pedidos->estado = 'Aceptado') ?>">Aceptar</option>
             <option value="<?php echo s($pedidos->estado = 'Rechazado') ?>" >Rechazar</option>               

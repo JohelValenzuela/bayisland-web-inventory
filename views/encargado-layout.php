@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sistema de Inventario Web</title>
@@ -8,11 +8,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700;900&display=swap" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="../build/css/app.css">
-        <!-- <link href="../build/css/vanilla-dataTables.css" rel="stylesheet" type="text/css"> -->
-        <!-- <link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.0.1/b-3.0.0/b-html5-3.0.0/b-print-3.0.0/datatables.min.css" rel="stylesheet"> -->
-        <!-- <link href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.min.css" rel="stylesheet"> -->
-        <script src="https://kit.fontawesome.com/b0f76a427d.js" crossorigin="anonymous"></script>
-        <!-- <script src="https://unpkg.com/vanilla-datatables@latest/dist/vanilla-dataTables.min.js" type="text/javascript"></script> -->
+        <link rel="stylesheet" href="../build/css/datatables.css">
+        <link rel="stylesheet" href="../build/css/select.css">
+        <link rel="stylesheet" href="../build/css/responsive.css">
     </head>
 
     <body>
@@ -55,16 +53,17 @@
 
                 <li>
                     <div class="perfil-detalle">
-                    <div class="profile-content">
-                    </div>
-                    <div class="name-job">
-                        <div class="nombre_perfil"><?php echo s($_SESSION['nombre']) ?? '?' ?></div>
-                        <div class="job"><?php echo s($_SESSION['rol']) ?? ''  ?></div>
-                    </div>
-                    <a href="/auth/logout">
-                        <i class='bx bx-log-out logout'></i>
-                    </a>
-                    
+                        <div class="profile-content">
+                            
+                        </div>
+                        <a href="/auth/logout">
+                            <i class='bx bx-log-out logout'></i>
+                        </a> 
+                        <div class="nombre-rol">
+                            <div class="nombre_perfil"><?php echo s($_SESSION['nombre']) ?? '?' ?></div>
+                            <div class="rol"><?php echo s($_SESSION['rol']) ?? ''  ?></div>
+                        </div>
+                            
                     </div>
                 </li>
             </ul>
@@ -72,7 +71,29 @@
 
     <?php echo $contenido; ?>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <script src="https://kit.fontawesome.com/b0f76a427d.js" crossorigin="anonymous"></script>
+
+    <!-- EXPORTAR EXCEL -->
+    <script src="https://unpkg.com/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/file-saverjs@latest/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/tableexport@latest/dist/js/tableexport.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+
+
+
+    <script src="https://cdn.datatables.net/responsive/3.0.1/js/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.1/js/responsive.dataTables.js"></script>
+
+
+
     <script src="../build/js/app.js"></script>
+    <script src="../build/js/buscar.js"></script>
+    <script src="../build/js/tablas.js"></script>
 
     </body>
 </html>

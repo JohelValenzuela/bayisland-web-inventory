@@ -128,8 +128,14 @@ class Router
             include_once __DIR__ . '/views/main-layout.php';
         }
 
+        //debug($_SESSION);
+
         if(in_array($currentUrl, $rutas_admin)) {
-            include_once __DIR__ . '/views/admin-layout.php';
+            if(isAdmin()){
+                include_once __DIR__ . '/views/admin-layout.php';
+            } else if (isEncargado()){
+                include_once __DIR__ . '/views/encargado-layout.php';
+            }        
         }
 
 

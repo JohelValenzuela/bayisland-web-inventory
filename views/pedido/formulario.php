@@ -57,7 +57,7 @@
 
     <div class="campo campo-separado w-20">
         <label for="estado" >Estado</label>
-        <select name="estado" id="estado">
+        <select name="estado" id="">
             <option selected value>-- Seleccione --</option>
             <option value="<?php echo s($pedido->estado = 'Aceptado') ?>">Aceptar</option>
             <option value="<?php echo s($pedido->estado = 'Rechazado') ?>" >Rechazar</option>               

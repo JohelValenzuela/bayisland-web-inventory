@@ -73,6 +73,7 @@
                     <th>Creado Por</th>
                     <th>Fecha de Creación</th>
                     <th>Editar</th>
+                    <th>Referencia</th>
                     <th>Eliminar</th>
                 </tr>
             </thead>
@@ -101,24 +102,32 @@
 
                         <td>
                             <div class="acciones-tabla">
-                            <a class="boton-accion editar" href="/pedido/actualizar?id=<?php echo $pedidos->id; ?>">
-                                <i class="fa-regular fa-pen-to-square accion"></i>    
-                            </a>                  
+                                <a class="boton-accion entrada" href="/pedido/actualizar?id=<?php echo $pedidos->id; ?>">
+                                    <i class="fa-regular fa-pen-to-square accion"></i>    
+                                </a>                  
                             </div>
-                            </td>
-                            <td>
+                        </td>
+
+                        <td>
                             <div class="acciones-tabla">
-                            <a class="boton-accion">
-                                <form class="no-margin" action="/pedido/eliminar" method="POST"> 
-                                <input type="hidden" name="id" value="">
-                                <button disabled type="submit" value="" class="boton-accion eliminar"> 
-                                    <i class="fa-regular fa-trash-can accion"></i> 
-                                </button>
-                                </form>
-                            </a>
-                                
+                                <a class="boton-accion salida" href="/pedido/gestionaReferencia?referencia=<?php echo $pedidos->referencia; ?>">
+                                    <i class="fa-regular fa-pen-to-square accion"></i>   
+                                </a>                  
                             </div>
-                            </td>
+                        </td>
+
+                        <td>
+                            <div class="acciones-tabla">
+                                <a class="boton-accion">
+                                    <form class="no-margin" action="/pedido/eliminar" method="POST"> 
+                                        <input type="hidden" name="id" value="">
+                                        <button disabled type="submit" value="" class="boton-accion eliminar"> 
+                                            <i class="fa-regular fa-trash-can accion"></i> 
+                                        </button>
+                                    </form>
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 <?php } ?> 

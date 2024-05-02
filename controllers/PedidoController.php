@@ -197,9 +197,6 @@ class PedidoController {
         }
     }
     
-    
-    
-    
     public static function borrarCarrito(){
         Pedido::setAlerta('exito', 'Se ha borrado la orden de compra');
         header("Location: ".$_SERVER["HTTP_REFERER"]."");

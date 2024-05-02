@@ -118,8 +118,14 @@ $router = new Router();
     $router->get('/pedido/carrito', [PedidoController::class, 'carrito']);
     $router->post('/pedido/carrito', [PedidoController::class, 'carrito']);
 
+    $router->get('/pedido/editarCarrito', [PedidoController::class, 'editarCarrito']);
+    $router->post('/pedido/editarCarrito', [PedidoController::class, 'editarCarrito']);
+
     $router->get('/pedido/borrarCarrito', [PedidoController::class, 'borrarCarrito']);
     $router->post('/pedido/borrarCarrito', [PedidoController::class, 'borrarCarrito']);
+
+    $router->get('/pedido/eliminarProductoCarrito', [PedidoController::class, 'eliminarProductoCarrito']);
+    $router->post('/pedido/eliminarProductoCarrito', [PedidoController::class, 'eliminarProductoCarrito']);
 
     $router->get('/pedido/guardaPedido', [PedidoController::class, 'guardaPedido']);
     $router->post('/pedido/guardaPedido', [PedidoController::class, 'guardaPedido']);

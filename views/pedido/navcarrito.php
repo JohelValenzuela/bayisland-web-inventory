@@ -1,52 +1,36 @@
 
 <?php
+
     if(isset($_SESSION["carrito"])){              
         $orden = $_SESSION["carrito"];
     }
 
     // Contar Carrito
-
-    if(isset($_SESSION["carrito"])){ // SI NO ESTÁ VACIO ENTRA AL FOR
-
+    if(isset($_SESSION["carrito"])){ // TIENE ALGO - ENTRA AL FOR
         for($i=0;$i<=count($orden)-1;$i ++){
-
             if(isset($orden[$i])){
+                if($orden[$i]!=NULL){
 
-              
+                    if(!isset($cuantos)){ // NO está definida y no es Null
+                        $cuantos = "0";
+                    }
+                        
+                    $total_cantidad = $cuantos;
+                    $total_cantidad ++ ;
 
-            if($orden[$i]!=NULL){
+                    if(!isset($totalcantidad)){
+                        $totalcantidad = "0";
+                    }
 
-            if(!isset($cuantos)){ // NO está definida y no es Null
-                $cuantos = "0";
-            } else{ // hay algo en cuantos
-                $cuantos = $cuantos;
+                    $totalcantidad += $total_cantidad;
+                }
             }
-
-            //debug($orden);
-            //debug($_POST['id']);
-
-            
-            $total_cantidad = $cuantos;
-
-            $total_cantidad ++ ;
-
-            if(!isset($totalcantidad)){
-                $totalcantidad = "0";
-            } else{ 
-                $totalcantidad = $totalcantidad;
-            }
-
-            $totalcantidad += $total_cantidad;
-
-        }}}
+        }
     }
 
     //declaramos variables
-
-     if(!isset($totalcantidad)){
+    if(!isset($totalcantidad)){
         $totalcantidad = 0;
-    } else{ 
-        $totalcantidad = $totalcantidad;
     }
 
 ?>
@@ -73,8 +57,15 @@
 </div>
 
 
-<?php if($totalcantidad > 0 ) { ?>
+<?php 
+// Resetea el carrito siempre que esté vacío
+    if($totalcantidad <= 0){
+        unset($_SESSION["carrito"]);
+    }
+?>
 
+<?php if($totalcantidad > 0 ) { ?>
+<!-- Si hay algo en el carrito, lo muestra en el modal-carrito -->
     <div id="openModal" class="modalDialog">
 
         <div>
@@ -82,7 +73,7 @@
             <h2>Orden de Compra</h2>
             <!-- <p> * Los productos añadidos a la orden de compra tendrán por defecto una cantidad mínima de 1 unidad. </p>
             <p> * Para agregar una cantidad personalizada digite la cantidad en el espacio disponible y posteriormente pulse en el botón guardar <spam style="color: green"> <i class="fa-regular fa-square-plus agrega"></i></spam>  </p> 
-            <p> * Para eliminar un producto pulse en el botón eliminar <spam style="color: red"> <i class='bx bxs-trash borra'></i></spam>  </p>  -->
+            <p> * Para eliminar un producto pulse en el botón eliminar <spam style="color: red"> <i class='bx bxs-trash borra'></i></spam>  </p> -->
 
 
             <table class="tabla table_id" id="tablaCarrito">
@@ -114,28 +105,28 @@
 
                                         <tr>
                                             <td>
-                                                <form class="no-margin" action="/pedido/carrito?id=<?php echo $i; ?>" method="POST"> 
-                                                    <div class="acciones-tabla">
-                                                        <input name="id2" type="hidden" id="id2" value="<?php echo $i; ?>"> </input>
-                                                        <button type="submit" value="" class="boton-accion eliminar"> 
-                                                            <i class='bx bxs-trash borra'></i>
-                                                        </button>
-                                                    </div>
-                                                </form>                             
+                                                <form class="no-margin" action="/pedido/eliminarProductoCarrito" method="POST"> 
+                                                    <input type="hidden" name="id" value="<?php echo $i; ?>">
+                                                    <button type="submit" class="boton-accion eliminar">
+                                                        <i class='bx bxs-trash borra'></i>
+                                                    </button>
+                                                </form>
                                             </td>
 
                                             <td> 
-                                                <form class="no-margin" action="/pedido/carrito?id=<?php echo $i; ?>" method="POST"> 
+                                                <form class="no-margin" action="/pedido/editarCarrito" method="POST"> 
                                                     <div class="acciones-tabla">
-                                                        <input name="id" type="hidden" id="id" value="<?php echo $i; ?>"> </input>
-                                                        <input name="lleno" type="hidden" id="lleno" value="<?php echo $lleno; ?>"> </input>
-                                                        <input class="input-carrito" name="cuantos" type="text" id="cuantos" value="<?php echo $orden[$i]["cuantos"]; ?>" > </input>
-                                                        <button type="submit" value="" class="boton-accion eliminar"> 
-                                                            <i class="fa-regular fa-square-plus agrega"> </i>
-                                                        </button>
+                                                    <input type="hidden" name="id" value="<?php echo $i; ?>">
+                                                    <input class="input-carrito" type="number" name="cantidad" value="<?php echo $orden[$i]["cuantos"]; ?>">
+                                                    <button type="submit" class="boton-accion editar">
+                                                        <i class="fa-regular fa-square-plus agrega"></i>
+                                                    </button>
                                                     </div>
-                                                </form> 
-                                            </td>                                   
+                                                    
+                                                </form>
+
+                                            </td>    
+
                                             <td> <?php echo $orden[$i]["id"];?></td>
                                             <td> <?php echo $orden[$i]["categoriaId"];?></td>
                                             <td> <?php echo $orden[$i]["nombre"];?></td>

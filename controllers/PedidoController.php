@@ -67,7 +67,6 @@ class PedidoController {
                 $pedidos->usuario = Auth::find($pedidos->usuarioId);
                 //debug($usuarios);
             }
-            
 
             $router->render('pedido/mostrar', [
                 'pedido' => $pedido,
@@ -83,137 +82,128 @@ class PedidoController {
         }
     }
 
-    public static function carrito(Router $router){
-        $alertas = [];
-
-        if(isset($_SESSION["carrito"]) || isset($_POST['id'])){
+    public static function carrito() {
+        // Verifica si se ha iniciado una sesión de carrito o se ha enviado un ID de producto
+        if(isset($_SESSION["carrito"]) || isset($_POST['id'])) {
+            // Inicializa la variable $orden
+            $orden = [];
+    
+            // Si existe una sesión de carrito, asigna su valor a la variable $orden
             if(isset($_SESSION["carrito"])){
                 $orden = $_SESSION["carrito"];
-                
-                if(isset($_POST['id'])){  
-
-                    $id = $_POST['id'];
-                    $categoriaId = $_POST['categoriaId'];
-                    $nombre = $_POST['nombre'];
-                    $presentacion = $_POST['presentacion']; 
-                    $cantidadPresentacion = $_POST['cantidadPresentacion'];
-                    $medidaId = $_POST['medidaId']; 
-                    $unidad_empaque =  $_POST['unidad_empaque'];
-                    $cantidad = $_POST['cantidad']; 
-                    $cuantos = $_POST["cuantos"] + 1;
-
-                    $donde=-1;
-                    
-                    
-                    // Verifica si el producto ya está en el carrito
-                    $indice = array_search($id, array_column($orden, 'id'));
-
-                    if($indice !== false){  // El producto ya está en el carrito, no hace nada
-                        Pedido::setAlerta('exito', 'El producto ya está en el carrito');
-                        header("Location: ".$_SERVER["HTTP_REFERER"]."");
-                        exit; // Detiene la ejecución
-                    }
-
-
-                    if($donde != -1){
-                       //$cuantos = $orden[$donde]["cantidad"]++;
-                       $orden[$donde]=array(
-                        "id"=>$id,
-                        "categoriaId"=>$categoriaId,
-                        "nombre"=>$nombre,
-                        "presentacion"=>$presentacion,
-                        "cantidadPresentacion"=>$cantidadPresentacion,
-                        "medidaId"=>$medidaId,
-                        "unidad_empaque"=>$unidad_empaque,
-                        "cantidad"=>$cantidad,
-                        "cuantos" => $cuantos
-                      ); 
-                    } else if($_POST["lleno"] != 'lleno'){ // Hay algo en el carrito
-                        $orden[]=array(
-                            "id"=>$id,
-                            "categoriaId"=>$categoriaId,
-                            "nombre"=>$nombre,
-                            "presentacion"=>$presentacion,
-                            "cantidadPresentacion"=>$cantidadPresentacion,
-                            "medidaId"=>$medidaId,
-                            "unidad_empaque"=>$unidad_empaque,
-                            "cantidad"=>$cantidad,
-                            "cuantos" => $cuantos
-                        );   
-                    }
+            }
+    
+            // Si se ha enviado un ID de producto, agrega el producto al carrito
+            if(isset($_POST['id'])) {  
+                $id = $_POST['id'];
+                $categoriaId = $_POST['categoriaId'];
+                $nombre = $_POST['nombre'];
+                $presentacion = $_POST['presentacion']; 
+                $cantidadPresentacion = $_POST['cantidadPresentacion'];
+                $medidaId = $_POST['medidaId']; 
+                $unidad_empaque =  $_POST['unidad_empaque'];
+                $cantidad = $_POST['cantidad']; 
+    
+                // Verifica si el producto ya está en el carrito
+                $indice = array_search($id, array_column($orden, 'id'));
+    
+                if($indice !== false){  // El producto ya está en el carrito, aumenta la cantidad
+                    $orden[$indice]["cuantos"] += 1;
+                } else {
+                    // Agrega el producto al carrito
+                    $orden[] = array(
+                        "id" => $id,
+                        "categoriaId" => $categoriaId,
+                        "nombre" => $nombre,
+                        "presentacion" => $presentacion,
+                        "cantidadPresentacion" => $cantidadPresentacion,
+                        "medidaId" => $medidaId,
+                        "unidad_empaque" => $unidad_empaque,
+                        "cantidad" => $cantidad,
+                        "cuantos" => 1
+                    );
                 }
-                Pedido::setAlerta('exito', 'Se ha agregado un producto a la orden de compra');
-                header("Location: ".$_SERVER["HTTP_REFERER"]."");
- 
-            }else{  // PRIMER ITEM EN CARRITO
-              $id = $_POST['id'];
-              $categoriaId = $_POST['categoriaId'];
-              $nombre = $_POST['nombre'];
-              $presentacion = $_POST['presentacion']; 
-              $cantidadPresentacion = $_POST['cantidadPresentacion'];
-              $medidaId = $_POST['medidaId']; 
-              $unidad_empaque =  $_POST['unidad_empaque'];
-              $cantidad = $_POST['cantidad']; 
-              $cuantos = $_POST["cuantos"] + 1;
-
-              $orden[]=array(
-                "id"=>$id,
-                "categoriaId"=>$categoriaId,
-                "nombre"=>$nombre,
-                "presentacion"=>$presentacion,
-                "cantidadPresentacion"=>$cantidadPresentacion,
-                "medidaId"=>$medidaId,
-                "unidad_empaque"=>$unidad_empaque,
-                "cantidad"=>$cantidad,
-                "cuantos" => $cuantos
-              );
+    
+                // Establece un mensaje de éxito y redirige
                 Pedido::setAlerta('exito', 'Se ha agregado un producto a la orden de compra');
                 header("Location: ".$_SERVER["HTTP_REFERER"]."");
             }
-
-            
-                Pedido::setAlerta('exito', 'Se ha agregado un producto a la orden de compra');
-          
-                if(isset($_POST["cuantos"])){       
-                    $i = $_POST["id"] ?? NULL;
-                    $cuantos = $_POST["cuantos"];       
-                    if($cuantos < 1){
-                    $orden[$i] = NULL;
-                    }else{
-                        $orden[$i]["cuantos"] = $cuantos ?? 1;                  
-                    }    
-                    header("Location: crear#openModal");  
-                }              
-          
-                if(isset($_POST["id2"])){
-                    unset($orden[intval($_POST["id2"])]);      
-                    header("Location: crear#openModal");             
-                }    
-                $_SESSION["carrito"] = $orden;  
+    
+            // Actualiza el carrito en la sesión
+            $_SESSION["carrito"] = $orden;
         }
-        $alertas = Pedido::getAlertas();
-        $router->render('pedido/carrito', [
-            'alertas' => $alertas
-        ]);
     }
 
-    public static function borrarCarrito(Router $router){
+    public static function editarCarrito(){
+        if(isset($_POST["id"]) && isset($_POST["cantidad"])){
+            $id = $_POST["id"];
+            $cantidad = $_POST["cantidad"];
+    
+            // Llama a la función editarCarrito con los datos obtenidos de $_POST
+            self::editarCarritoFuncion($id, $cantidad);
+        } else {
+            // Maneja el caso en que no se proporcionen los datos esperados
+            echo "Error: No se proporcionaron datos válidos.";
+        }
+    }
+    
+    // Función para editar el carrito, toma los argumentos directamente
+    private static function editarCarritoFuncion($id, $cantidad){
+        // Lógica para editar el carrito
+        if(isset($_SESSION["carrito"])){
+            $orden = $_SESSION["carrito"];
+    
+            // Verificar si el ID del producto existe en el carrito
+            if(array_key_exists($id, $orden)){
+                // Actualizar la cantidad del producto en el carrito
+                $orden[$id]["cuantos"] = $cantidad;
+    
+                // Actualizar la sesión del carrito
+                $_SESSION["carrito"] = $orden;
+    
+                Pedido::setAlerta('exito', 'Se ha actualizado la cantidad del producto en el carrito');
+                header("Location: crear#openModal"); 
+            } else {
+                Pedido::setAlerta('error', 'El producto no existe en el carrito');
+                header("Location: ".$_SERVER["HTTP_REFERER"]."");
+            }
+        } else {
+            Pedido::setAlerta('error', 'No hay productos en el carrito');
+            header("Location: ".$_SERVER["HTTP_REFERER"]."");
+        }
+    }
 
-        $alertas = [];
-
+    public static function eliminarProductoCarrito() {
+        if(isset($_POST['id'])) {
+            $id = $_POST['id'];
+            
+            // Llama a la función para eliminar el producto del carrito
+            if(isset($_SESSION["carrito"])) {
+                $orden = $_SESSION["carrito"];
+        
+                // Verifica si el ID del producto existe en el carrito
+                if(array_key_exists($id, $orden)) {
+                    // Elimina el producto del carrito usando unset()
+                    unset($orden[$id]);     
+        
+                    // Actualiza la sesión del carrito
+                    $_SESSION["carrito"] = $orden;
+                }
+            }
+    
+            // Redirige de vuelta a la página anterior
+            header("Location: crear#openModal"); 
+            exit;
+        }
+    }
+    
+    
+    
+    
+    public static function borrarCarrito(){
         Pedido::setAlerta('exito', 'Se ha borrado la orden de compra');
-
-        session_start();
         header("Location: ".$_SERVER["HTTP_REFERER"]."");
-    
         unset($_SESSION["carrito"]);
-    
-    
-        $alertas = Pedido::getAlertas();
-        $router->render('pedido/borrarCarrito', [
-            'alertas' => $alertas
-        ]);
-
     }
 
     public static function guardaPedido(Router $router){

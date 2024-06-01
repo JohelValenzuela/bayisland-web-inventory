@@ -1,0 +1,182 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+
+    // .boton-azul {
+    //     height: 55px;
+    //     width: 100%;
+    //     color: v.$blanco;
+    //     font-size: 1.6rem;
+    //     font-weight: 400;
+    //     border: none;
+
+    //     cursor: pointer;
+    //         transition: all 0.2s ease;
+    //         background: v.$azul;
+    //     &:hover {
+    //         background-color: (darken(v.$azul, 5));
+    //     }
+    // }
+
+    .boton-azul {
+        @include m.boton(v.$primario, v.$blanco);
+        margin: 2rem 0rem;
+
+        &.margin{
+            margin: 5rem 0;
+        }
+    }
+
+    .boton-naranja {
+        @include m.boton(v.$secundario, v.$negro);
+        margin: 2rem 0rem;
+    }
+
+    .boton-mensaje {
+        @include m.boton(v.$primario, v.$blanco);
+        margin: 2rem 0rem;
+    }
+
+    .boton-small {
+        @include m.boton(v.$secundario, v.$blanco);
+        margin: 2rem 0rem;
+        width: 35%;
+    }
+
+    .boton-accion{
+        text-transform: uppercase;
+        font-weight: bold;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+
+        &.entrada {
+            color: v.$azul;
+        }
+
+        &.salida {
+            color: v.$naranjaOscuro;
+        }
+
+        &.editar {
+            color: v.$naranjaOscuro;
+        }
+
+        &.agrega {
+            color: v.$verde;
+        }
+
+        &.carrito {
+            color: v.$verde;
+            font-size: 5rem;
+        }
+
+        &.eliminar{
+            background-color: transparent;
+            border: none;
+            color: v.$rojo;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .boton-actualizar{
+        @include m.boton(v.$secundario, v.$blanco);
+        margin: 0;
+        padding: 0rem 1rem;
+        border-radius: 10px;
+        border: 1px solid #666666;
+    }
+
+    .boton-eliminar{
+        @include m.boton(v.$rojo, v.$blanco);
+        margin: 0;
+        padding: 1rem 1rem;
+        border-radius: 10px;
+        border: 1px solid #666666;
+    }
+
+    .input-buscar{
+        border: 1px solid #000;
+        border-radius: .5rem;
+        height: 45px;
+        padding: 1rem;
+    }
+
+    .boton-exportar {
+        background-color: transparent;
+        border: 1px solid black;
+        color: v.$fondoAzul;
+        font-size: 2rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        height: 45px;
+        cursor: pointer;
+
+        &:hover{
+            background-color: v.$fondoAzul;
+            color: v.$blanco;
+        }
+    
+        &.volver{
+            background-color: transparent;
+            color: v.$blanco;
+            border: 1px solid v.$blanco;
+        }
+
+        &.volver:hover{
+            background-color: v.$blanco;
+            color: v.$fondoAzul;
+            border: 1px solid v.$fondoAzul;
+        }
+        
+        &.agregar:hover {
+            border: 1px solid v.$verde;
+            background-color: v.$verde;
+            color: v.$blanco;
+        }
+
+        &.retirar:hover {
+            border: 1px solid v.$rojo;
+            background-color: v.$rojo;
+            color: v.$blanco;
+        }
+
+        &.restar {
+            color: v.$rojo;
+        }
+
+        &.cerrar:hover {
+            background-color: v.$rojo;
+        }
+
+        &.vaciar:hover {
+            background-color: v.$naranja;
+        }
+
+        &.continuar:hover {
+            background-color: v.$verde;
+        }
+    }
+
+    .boton-buscar{
+        background-color: transparent;
+        border: 1px solid black;
+        color: v.$fondoAzul;
+        font-size: 2rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .boton-errores {
+        @include m.boton(v.$primario, v.$negro);
+        
+    }
+

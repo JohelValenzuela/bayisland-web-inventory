@@ -1,0 +1,173 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+$color_1: white;
+$color_2: #ffffff;
+$font-family_1: Helvetica;
+$background-color_1: white;
+
+
+
+.tabla {
+	border-radius: 5px;
+	font-size: 12px;
+	font-weight: normal;
+	border: none;
+	border-collapse: collapse;
+	width: 100%;
+	max-width: 100%;
+	white-space: nowrap;
+    text-align: center;
+    line-height: 2;
+
+	td {
+		padding: 1rem;
+		border: 1px solid #e6e4e4;
+		font-size: 1.6rem;
+
+        .acciones-tabla {
+            display: flex;
+			gap: 2rem;
+			justify-content: space-evenly;
+
+			.input-carrito{
+				min-width: 10rem;
+    			width: 100%;
+			}
+
+			.no-margin {
+				margin-top: 0;
+			}
+        }
+
+		.sin-registro{
+			text-align: center;
+			vertical-align: top;
+			margin-top: 1rem;
+			width: 100%;
+			font-weight: 700;
+			font-size: 1.8rem;
+			text-align: center;
+			color: #f25500;
+			background-color: #f2c5ad;
+		}
+
+        i {
+            font-size: 1.4rem;
+
+			&.toggle-admin{
+				color: #b3b2b2;
+				font-size: 3rem;
+			}
+
+			&.toggle-on{
+				color: v.$verde;
+				font-size: 3rem;
+			}
+
+			&.toggle-off{
+				color: v.$rojo;
+				font-size: 3rem;
+			}
+
+			&.accion{
+				font-size: 2.6rem;
+			}
+
+			&.icono{
+				font-size: 2rem;
+			}
+
+			&.agrega{
+				font-size: 3rem;
+				color: v.$verde;
+			}
+
+			&.borra{
+				font-size: 3rem;
+				color: v.$rojo;
+			}
+
+            &.rojo {
+                color: v.$rojo;
+            }
+            
+            &.amarillo {
+                color: v.$secundario;
+            }
+        }                
+	}    
+	th {
+		padding: 1rem;
+	}
+	thead {
+		th {
+			color: v.$blanco;
+            font-size: 1.5rem;
+			background: v.$fondoAzul;
+			text-align: center;
+			
+		}
+	}
+	tr {
+        color: v.$negro;
+		&:nth-child(even) {
+			background: #ebebeb;
+		}
+	}
+}
+
+// @media (max-width: 762px) {
+
+// 	.tabla {
+// 		display: flex;
+// 		flex-direction: column;
+
+// 		thead {
+// 			display: none;
+// 		}
+
+// 		tr{
+// 			display: flex;
+// 			flex-direction: column;
+// 			justify-content: flex-end;
+// 			margin-bottom: 2rem;
+// 			border: 1px solid;
+// 			border-radius: 10px;
+
+// 			&:nth-child(even) {
+// 				background: #ffffff;
+// 			}
+
+// 		}
+
+// 		td[data-titulo]{
+// 			display: flex;
+// 			justify-content: space-between;
+
+// 			&::before{
+// 				content: attr(data-titulo);
+// 				color: v.$fondoAzul;
+// 				font-weight: bold;
+// 			}
+// 		}
+
+// 		td[data-detalle]{
+// 			white-space: pre;
+// 		}
+
+// 		td {
+// 			.acciones-tabla {
+// 				display: flex;
+// 				gap: 2rem;
+// 				justify-content: space-around;
+
+// 			}
+// 		}
+
+// 	}
+// }
+
+
+
+

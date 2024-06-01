@@ -1,0 +1,124 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+
+.alerta {
+    padding: calc(v.$separacion / 5);
+    margin-top: 1rem;
+    color: v.$negro;
+    width: 100%;
+    display: block;
+    font-weight: v.$bold;
+    font-size: 1.8rem;
+    text-align: center;
+
+    &.error {
+        color: v.$rojo;
+        background-color: v.$rojoClaro;
+        border: 1px solid v.$rojo;
+    }
+
+    &.exito {
+        color: v.$verde;
+        background-color: v.$verdeClaro;
+        border: 1px solid v.$verde;
+    }
+
+    &.info {
+        color: v.$naranjaOscuro;
+        background-color: v.$naranjaClaro;
+        border: 1px solid v.$naranjaOscuro;
+    }
+
+}
+
+.form-alerta {
+    padding: 1rem 0rem 1rem 1.8rem;
+    background: none;
+    text-align: center;
+    padding: 1rem 0 1rem 0rem;
+}
+
+.estado {
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+
+    &.deshabilitado{
+        text-transform: none;
+        color: #b3b2b2;
+		background-color: #dfdfdf;
+        border: 2px solid #d8d3d3;
+    }
+
+    &.activo{
+        color: v.$verde;
+        background-color: v.$verdeClaro;
+    }
+
+    &.inactivo{
+        color: v.$rojo;
+        background-color: v.$rojoClaro;
+    }
+
+    &.aceptado{
+        color: v.$verde;
+        background-color: v.$verdeClaro;
+    }
+
+    &.rechazado{
+        color: v.$rojo;
+        background-color: v.$rojoClaro;
+    }
+
+    &.pendiente{
+        color: v.$naranjaOscuro;
+        background-color: v.$naranjaClaro;
+    }
+
+    &.check{
+        color: v.$verde;
+
+        i {
+            font-size: 3rem;
+        }
+    }
+
+    &.x{
+        color: v.$rojo;
+        
+        i {
+            font-size: 3rem;
+        }
+    }
+}
+
+.anuncio {
+    display: flex;
+    flex-direction: column-reverse;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    &.campo-anuncio {
+        text-align: center;
+        width: 50%;
+    }
+
+    &.error {
+        font-size: 30rem;
+        color: v.$negro;
+    }
+
+}
+
+.p {
+    font-size: 4rem;
+    color: v.$negro;
+    text-align: center;
+}
+
+

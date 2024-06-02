@@ -18,11 +18,11 @@
                 <form  class="form-campo" method="POST">
 
                     <div class="campo campo-unido">
-                        <input id="password" name="password" type="password" placeholder="Nueva Contraseña" class="password">
+                        <input id="password" name="password" type="password" placeholder="Nueva Contraseña" class="formulario-input">
                     </div>
 
                     <div class="campo campo-unido">
-                        <button class="boton boton-naranja">Reestablecer Contraseña</button>
+                        <button class="boton-exportar formulario"  style="width: 100%;">Reestablecer Contraseña</button>
                     </div>
                 </form>
 

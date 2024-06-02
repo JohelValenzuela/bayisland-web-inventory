@@ -9,19 +9,19 @@
 
                 <form class="form-campo" action="/auth/login" method="POST">
                     <div class="campo campo-unido">
-                        <input id="correo" name="correo" type="email" placeholder="Correo Electrónico" class="input login-input">
+                        <input id="correo" name="correo" type="email" placeholder="Correo Electrónico" class="formulario-input">
                     </div>
 
                     <div class="campo campo-unido">
-                        <input id="password" name="password" type="password" placeholder="Contraseña" class="password login-input">
+                        <input id="password" name="password" type="password" placeholder="Contraseña" class="formulario-input">
                     </div>
 
                     <div class="form-enlace">
-                        <a href="/auth/olvide_password" class="forgot-pass">¿Olvidaste la contraseña?</a>
+                        <a href="/auth/olvide_password" class="forgot-pass"><span>¿Olvidaste la contraseña?</span></a>
                     </div>
 
                     <div class="campo button-field">
-                        <input type="submit" class="boton boton-azul margin" value="Ingresar">
+                        <input type="submit" class="boton-exportar formulario " value="Ingresar">
                     </div>
                 </form>
 

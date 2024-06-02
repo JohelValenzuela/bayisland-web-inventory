@@ -17,7 +17,7 @@
         <?php include __DIR__ . '/formulario.php' ?>
 
     <div class="campo campo-separado">
-        <input type="submit" value="Crear Receta" class="boton boton-azul">
+        <input type="submit" value="Crear Receta" class="boton-exportar formulario">
     </div>
 
     </form> 

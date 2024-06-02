@@ -36,7 +36,7 @@
         </div>
 
         <div class="campo campo-separado">
-            <input type="submit" value="Añadir Stock" class="boton boton-azul">
+            <input type="submit" value="Añadir Stock" class="boton-exportar formulario">
         </div>
 
     </form> 

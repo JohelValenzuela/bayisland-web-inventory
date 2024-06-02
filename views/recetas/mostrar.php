@@ -5,9 +5,9 @@
     </div>
 
     <form class="form form-contenido form-botones">
-        <a class="boton-exportar agregar" href="/recetas/crear"> <i class="fa-regular fa-square-plus"></i> Agregar</a>
+        <a class="boton-exportar" href="/recetas/crear"> <i class="fa-regular fa-square-plus"></i> Crear Receta</a>
 
-        <a class="boton-exportar agregar" href="carritoIngredientes"> <i class="fa-regular fa-square-plus"></i> Agregar Ingredientes</a>
+        <a class="boton-exportar" href="carritoIngredientes"> <i class="fa-regular fa-square-plus"></i> Agregar Ingredientes</a>
 
 
         <a class="boton-exportar pdf" href="" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF</a>  

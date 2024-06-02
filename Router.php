@@ -134,6 +134,9 @@ class Router
             '/ventas/vaciarCarritoVentas',
             '/ventas/realizarVenta',
 
+            '/reportesDefectos',
+            '/reportesDefectos/crear',
+
 
         ];
 

@@ -18,6 +18,7 @@ use Controllers\Errores;
 use Controllers\InventarioController;
 use Controllers\MedidaController;
 use Controllers\RecetaController;
+use Controllers\ReporteDefectosController;
 use MVC\Router;
 $router = new Router();
 
@@ -224,6 +225,18 @@ $router = new Router();
     $router->post('/ventas/realizarVenta', [VentasController::class, 'realizarVenta']);
 
 /********************************/
+
+/********* REPORTE DEFECTOS ************/
+
+    // Reporte de productos dañados
+    $router->get('/reportesDefectos', [ReporteDefectosController::class, 'mostrar']);
+    $router->get('/reportesDefectos/crear', [ReporteDefectosController::class, 'crear']);
+    $router->post('/reportesDefectos/crear', [ReporteDefectosController::class, 'crear']);
+
+/********************************/
+
+
+
 
 
 

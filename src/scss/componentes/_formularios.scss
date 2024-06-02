@@ -226,7 +226,21 @@ form {
 		}
 	}
 
-
+	.formulario-input{
+		background-color: transparent;
+		color: #1a1b15;
+		height: 100%;
+		width: 100%;
+		font-size: 16px;
+		font-weight: bold;
+		outline: none;
+		padding: 0 15px;
+		border: 1px solid black;
+		border-radius: 6px;
+		height: 50px;
+		position: relative;
+		width: 100%;
+	}
 
 	.login-input{
 		color: v.$negro;
@@ -238,7 +252,7 @@ form {
 
 	#correo::placeholder,
 	#password::placeholder{
-		color: lighten(v.$negro, 20);
+		color: #1b192d;
 	}
 		
 	
@@ -272,8 +286,7 @@ form {
 	margin: 1.2rem;
 	span,
 	a {
-		font-size: 14px;
-		font-weight: 400;
+		font-weight: bold;
 		color: v.$negro;
 	}
 }

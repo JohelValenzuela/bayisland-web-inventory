@@ -5,7 +5,7 @@
     </div>
 
     <form class="form form-contenido form-botones">
-        <a class="boton-exportar agregar" href="producto/crear"> <i class="fa-regular fa-square-plus"></i> Agregar</a>
+        <a class="boton-exportar" href="producto/crear"> <i class="fa-regular fa-square-plus"></i> Agregar</a>
         <a class="boton-exportar pdf" href="/fpdf/pdfProducto" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF</a>  
 
 

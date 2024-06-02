@@ -5,8 +5,8 @@
     </div>
         
     <form class="form form-contenido form-botones">
-        <a class="boton-exportar agregar" href="/ventas/carrito"> <i class="fa-regular fa-square-plus"></i> Crear Venta</a>
-        <a class="boton-exportar agregar" href="/ventas/carrito"> <i class="fa-regular fa-square-plus"></i> Cobrar a Cliente</a>
+        <a class="boton-exportar" href="/ventas/carrito"> <i class="fa-regular fa-square-plus"></i> Crear Venta</a>
+        <a class="boton-exportar" href="/ventas/carrito"> <i class="fa-regular fa-square-plus"></i> Cobrar a Cliente</a>
         <a class="boton-exportar pdf" href="/fpdf/pdfStock" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF </a>  
         <button id="btnExportar" class="boton-exportar"> 
             <i class="fa-solid fa-file-excel"></i> EXCEL
@@ -41,6 +41,10 @@
                     <?php foreach($venta as $ventas) : ?> 
                         <?php     
                             $isVerMas = isset($_GET['id']) && $_GET['id'] == $ventas->id && isset($_GET['action']) && $_GET['action'] == 'ver_mas'; 
+                            
+                            // Convertir la fecha de creación al formato dd-mm-yyyy
+                            $fechaCreacion = new DateTime($ventas->fecha);
+                            $fechaCreacionFormateada = $fechaCreacion->format('d-m-Y H:i:s');
                         ?>
                         <tr>
                             <td>
@@ -59,7 +63,7 @@
                             <td data-titulo="Id"><?php echo $ventas->id; ?></td>
                             <td data-titulo="Nombre"><?php echo $ventas->cliente->nombre;?></td>
                             <td data-titulo="Brazalete"><?php echo $ventas->cliente->codigo_brazalete;?></td>
-                            <td data-titulo="Fecha"><?php echo $ventas->fecha; ?></td>
+                            <td data-titulo="Fecha"><?php echo $fechaCreacionFormateada; ?></td>
                         </tr>
                         <?php if($isVerMas) : ?>
                             <tr>

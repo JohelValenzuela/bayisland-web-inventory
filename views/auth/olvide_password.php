@@ -9,11 +9,11 @@
 
                 <form  class="form-campo" action="/auth/olvide_password" method="POST">
                     <div class="campo campo-unido">
-                        <input id="correo" name="correo" type="email" placeholder="Correo Electrónico" class="input">
+                        <input id="correo" name="correo" type="email" placeholder="Correo Electrónico" class="formulario-input">
                     </div>
 
                     <div class="campo campo-unido">
-                        <button class="boton boton-naranja">Recuperar Contraseña</button>
+                        <button class="boton-exportar formulario" style="width: 100%;">Recuperar Contraseña</button>
                     </div>
                 </form>
 

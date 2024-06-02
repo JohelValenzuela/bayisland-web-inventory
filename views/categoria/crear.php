@@ -23,7 +23,7 @@
     
         <div class="campo campo-separado">
 
-            <input type="submit" value="Crear Categoría" class="boton boton-azul">
+            <input type="submit" value="Crear Categoría" class="boton-exportar formulario">
         </div>
 
     </form> 

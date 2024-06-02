@@ -24,7 +24,7 @@
 
         <div class="campo campo-separado w-20">
             <label for="cantidad">Agregar</label>
-            <input type="submit" value="Agregar Ingrediente" class="boton-azul">
+            <input type="submit" value="Agregar Ingrediente" class="boton-exportar formulario">
         </div>
     </div>
 </form>
@@ -62,13 +62,15 @@
         </table>
 
         <form action="/recetas/vaciarCarritoIngredientes" method="POST" style="margin-top: 20px;">
-            <input type="submit" value="Vaciar Lista" class="boton-exportar vaciar">
+            <div class="campo campo-separado">
+                <input type="submit" value="Vaciar Lista" class="boton-exportar formulario">
+            </div>    
         </form>
     <?php endif; ?>
 
     <form action="/recetas/guardarRecetaIngredientes" method="POST">
         <div class="campo campo-separado">
-            <input type="submit" value="Crear Receta" class="boton boton-azul">
+            <input type="submit" value="Crear Receta" class="boton-exportar formulario">
         </div>
     </form>
 

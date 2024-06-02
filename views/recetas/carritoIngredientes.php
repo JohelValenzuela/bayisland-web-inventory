@@ -5,7 +5,7 @@
             <span class="text"> Agregar Ingredientes</span>
         </div>
         <div class="home-carrito">
-            <a href="/recetas" class="boton-exportar volver"> Regresar  <i class="fa-solid fa-person-walking-arrow-loop-left"></i> </a>
+            <a href="/recetas/mostrar" class="boton-exportar volver"> Regresar  <i class="fa-solid fa-person-walking-arrow-loop-left"></i> </a>
         </div>
     </div>
 

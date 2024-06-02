@@ -60,7 +60,7 @@
         </div>
         <div class="campo campo-separado w-30">
             <label for="agregar">Agregar</label>
-            <input type="submit" value="Agregar al Carrito" class="boton-azul">
+            <input type="submit" value="Agregar al Carrito" class="boton-exportar formulario">
         </div>
     </div>
 </form>

@@ -70,7 +70,7 @@ $('#productoId').on('change',function(){
 })
 
 $('#cliente_id').on('change',function(){
-    dataTable.search.fixed('cliente', $(this).val()).draw();
+    dataTable.search.fixed('cliente_id', $(this).val()).draw();
 })
 
 $('#roles').on('change',function(){

@@ -26,6 +26,7 @@ class VentasController {
         $venta = Venta::all();
         $clientes = Cliente::all();
         $ventaProducto = VentaProductos::all();
+        $cobros = Cobro::all();
        
         foreach ($ventaProducto as $ventaProductos) {
             $ventaProductos->producto = Producto::find($ventaProductos->producto_id);
@@ -45,7 +46,8 @@ class VentasController {
             'venta' => $venta,
             'clientes' => $clientes,
             'ventaProducto' => $ventaProducto,
-            'resultado' => $resultado
+            'resultado' => $resultado,
+            'cobros' => $cobros
         ]);
     }
 
@@ -198,20 +200,31 @@ class VentasController {
             // Obtener el ID del cliente del ítem actual del carrito
             $cliente_id = intval($item['cliente_id']);
             
-            // Verificar si existe una venta previa para el cliente
-            $ventaExistente = Venta::where('cliente', $cliente_id);
+            // Buscar ventas existentes para el cliente
+            $ventasCliente = Venta::findCliente($cliente_id);
             
-            // Si hay una venta existente, usar esa venta
-            if ($ventaExistente) {
-                $ventaId = $ventaExistente->id;
-            } else {
-                // Si no hay una venta existente, crear una nueva venta
+            $ventaId = null; // Variable para almacenar el ID de la venta
+            
+            // Iterar sobre las ventas del cliente
+            foreach ($ventasCliente as $ventaExistente) {
+                // Verificar si existe un cobro para esta venta
+                $cobroExistente = Cobro::findVenta(intval($ventaExistente->id));
+                
+                // Si no hay un cobro existente, usar esta venta
+                if (!$cobroExistente) {
+                    $ventaId = $ventaExistente->id;
+                    break; // Salir del bucle una vez que se encuentra una venta sin cobro vinculado
+                }
+            }
+            
+            // Si no se encontró una venta sin cobro vinculado, crear una nueva venta
+            if (!$ventaId) {
                 $venta = new Venta;
                 $venta->cliente = $cliente_id;
                 date_default_timezone_set('America/Costa_Rica');
                 $venta->fecha = date('Y-m-d H:i:s');
-                $resultado = $venta->guardar(); // Llama a la función 'crear' que has proporcionado
-                $ventaId = $resultado['id']; // Almacena el ID de la venta que acabas de insertar
+                $resultado = $venta->guardar(); // Llama a la función 'guardar' que has proporcionado
+                $ventaId = $resultado['id']; // Almacena el ID de la nueva venta
             }
             
             // Guardar el producto en ventaProductos usando el ID de la venta
@@ -231,7 +244,7 @@ class VentasController {
                 $nuevaCantidad = $productoStock->cantidad - $item['cantidad'];
                 $productoStock->cantidad = $nuevaCantidad;
                 $productoStock->guardar();
-    
+                //debug($productoStock);
                 $ultimaEntrada = Inventario::findRegistro($productoStock->productoId);
                 $referenciaAnterior = $ultimaEntrada ? $ultimaEntrada->referencia : '';
     

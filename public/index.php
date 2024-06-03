@@ -237,6 +237,9 @@ $router = new Router();
     $router->get('/cobros/mostrar', [CobrosController::class, 'mostrar']);
     $router->post('/cobros/mostrar', [CobrosController::class, 'mostrar']);
 
+    $router->get('/cobros/guardarCobro', [CobrosController::class, 'guardarCobro']);
+    $router->post('/cobros/guardarCobro', [CobrosController::class, 'guardarCobro']);
+
 /********************************/
 
 

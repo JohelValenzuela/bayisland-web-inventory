@@ -1,83 +1,143 @@
-<form action="/cobros/seleccionarCliente" method="POST">
-    <div class="div-flex">
-        <div class="campo campo-separado w-50">
-            <label for="cliente">Selecciona un cliente:</label>
-            <select class="buscar" id="cliente" name="cliente_id" required>
-                <option value="">--Seleccione un cliente--</option>
-                <?php foreach ($clientes as $cliente) : ?>
-                    <option value="<?php echo $cliente->id; ?>"><?php echo $cliente->nombre . " - " . $cliente->codigo_brazalete; ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <div class="campo campo-separado w-50">
-            <label for="agregar">Cargar Datos</label>
-            <input type="submit" value="Seleccionar Usuario" class="boton-exportar formulario">
-        </div>
-    </div>
+    <?php
+        use Model\Cobro;
+use Model\Venta;
 
-    <?php if (!empty($ventaCliente) && is_object($ventaCliente)) : ?>
-        <div style="width: inherit; margin-top: 3rem;">
-            <h2 style="color: black; margin-bottom: 3rem;">Datos del Cliente:</h2>
-            <p style="color: black;"><strong>Nombre:</strong> <?php echo $clienteSeleccionado->nombre; ?></p>
-            <p style="color: black;"><strong>Código de Brazalete:</strong> <?php echo $clienteSeleccionado->codigo_brazalete; ?></p>
-            <?php foreach ($productosVenta as $producto) : ?>
-                <?php if ($producto->venta_id == $ventaCliente->id) : ?>
-                    <p style="color: black;"><strong>Venta:</strong> <?php echo $producto->venta_id; ?></p>
-                    <?php break; endif;?> 
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
+    ?>
 
-    <?php if (!empty($productosVenta)) : ?>
-        <table class="tabla">
-            <thead>
-                <tr>
-                    <!-- <th>Venta ID</th> -->
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Método de Pago</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                    $sumas = []; // Inicializamos un array para almacenar las sumas de precio por método de pago
-                    foreach ($productosVenta as $producto) : ?>
-                    <?php if (is_object($producto) && $producto->venta_id == $ventaCliente->id) : ?>
+    <form action="/cobros/seleccionarCliente" method="POST">
+        <div class="div-flex">
+            <div class="campo campo-separado w-50">
+                <label for="cliente">Selecciona un cliente:</label>
+                <select class="buscar" id="cliente" name="cliente_id" required>
+                    <option value="">--Seleccione un cliente--</option>
+                    <?php foreach ($clientes as $cliente) : ?>
+                        <option value="<?php echo $cliente->id; ?>"><?php echo $cliente->nombre . " - " . $cliente->codigo_brazalete; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="campo campo-separado w-50">
+                <label for="agregar">Cargar Datos:</label>
+                <input type="submit" value="Seleccionar Usuario" class="boton-exportar formulario">
+            </div>
+        </div>
+    </form>
+
+    <form class="form form-contenido contenedor-flex" action="/cobros/guardarCobro" method="POST">
+        <?php if (!empty($ventaCliente) && is_object($ventaCliente)) : ?>
+            <div style="width: inherit;">
+                <h2 style="color: black; margin-bottom: 2rem;">Datos del Cliente:</h2>
+                <p style="color: black;"><strong>Nombre:</strong> <?php echo $clienteSeleccionado->nombre; ?></p>
+                <p style="color: black;"><strong>Código de Brazalete:</strong> <?php echo $clienteSeleccionado->codigo_brazalete; ?></p>
+                <?php if (!empty($productosVenta)) : ?>
+                    <?php foreach($productosVenta as $producto) : ?>
+                        <?php $cobroVinculado = Cobro::findVenta($producto->venta_id); ?>
+                        <?php if(!$cobroVinculado) : ?>
+                            <?php $clienteProducto = Venta::find($producto->venta_id)->cliente; ?>
+                            <?php if(intval($clienteProducto) == intval($clienteSeleccionado->id)) :?>
+                                <p style="color: black;"><strong>Venta:</strong> <?php echo $producto->venta_id; ?></p>
+                            <?php endif; ?>
+                        <?php endif; ?>                   
+                    <?php endforeach; ?> 
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($productosVenta)) : ?>
+            <form class="form form-contenido contenedor-flex" action="/cobros/guardarCobro" method="POST">
+                <table class="tabla">
+                    <thead>
                         <tr>
-                            <!-- <td><?php echo $producto->venta_id; ?></td> -->
-                            <td>
-                                <?php 
-                                    if ($producto->receta_id == 0) {
-                                        echo $producto->producto->nombre;
-                                    } elseif ($producto->producto_id == 0) {
-                                        echo $producto->receta->nombre;
-                                    } 
-                                ?>
-                            </td>
-                            <td><?php echo $producto->cantidad; ?></td>
-                            <td><?php echo $producto->precio; ?></td>
-                            <td style="text-transform: capitalize;"><?php echo $producto->metodoPago; ?></td>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Método de Pago</th>
                         </tr>
+                    </thead>
+                    <tbody> 
                         <?php 
-                            // Agregar el precio del producto al array de sumas según el método de pago
-                            $sumas[$producto->metodoPago] = isset($sumas[$producto->metodoPago]) ? $sumas[$producto->metodoPago] + $producto->precio : $producto->precio;
-                        ?>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
-    <?php if (!empty($sumas)) : ?>
-        <div>
-            <?php foreach ($sumas as $metodoPago => $suma) : ?>
-                <p style="color: black;"><strong style="text-transform: capitalize;"><?php echo $metodoPago; ?>:</strong> <?php echo $suma; ?></p>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
+                            $sumas = []; // Inicializamos un array para almacenar las sumas de precio por método de pago
+                            $clienteTieneVentas = false; // Variable para verificar si el cliente tiene ventas
+                            foreach ($productosVenta as $producto) : 
+                                // Verificar si el producto tiene un cobro vinculado
+                                $cobroVinculado = Cobro::findVenta($producto->venta_id);
+                                if (!$cobroVinculado) :
+                                    // Obtener el cliente asociado a la venta del producto
+                                    $clienteProducto = Venta::find($producto->venta_id)->cliente;
+                                    // Verificar si la venta pertenece al cliente seleccionado
+                                    if (intval($clienteProducto) == intval($clienteSeleccionado->id)) : ?>
+                                        <?php $clienteTieneVentas = true; // El cliente tiene ventas ?>       
+                                    <tr>
+                                        <td>
+                                            <?php 
+                                                if ($producto->receta_id == 0) {
+                                                    echo $producto->producto->nombre;
+                                                } elseif ($producto->producto_id == 0) {
+                                                    echo $producto->receta->nombre;
+                                                } 
+                                            ?>
+                                        </td>
+                                        <td><?php echo $producto->cantidad; ?></td>
+                                        <td><?php echo $producto->precio; ?></td>
+                                        <td style="text-transform: capitalize;"><?php echo $producto->metodoPago; ?></td>
+                                    </tr>
+                                    <?php 
+                                        // Agregar el precio del producto al array de sumas según el método de pago
+                                        $sumas[$producto->metodoPago] = isset($sumas[$producto->metodoPago]) ? $sumas[$producto->metodoPago] + $producto->precio : $producto->precio;
+                                    ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach;  ?>
+                        <?php if (!$clienteTieneVentas) : ?>
+                            <tr>
+                                <td colspan="4" class="campo-vacio">
+                                    <a class="sin-registro">Este cliente no posee ventas</a>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
 
-    <div class="campo campo-separado w-20">
-        <input type="submit" value="Cobrar" class="boton-exportar formulario">
-    </div>
+                <?php if (!empty($sumas)) : ?>
+                    <div>
+                        <?php foreach ($sumas as $metodoPago => $suma) : ?>
+                            <p style="color: black;"><strong style="text-transform: capitalize;"><?php echo $metodoPago; ?>:</strong> <?php echo $suma; ?></p>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
 
-</form>
+                <div class="div-flex">
+                    <input type="hidden" name="cliente_id" value="<?php echo $clienteSeleccionado->id; ?>">
+                    <input type="hidden" name="sumas" value='<?php echo json_encode($sumas); ?>'>
+
+                    <div class="campo campo-separado w-50">
+                        <label for="cantidad_pagada">Cantidad a Pagar:</label>
+                        <input type="number" name="cantidad_pagada" required>
+                    </div>
+
+                    <div class="campo campo-separado w-50">
+                        <label for="metodo_pago">Método de Pago:</label>
+                        <select name="metodo_pago" required>
+                            <option value="">--Seleccione el método de pago--</option>
+                            <option value="tarjeta-dolares">Tarjeta (Dólares)</option>
+                            <option value="tarjeta-colones">Tarjeta (Colones)</option>
+                            <option value="sinpe">SINPE</option>
+                            <option value="efectivo-dolares">Efectivo (Dólares)</option>
+                            <option value="efectivo-colones">Efectivo (Colones)</option>
+                            <!-- Agrega más métodos de pago si es necesario -->
+                        </select>
+                    </div>
+
+                    <div class="campo campo-separado w-20">
+                        <label for="agregar">Cobrar:</label>
+                        <input type="submit" value="Cobrar" class="boton-exportar formulario">
+                    </div>
+                </div>
+            </form>
+        <?php endif; ?>
+    </form>
+
+
+
+
+
+

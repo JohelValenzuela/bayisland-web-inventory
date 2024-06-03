@@ -134,9 +134,9 @@ class Router
             '/ventas/vaciarCarritoVentas',
             '/ventas/realizarVenta',
             
-            '/cobros/seleccionarCliente',
             '/cobros/mostrar',
-
+            '/cobros/seleccionarCliente',
+            '/cobros/guardarCobro',
 
 
             '/reportesDefectos',

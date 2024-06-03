@@ -172,14 +172,25 @@ class ActiveRecord {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE id = {$id}";
         //debug($query);
         $resultado = self::consultarSQL($query);
+        //var_dump($resultado);
         return array_shift( $resultado ) ;
     }
 
     public static function findVentaPorCliente($cliente_id) {
         $query = "SELECT * FROM " . static::$tabla . " WHERE cliente = {$cliente_id}";
+        //debug($query);
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
+
+    public static function findVentasPorCliente($cliente_id) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE cliente = " . intval($cliente_id);
+        //var_dump($query);
+        $resultado = self::consultarSQL($query);
+        //var_dump($resultado);
+        return $resultado;
+    }
+    
 
     public static function findMaestro($id) {
         $query = "SELECT * FROM maestro_pedido WHERE id = {$id}";
@@ -221,9 +232,9 @@ class ActiveRecord {
 
     public static function findCliente($codigo,) {
         $query = "SELECT * FROM " . static::$tabla . " WHERE cliente = {$codigo}";
-        debug($query);
+        //debug($query);
         $resultado = self::consultarSQL($query);
-        return $resultado;
+        return array_shift($resultado);
     }
 
     public static function findVenta($codigo,) {
@@ -232,6 +243,15 @@ class ActiveRecord {
         $resultado = self::consultarSQL($query);
         return array_shift($resultado);
     }
+
+    public static function findVentas($venta_id) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE venta_id = " . intval($venta_id);
+        //debug($query);
+        $resultado = self::consultarSQL($query);
+        //var_dump($resultado);
+        return $resultado ? array_shift($resultado) : null;
+    }
+    
 
     public static function findVentaRegistros($codigo,) {
         $query = "SELECT * FROM " . static::$tabla . " WHERE venta_id = {$codigo}";

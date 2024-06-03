@@ -1,26 +1,43 @@
 <section class="home-section">
     <div class="home-content">
-        <i class='bx bx-menu' ></i>
+        <i class='bx bx-menu'></i>
         <span class="text">Control de Ventas</span>
     </div>
         
     <form class="form form-contenido form-botones">
-        <a class="boton-exportar" href="/ventas/carrito"> <i class="fa-regular fa-square-plus"></i> Crear Venta</a>
-        <a class="boton-exportar" href="/cobros/seleccionarCliente"> <i class="fa-regular fa-square-plus"></i> Cobrar a Cliente</a>
-        <a class="boton-exportar pdf" href="/fpdf/pdfStock" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF </a>  
+        <a class="boton-exportar" href="/ventas/carrito">
+            <i class="fa-regular fa-square-plus"></i> Crear Venta
+        </a>
+        <a class="boton-exportar" href="/cobros/seleccionarCliente">
+            <i class="fa-regular fa-square-plus"></i> Cobrar a Cliente
+        </a>
+        <a class="boton-exportar pdf" href="/fpdf/pdfStock" target="_blank">
+            <i class="fa-solid fa-file-pdf"></i> PDF
+        </a>  
         <button id="btnExportar" class="boton-exportar"> 
             <i class="fa-solid fa-file-excel"></i> EXCEL
         </button>
-        <a class="boton-exportar print" href="" target="_blank"> <i class="fa-solid fa-print"></i> Imprimir</a>   
+        <a class="boton-exportar print" href="" target="_blank">
+            <i class="fa-solid fa-print"></i> Imprimir
+        </a>   
     </form>
 
     <form class="form form-contenido form-botones">
+
         <div class="campo select-buscar">
-        <select class="buscar" id="cliente_id" name="cliente" style="width: 100%;">
-                <option value="">Seleccione un cliente</option>
+            <select class="buscar" name="cliente_id" id="cliente_id" style="width: 100%;">              
+                <option disabled selected value>-- Filtrar Cliente --</option>
+                <option value="">Seleccione un cliente</option>       
                 <?php foreach ($clientes as $cliente): ?>
                     <option value="<?php echo $cliente->id; ?>"><?php echo $cliente->nombre; ?></option>
-                <?php endforeach; ?>
+                <?php endforeach; ?>           
+            </select>
+        </div>
+        <div class="campo select-buscar">
+            <select class="buscar" id="estado_cobro" name="estado_cobro" style="width: 100%;">
+                <option value="">Estado del Cobro</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="cancelado">Cancelado</option>
             </select>
         </div>
     </form>
@@ -34,6 +51,11 @@
                     <th>Cliente</th>
                     <th>Código Brazalete</th>
                     <th>Fecha Venta</th>
+                    <!-- Nuevas columnas para detalles del cobro -->
+                    <th>Cantidad por Pagar</th>
+                    <th>Cantidad Pagada</th>
+                    <th>Debe</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,14 +86,28 @@
                             <td data-titulo="Nombre"><?php echo $ventas->cliente->nombre;?></td>
                             <td data-titulo="Brazalete"><?php echo $ventas->cliente->codigo_brazalete;?></td>
                             <td data-titulo="Fecha"><?php echo $fechaCreacionFormateada; ?></td>
+                            <!-- Nuevas columnas para detalles del cobro -->
+                            <?php 
+                                $cobro = null; 
+                                foreach ($cobros as $c) { 
+                                    if ($c->venta_id == $ventas->id) { 
+                                        $cobro = $c; 
+                                        break; 
+                                    } 
+                                } 
+                            ?>
+                            <td data-titulo="Cantidad por Pagar"><?php echo isset($cobro) ? $cobro->cantidad_por_pagar : 0; ?></td>
+                            <td data-titulo="Cantidad Pagada"><?php echo isset($cobro) ? $cobro->cantidad_pagada : 0; ?></td>
+                            <td data-titulo="Debe"><?php echo isset($cobro) && isset($cobro->debe) ? $cobro->debe : 0; ?></td>
+                            <td data-titulo="Estado"><?php echo isset($cobro) && isset($cobro->estado) ? $cobro->estado : "Pendiente"; ?></td>
                         </tr>
                         <?php if($isVerMas) : ?>
                             <tr>
-                                <td colspan="7">
+                                <td colspan="9">
                                     <table class="tabla" id="tabla2">
                                         <thead>
                                             <tr>  
-                                                <th>ID</th>
+                                                <th>ID
                                                 <th>Venta</th>
                                                 <th>Producto</th>
                                                 <!-- <th>Receta</th> -->
@@ -82,10 +118,10 @@
                                         </thead>
                                         <tbody>
                                             <?php 
-                                                $ventaProductoEncontrado = false;
-                                                foreach($ventaProducto as $ventaProductos) : 
-                                                    if($ventaProductos->venta_id == $ventas->id) {
-                                                        $ventaProductoEncontrado = true;
+                                            $ventaProductoEncontrado = false;
+                                            foreach($ventaProducto as $ventaProductos) : 
+                                                if($ventaProductos->venta_id == $ventas->id) {
+                                                    $ventaProductoEncontrado = true;
                                             ?>
                                             <tr>
                                                 <td data-titulo="Id"><?php echo $ventaProductos->id; ?></td>
@@ -104,23 +140,23 @@
                                                 <td data-titulo="Método Pago"><?php echo $ventaProductos->metodoPago; ?></td>
                                             </tr>
                                             <?php 
-                                                    }
-                                                endforeach; 
-                                                if (!$ventaProductoEncontrado) {
+                                                }
+                                            endforeach; 
+                                            if (!$ventaProductoEncontrado) {
                                             ?>
-                                                    <tr>
-                                                        <td colspan="8" class="sin-registro">
-                                                            <a class="sin-registro">Esta venta no posee productos</a>
-                                                        </td>
-                                                    </tr>
-                                            <?php } ?>
+                                            <tr>
+                                                <td colspan="8" class="sin-registro">
+                                                    <a class="sin-registro">Esta venta no posee productos</a>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
                                         </tbody>
                                     </table>
                                 </td>
                             </tr>
                         <?php endif; ?>
-                    <?php endforeach; ?>
-                <?php } ?> 
+                        <?php endforeach; ?>
+                        <?php } ?> 
             </tbody>
         </table>
     </form>

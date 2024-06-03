@@ -133,6 +133,11 @@ class Router
             '/ventas/eliminarProductoCarrito',
             '/ventas/vaciarCarritoVentas',
             '/ventas/realizarVenta',
+            
+            '/cobros/seleccionarCliente',
+            '/cobros/mostrar',
+
+
 
             '/reportesDefectos',
             '/reportesDefectos/crear',

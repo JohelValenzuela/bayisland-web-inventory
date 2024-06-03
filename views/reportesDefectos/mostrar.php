@@ -20,7 +20,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Usuario</th>
+                    <th>Reporta</th>
                     <th>Producto</th>
                     <th>Cantidad</th>
                     <th>Observación</th>

@@ -127,6 +127,12 @@
             background-color: v.$fondoAzul;
             color: v.$blanco;
         }
+
+        &.login{
+            background-color: v.$primario;
+            color: v.$blanco;
+            box-shadow: none;
+        }
     
         &.volver{
             background-color: transparent;

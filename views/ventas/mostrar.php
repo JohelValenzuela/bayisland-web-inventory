@@ -6,7 +6,7 @@
         
     <form class="form form-contenido form-botones">
         <a class="boton-exportar" href="/ventas/carrito"> <i class="fa-regular fa-square-plus"></i> Crear Venta</a>
-        <a class="boton-exportar" href="/ventas/carrito"> <i class="fa-regular fa-square-plus"></i> Cobrar a Cliente</a>
+        <a class="boton-exportar" href="/cobros/seleccionarCliente"> <i class="fa-regular fa-square-plus"></i> Cobrar a Cliente</a>
         <a class="boton-exportar pdf" href="/fpdf/pdfStock" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF </a>  
         <button id="btnExportar" class="boton-exportar"> 
             <i class="fa-solid fa-file-excel"></i> EXCEL

@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="campo button-field">
-                        <input type="submit" class="boton-exportar formulario " value="Ingresar">
+                        <input type="submit" class="boton-exportar login " value="Ingresar">
                     </div>
                 </form>
 

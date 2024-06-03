@@ -6,7 +6,7 @@ use Controllers\AuthController;
 use Controllers\AdminController;
 
 use Controllers\CategoriaController;
-
+use Controllers\CobrosController;
 use Controllers\ProductoController;
 
 use Controllers\PedidoController;
@@ -224,7 +224,22 @@ $router = new Router();
     $router->post('/ventas/vaciarCarritoVentas', [VentasController::class, 'vaciarCarritoVentas']);
     $router->post('/ventas/realizarVenta', [VentasController::class, 'realizarVenta']);
 
+
 /********************************/
+
+
+
+/********* COBRAR A CLIENTE ************/
+
+    $router->get('/cobros/seleccionarCliente', [CobrosController::class, 'seleccionarCliente']);
+    $router->post('/cobros/seleccionarCliente', [CobrosController::class, 'seleccionarCliente']);
+
+    $router->get('/cobros/mostrar', [CobrosController::class, 'mostrar']);
+    $router->post('/cobros/mostrar', [CobrosController::class, 'mostrar']);
+
+/********************************/
+
+
 
 /********* REPORTE DEFECTOS ************/
 

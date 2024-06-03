@@ -235,7 +235,8 @@ form {
 		font-weight: bold;
 		outline: none;
 		padding: 0 15px;
-		border: 1px solid black;
+		border: none;
+		border-bottom: 2px solid v.$naranjalogin;
 		border-radius: 6px;
 		height: 50px;
 		position: relative;

@@ -11,10 +11,10 @@
     <div class="div-flex">
         <div class="campo campo-separado w-30">
             <label for="cliente">Seleccionar Cliente:</label>
-            <select name="cliente_id">
+            <select class="buscar" name="cliente_id">
                 <option value="">Seleccione un cliente</option>
                 <?php foreach ($clientes as $cliente): ?>
-                    <option value="<?php echo $cliente->id; ?>"><?php echo $cliente->nombre; ?></option>
+                    <option value="<?php echo $cliente->id; ?>"><?php echo $cliente->nombre . " - " . $cliente->codigo_brazalete; ?></option>
                 <?php endforeach; ?>
             </select>
         </div>

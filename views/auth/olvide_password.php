@@ -13,7 +13,7 @@
                     </div>
 
                     <div class="campo campo-unido">
-                        <button class="boton-exportar formulario" style="width: 100%;">Recuperar Contraseña</button>
+                        <button class="boton-exportar login" style="width: 100%;">Recuperar Contraseña</button>
                     </div>
                 </form>
 

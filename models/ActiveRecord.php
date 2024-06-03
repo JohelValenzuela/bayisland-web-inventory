@@ -13,7 +13,7 @@ class ActiveRecord {
 
 
     // Visibilidad de los atributos
-    public $id, $nombre, $apellido, $confirmado, $correo, $rolId, $token, $cantidad, $volumen, $contenido, $categoriaId, $presentacion, $medidaId, $unidad_empaque, $estado, $cantidadPresentacion, $categoria, $medida, $referencia, $producto, $observacion, $usuario, $fechaCreacion, $precioUnidad, $precioMedida, $totalMedida, $productoId, $usuarioId, $cantidadTotal, $cantidadAnterior, $usuarioIdAprueba, $maestroId, $movimiento, $recetaId, $producto_id, $receta_id, $cliente, $usuario_id, $codigo_brazalete;
+    public $id, $nombre, $apellido, $confirmado, $correo, $rolId, $token, $cantidad, $volumen, $contenido, $categoriaId, $presentacion, $medidaId, $unidad_empaque, $estado, $cantidadPresentacion, $categoria, $medida, $referencia, $producto, $observacion, $usuario, $fechaCreacion, $precioUnidad, $precioMedida, $totalMedida, $productoId, $usuarioId, $cantidadTotal, $cantidadAnterior, $usuarioIdAprueba, $maestroId, $movimiento, $recetaId, $producto_id, $receta_id, $cliente, $usuario_id, $codigo_brazalete, $receta;
 
     
 
@@ -175,6 +175,12 @@ class ActiveRecord {
         return array_shift( $resultado ) ;
     }
 
+    public static function findVentaPorCliente($cliente_id) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE cliente = {$cliente_id}";
+        $resultado = self::consultarSQL($query);
+        return array_shift( $resultado ) ;
+    }
+
     public static function findMaestro($id) {
         $query = "SELECT * FROM maestro_pedido WHERE id = {$id}";
         //debug($query);
@@ -213,6 +219,33 @@ class ActiveRecord {
         return array_shift( $resultado ) ;
     }
 
+    public static function findCliente($codigo,) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE cliente = {$codigo}";
+        debug($query);
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    public static function findVenta($codigo,) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE venta_id = {$codigo}";
+        //debug($query);
+        $resultado = self::consultarSQL($query);
+        return array_shift($resultado);
+    }
+
+    public static function findVentaRegistros($codigo,) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE venta_id = {$codigo}";
+        //debug($query);
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    public static function findBrazalete($codigo,) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE codigo_brazalete = {$codigo}";
+        $resultado = self::consultarSQL($query);
+        return array_shift($resultado);
+    }
+
     public static function findRegistro($id) {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE productoId = {$id} ORDER BY id DESC LIMIT 1";
         //debug($query);
@@ -222,6 +255,7 @@ class ActiveRecord {
 
     public static function where($columna, $valor) {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE {$columna} = '{$valor}'";
+        //debug($query);
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }

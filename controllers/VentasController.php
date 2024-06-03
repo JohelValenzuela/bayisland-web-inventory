@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Model\Cliente;
+use Model\Cobro;
 use Model\Producto;
 use Model\Receta;
 use Model\Venta;
@@ -261,13 +262,4 @@ class VentasController {
         header('Location: /ventas/carrito');
         exit;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

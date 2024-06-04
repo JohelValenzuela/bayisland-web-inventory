@@ -241,6 +241,7 @@ class ActiveRecord {
         $query = "SELECT * FROM " . static::$tabla . " WHERE venta_id = {$codigo}";
         //debug($query);
         $resultado = self::consultarSQL($query);
+        //debug($resultado);
         return array_shift($resultado);
     }
 

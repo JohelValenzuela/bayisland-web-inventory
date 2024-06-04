@@ -28,7 +28,7 @@
         </div>
         <div class="campo campo-separado w-40">
             <label for="productoOrReceta">Seleccionar Producto o Receta:</label>
-            <select name="productoOrReceta">
+            <select class="buscar" name="productoOrReceta">
                 <option value="">Seleccione un producto o receta</option>
                 <?php foreach ($productos as $producto): ?>
                     <option value="<?php echo 'producto-' . $producto->id; ?>"><?php echo $producto->nombre; ?></option>
@@ -50,7 +50,7 @@
         </div>
         <div class="campo campo-separado w-40">
             <label for="metodoPago">Método de Pago:</label>
-            <select name="metodoPago">
+            <select class="buscar" name="metodoPago">
                 <option value="tarjeta-dolares">Tarjeta (Dólares)</option>
                 <option value="tarjeta-colones">Tarjeta (Colones)</option>
                 <option value="sinpe">SINPE</option>

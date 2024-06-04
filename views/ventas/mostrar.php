@@ -87,7 +87,16 @@
                             <td data-titulo="Brazalete"><?php echo $ventas->cliente->codigo_brazalete;?></td>
                             <td data-titulo="Fecha"><?php echo $fechaCreacionFormateada; ?></td>
                             <!-- Nuevas columnas para detalles del cobro -->
-                            <?php 
+                            <?php
+                            
+                            // Calcular la cantidad por pagar
+                            $cantidadPorPagar = 0;
+                            foreach ($ventaProducto as $vp) {
+                                if ($vp->venta_id == $ventas->id) {
+                                    $cantidadPorPagar += $vp->precio * 1;
+                                }
+                            }
+
                                 $cobro = null; 
                                 foreach ($cobros as $c) { 
                                     if ($c->venta_id == $ventas->id) { 
@@ -96,9 +105,28 @@
                                     } 
                                 } 
                             ?>
-                            <td data-titulo="Cantidad por Pagar"><?php echo isset($cobro) ? $cobro->cantidad_por_pagar : 0; ?></td>
-                            <td data-titulo="Cantidad Pagada"><?php echo isset($cobro) ? $cobro->cantidad_pagada : 0; ?></td>
-                            <td data-titulo="Debe"><?php echo isset($cobro) && isset($cobro->debe) ? $cobro->debe : 0; ?></td>
+                            <td data-titulo="Cantidad por Pagar">
+                                <?php
+                                // Obtener el símbolo de moneda según el método de pago
+                                $simboloMoneda = '';
+                                
+                                // Iterar sobre los productos de venta para obtener el método de pago
+                                foreach($ventaProducto as $vp) {
+                                    if ($vp->venta_id == $ventas->id) {
+                                        if (strpos($vp->metodoPago, 'tarjeta-colones') !== false || strpos($vp->metodoPago, 'sinpe') !== false || strpos($vp->metodoPago, 'efectivo-colones') !== false) {
+                                            $simboloMoneda = '₡';
+                                        } elseif (strpos($vp->metodoPago, 'tarjeta-dolares') !== false || strpos($vp->metodoPago, 'efectivo-colones') !== false) {
+                                            $simboloMoneda = '$';
+                                        }
+                                        break; // Romper el bucle una vez que se haya encontrado el método de pago
+                                    }
+                                }
+                                
+                                echo $simboloMoneda . ' ' . $cantidadPorPagar;
+                                ?>
+                            </td>
+                            <td data-titulo="Cantidad Pagada"><?php echo isset($cobro) ? $simboloMoneda . ' ' . $cobro->cantidad_pagada : $simboloMoneda . ' ' .  0; ?></td>
+                            <td data-titulo="Debe"><?php echo isset($cobro) && isset($cobro->debe) ? $simboloMoneda . ' ' . $cobro->debe : $simboloMoneda . ' ' .  0; ?></td>
                             <td data-titulo="Estado"><?php echo isset($cobro) && isset($cobro->estado) ? $cobro->estado : "Pendiente"; ?></td>
                         </tr>
                         <?php if($isVerMas) : ?>
@@ -136,7 +164,21 @@
                                                     } ?>
                                                 </td>
                                                 <td data-titulo="Cantidad"><?php echo $ventaProductos->cantidad; ?></td>
-                                                <td data-titulo="Precio"><?php echo $ventaProductos->precio; ?></td>
+                                                <td data-titulo="Precio">
+                                                    <?php
+                                                    // Obtener el símbolo de moneda según el método de pago
+                                                    $simboloMoneda = '';
+                                                    
+                                                    if (isset($ventaProductos)) {
+                                                        if (strpos($ventaProductos->metodoPago, 'tarjeta-colones') !== false || strpos($ventaProductos->metodoPago, 'sinpe') !== false || strpos($ventaProductos->metodoPago, 'efectivo-colones') !== false) {
+                                                            $simboloMoneda = '₡';
+                                                        } elseif (strpos($ventaProductos->metodoPago, 'tarjeta-dolares') !== false || strpos($ventaProductos->metodoPago, 'efectivo-dolares') !== false) {
+                                                            $simboloMoneda = '$';
+                                                        }
+                                                    }
+                                                    echo $simboloMoneda . ' ' . $ventaProductos->precio;
+                                                    ?>
+                                                </td>
                                                 <td data-titulo="Método Pago"><?php echo $ventaProductos->metodoPago; ?></td>
                                             </tr>
                                             <?php 

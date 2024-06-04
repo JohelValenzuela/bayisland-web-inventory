@@ -127,28 +127,35 @@ class CobrosController {
                 'cliente_id' => $clienteSeleccionado->id,
                 'fecha_registro' => date('Y-m-d H:i:s')
             ]);
-    
-            // Validar el cobro
-            $errores = $cobro->validar();
-            
-            if (empty($errores)) {
-                // Establecer estado y debe
-                $cobro->setEstado();
-                $cobro->setDebe();
 
-                //debug($cobro);
-                
-                // Guardar el cobro
-                $cobro->guardar();
-            
-                Cobro::setAlerta('exito', 'El cobro se ha procesado correctamente.');
+           
+    
+            if(intval($cantidad_pagada) < intval($suma_total)) {
+                Cobro::setAlerta('info', 'El pago debe ser mayor o igual a la cantidad que debe');
                 $_SESSION['msg'] = Cobro::getAlertas();
             } else {
-                // Hubo errores de validación, agregarlos a las alertas
-                foreach ($errores as $error) {
-                    $alertas[] = $error;
+                // Validar el cobro
+                $errores = $cobro->validar();
+
+                if (empty($errores)) {
+                    // Establecer estado y debe
+                    $cobro->setEstado();
+                    $cobro->setDebe();
+                    
+                    // Guardar el cobro
+                    $cobro->guardar();
+
+                    Cobro::setAlerta('exito', 'El cobro se ha procesado correctamente.');
+                    $_SESSION['msg'] = Cobro::getAlertas();
+                } else {
+                    // Hubo errores de validación, agregarlos a las alertas
+                    foreach ($errores as $error) {
+                        $alertas[] = $error;
+                    }
                 }
             }
+
+            
         }
         
         // Obtener todos los clientes

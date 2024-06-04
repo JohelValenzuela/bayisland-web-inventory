@@ -47,6 +47,25 @@ class AuthController {
         $roles = Roles::all();
         $alertas = [];
 
+        // Endpoint de la API de Open Exchange Rates
+        $endpoint = "https://open.er-api.com/v6/latest/USD";
+    
+        // Realizar una solicitud GET a la API
+        $response = file_get_contents($endpoint);
+        
+        // Decodificar la respuesta JSON
+        $data = json_decode($response, true);
+        //debug($data);
+        
+        // Verificar si se obtuvo una respuesta válida
+        if ($data && isset($data['rates']['CRC'])) {
+            // Devolver el tipo de cambio del dólar a colones costarricenses
+            $_SESSION['tipo_cambio'] = $data['rates']['CRC'];
+        } else {
+            // Si no se pudo obtener el tipo de cambio, devolver un valor predeterminado
+            $_SESSION['tipo_cambio'] = 0;
+        }
+
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $auth = new Auth($_POST);

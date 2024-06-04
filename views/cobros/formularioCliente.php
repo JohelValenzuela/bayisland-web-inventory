@@ -26,6 +26,11 @@ use Model\Venta;
         <?php if (!empty($ventaCliente) && is_object($ventaCliente)) : ?>
             <div style="width: inherit;">
                 <h2 style="color: black; margin-bottom: 2rem;">Datos del Cliente:</h2>
+                <?php
+                    date_default_timezone_set("America/Costa_Rica");
+                    setlocale(LC_ALL,"es_ES");
+                ?>
+                <p style="color: black;"><strong>Fecha: </strong><?php echo date("F, j, Y, g:i a"); ?></p>
                 <p style="color: black;"><strong>Nombre:</strong> <?php echo $clienteSeleccionado->nombre; ?></p>
                 <p style="color: black;"><strong>Código de Brazalete:</strong> <?php echo $clienteSeleccionado->codigo_brazalete; ?></p>
                 <?php if (!empty($productosVenta)) : ?>
@@ -99,9 +104,26 @@ use Model\Venta;
 
                 <?php if (!empty($sumas)) : ?>
                     <div>
-                        <?php foreach ($sumas as $metodoPago => $suma) : ?>
-                            <p style="color: black;"><strong style="text-transform: capitalize;"><?php echo $metodoPago; ?>:</strong> <?php echo $suma; ?></p>
-                        <?php endforeach; ?>
+                        <?php 
+                            $sum_colones = 0;
+                            $sum_dolares = 0;
+                            foreach ($sumas as $metodoPago => $suma) : 
+                                if ($metodoPago == 'tarjeta-colones' || $metodoPago == 'sinpe' || $metodoPago == 'efectivo-colones') {
+                                    $sum_colones += $suma;
+                                } elseif ($metodoPago == 'tarjeta-dolares' || $metodoPago == 'efectivo-dolares') {
+                                    $sum_dolares += $suma;
+                                }
+                            endforeach;
+                        ?>
+                        <?php
+                            $totalColones = ($sum_dolares * $_SESSION['tipo_cambio']) + $sum_colones ;
+                            $totalDolares = ($sum_colones / $_SESSION['tipo_cambio']) + $sum_dolares;
+                        ?>
+                        <?php if ($sum_colones > 0 || $sum_dolares > 0) : ?>
+                            <p style="color: black;"><strong>Monto Colones:</strong> ₡<?php echo number_format($totalColones, 0); ?></p>
+                            <p style="color: black;"><strong>Monto Dólares:</strong> $<?php echo number_format($totalDolares, 2); ?></p>
+                        <?php endif; ?>
+                        <p style="color: black;"><strong style="text-transform: capitalize;"> Tipo cambio dolar: </strong><?php echo number_format($_SESSION['tipo_cambio'], 2) . " colones" ; ?></p>
                     </div>
                 <?php endif; ?>
 
@@ -111,7 +133,7 @@ use Model\Venta;
 
                     <div class="campo campo-separado w-50">
                         <label for="cantidad_pagada">Cantidad a Pagar:</label>
-                        <input type="number" name="cantidad_pagada" required>
+                        <input type="number" name="cantidad_pagada" min="0.01" step="0.01" required>
                     </div>
 
                     <div class="campo campo-separado w-50">

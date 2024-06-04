@@ -34,8 +34,6 @@ class VentasController {
             $ventaProductos->venta = Venta::find($ventaProductos->receta_id);
         }
 
-      
-
         foreach ($venta as $ventas) {
             $ventas->cliente = Cliente::find($ventas->cliente);
         }
@@ -202,17 +200,19 @@ class VentasController {
             
             // Buscar ventas existentes para el cliente
             $ventasCliente = Venta::findCliente($cliente_id);
+
+            //debug($ventasCliente->id);
             
             $ventaId = null; // Variable para almacenar el ID de la venta
             
             // Iterar sobre las ventas del cliente
             foreach ($ventasCliente as $ventaExistente) {
                 // Verificar si existe un cobro para esta venta
-                $cobroExistente = Cobro::findVenta(intval($ventaExistente->id));
+                $cobroExistente = Cobro::findVenta(intval($ventasCliente->id));
                 
                 // Si no hay un cobro existente, usar esta venta
                 if (!$cobroExistente) {
-                    $ventaId = $ventaExistente->id;
+                    $ventaId = intval($ventasCliente->id);
                     break; // Salir del bucle una vez que se encuentra una venta sin cobro vinculado
                 }
             }

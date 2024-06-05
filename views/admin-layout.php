@@ -130,20 +130,20 @@
                         <i class='bx bxs-chevron-down arrow' ></i>
                     </div>
                     <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/medida">Reportar Daños</a></li>
+                        <li><a class="enlace-texto" href="/reportesDefectos">Reportar Daños</a></li>
                     </ul>
                 </li>
 
                 <li>
                     <div class="enlace-link">
-                        <a href="/reportesDefectos">
+                        <a href="/regalias">
                             <i class='bx bx-gift' ></i>
                             <span class="enlace-texto">Reportar Regalía</span>
                         </a>
                         <i class='bx bxs-chevron-down arrow' ></i>
                     </div>
                     <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/medida">Reportar Regalía</a></li>
+                        <li><a class="enlace-texto" href="/regalias">Reportar Regalía</a></li>
                     </ul>
                 </li>
 

@@ -137,7 +137,9 @@ class Router
             '/cobros/mostrar',
             '/cobros/seleccionarCliente',
             '/cobros/guardarCobro',
-
+            
+            '/regalias',
+            '/regalias/crear',
 
             '/reportesDefectos',
             '/reportesDefectos/crear',

@@ -31,7 +31,7 @@
             <select class="buscar" name="productoOrReceta">
                 <option value="">Seleccione un producto o receta</option>
                 <?php foreach ($productos as $producto): ?>
-                    <option value="<?php echo 'producto-' . $producto->id; ?>"><?php echo $producto->nombre; ?></option>
+                    <option value="<?php echo 'producto-' . $producto->id; ?>"><?php echo $producto->nombre . " " . $producto->presentacion; ?></option>
                 <?php endforeach; ?>
                 <?php foreach ($recetas as $receta): ?>
                     <option value="<?php echo 'receta-' . $receta->id; ?>"><?php echo $receta->nombre; ?></option>

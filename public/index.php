@@ -18,6 +18,7 @@ use Controllers\Errores;
 use Controllers\InventarioController;
 use Controllers\MedidaController;
 use Controllers\RecetaController;
+use Controllers\RegaliasController;
 use Controllers\ReporteDefectosController;
 use MVC\Router;
 $router = new Router();
@@ -243,6 +244,19 @@ $router = new Router();
 /********************************/
 
 
+/********* REPORTE REGALIAS ************/
+
+$router->get('/regalias', [RegaliasController::class, 'mostrar']);
+
+$router->get('/regalias/crear', [RegaliasController::class, 'crear']);
+$router->post('/regalias/crear', [RegaliasController::class, 'crear']);
+
+$router->post('/regalias/aprobar', [RegaliasController::class, 'aprobar']);
+$router->post('/regalias/rechazar', [RegaliasController::class, 'rechazar']);
+
+/********************************/
+
+
 
 /********* REPORTE DEFECTOS ************/
 
@@ -250,6 +264,10 @@ $router = new Router();
     $router->get('/reportesDefectos', [ReporteDefectosController::class, 'mostrar']);
     $router->get('/reportesDefectos/crear', [ReporteDefectosController::class, 'crear']);
     $router->post('/reportesDefectos/crear', [ReporteDefectosController::class, 'crear']);
+
+    $router->post('/reportesDefectos/aprobar', [ReporteDefectosController::class, 'aprobar']);
+    $router->post('/reportesDefectos/rechazar', [ReporteDefectosController::class, 'rechazar']);
+
 
 /********************************/
 

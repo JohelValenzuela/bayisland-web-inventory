@@ -2,16 +2,16 @@
 
 namespace Model;
 
-class ReporteDefecto extends ActiveRecord {
-    protected static $tabla = 'reportes_defectos';
-    protected static $columnasDB = ['id', 'usuario_id', 'producto_id', 'cantidad', 'observacion', 'fecha_reporte', 'estado'];
+class Regalia extends ActiveRecord {
+    protected static $tabla = 'regalias';
+    protected static $columnasDB = ['id', 'usuario_id', 'producto_id', 'cantidad', 'observacion', 'fecha_regalia', 'estado'];
 
     public $id;
     public $usuario_id;
     public $producto_id;
     public $cantidad;
     public $observacion;
-    public $fecha_reporte;
+    public $fecha_regalia;
     public $estado;
 
     public function __construct($args = []) {
@@ -20,7 +20,7 @@ class ReporteDefecto extends ActiveRecord {
         $this->producto_id = $args['producto_id'] ?? '';
         $this->cantidad = $args['cantidad'] ?? '';
         $this->observacion = $args['observacion'] ?? '';
-        $this->fecha_reporte = $args['fecha_reporte'] ?? date('Y-m-d H:i:s');
+        $this->fecha_regalia = $args['fecha_regalia'] ?? date('Y-m-d H:i:s');
         $this->estado = $args['estado'] ?? 'pendiente'; // Estado por defecto
     }
 

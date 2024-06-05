@@ -79,6 +79,18 @@
             color: v.$rojo;
         }
 
+        &.aprobar{
+            background-color: transparent;
+            border: none;
+            color: v.$verde;
+        }
+
+        &.rechazar{
+            background-color: transparent;
+            border: none;
+            color: v.$rojo;
+        }
+
         &:hover {
             cursor: pointer;
         }

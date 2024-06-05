@@ -200,19 +200,17 @@ class VentasController {
             
             // Buscar ventas existentes para el cliente
             $ventasCliente = Venta::findCliente($cliente_id);
-
-            //debug($ventasCliente->id);
-            
+    
             $ventaId = null; // Variable para almacenar el ID de la venta
             
             // Iterar sobre las ventas del cliente
-            foreach ($ventasCliente as $ventaExistente) {
+            foreach ($ventasCliente as $ventaCliente) {
                 // Verificar si existe un cobro para esta venta
-                $cobroExistente = Cobro::findVenta(intval($ventasCliente->id));
+                $cobroExistente = Cobro::findVenta(intval($ventaCliente->id));
                 
                 // Si no hay un cobro existente, usar esta venta
                 if (!$cobroExistente) {
-                    $ventaId = intval($ventasCliente->id);
+                    $ventaId = intval($ventaCliente->id);
                     break; // Salir del bucle una vez que se encuentra una venta sin cobro vinculado
                 }
             }
@@ -237,32 +235,52 @@ class VentasController {
             $ventaProducto->metodoPago = $item['metodoPago'];
             $ventaProducto->codigo_brazalete = $item['codigo_brazalete'];
             $ventaProducto->guardar();
-            
-            // Reducir la cantidad vendida del stock y registrar la salida en el kardex
-            $productoStock = Stock::findStock($item['productoId']);
-            if ($productoStock) {
-                $nuevaCantidad = $productoStock->cantidad - $item['cantidad'];
-                $productoStock->cantidad = $nuevaCantidad;
-                $productoStock->guardar();
-                //debug($productoStock);
-                $ultimaEntrada = Inventario::findRegistro($productoStock->productoId);
-                $referenciaAnterior = $ultimaEntrada ? $ultimaEntrada->referencia : '';
     
-                $kardex = new Inventario();
-                $kardex->referencia = $referenciaAnterior;
-                $kardex->productoId = $productoStock->productoId;
-                $kardex->cantidadAnterior = $ultimaEntrada ? $ultimaEntrada->cantidadTotal : 0;
-                $kardex->operacion = 'Salida';
-                $kardex->cantidadEntrada = 0;
-                $kardex->cantidadSalida = $item['cantidad'];
-                $kardex->cantidadTotal = $kardex->cantidadAnterior - $kardex->cantidadSalida;
-                $kardex->estado = 'Activo';
-                $kardex->usuarioId = $_SESSION['id'];
-                $kardex->fechaCreacion = date('Y-m-d H:i:s');
-                $kardex->guardar();
-            } else {
-                // Manejar el caso en que el producto no se encuentra en el stock
-                // Por ejemplo, podrías mostrar un mensaje de error o registrar un registro de error
+            // Si receta_id es diferente a 0, iterar sobre los ingredientes y actualizar el stock
+            if ($ventaProducto->receta_id != 0) {
+                $ingredientes = RecetaIngredientes::findReceta($ventaProducto->receta_id);
+    
+                // Verificar que se obtuvieron ingredientes válidos
+                if (!$ingredientes) {
+                    Venta::setAlerta('error', 'No se encontraron ingredientes para la receta');
+                    continue;
+                }
+                
+                foreach ($ingredientes as $ingrediente) {
+                    // Verificar que el ingrediente tiene un productoId válido
+                    if (empty($ingrediente->productoId)) {
+                        Venta::setAlerta('error', 'El ingrediente no tiene un productoId válido');
+                        continue;
+                    }
+    
+                    $productoStock = Stock::findStock($ingrediente->productoId);
+    
+                    // Verificar que se encontró el stock para el producto
+                    if ($productoStock) {
+                        $nuevaCantidad = $productoStock->cantidad - ($ventaProducto->cantidad * $ingrediente->cantidad);
+                        $productoStock->cantidad = $nuevaCantidad;
+                        $productoStock->guardar();
+    
+                        $ultimaEntrada = Inventario::findRegistro($productoStock->productoId);
+                        $referenciaAnterior = $ultimaEntrada ? $ultimaEntrada->referencia : '';
+    
+                        $kardex = new Inventario();
+                        $kardex->referencia = $referenciaAnterior;
+                        $kardex->productoId = $productoStock->productoId;
+                        $kardex->cantidadAnterior = $ultimaEntrada ? $ultimaEntrada->cantidadTotal : 0;
+                        $kardex->operacion = 'Venta';
+                        $kardex->cantidadEntrada = 0;
+                        $kardex->cantidadSalida = $ingrediente->cantidad * $ventaProducto->cantidad;
+                        $kardex->cantidadTotal = $kardex->cantidadAnterior - $kardex->cantidadSalida;
+                        $kardex->estado = 'Activo';
+                        $kardex->usuarioId = $_SESSION['id'];
+                        $kardex->fechaCreacion = date('Y-m-d H:i:s');
+                        $kardex->guardar();
+                    } else {
+                        // Manejar el caso en que el producto no se encuentra en el stock
+                        Venta::setAlerta('error', 'No se encontró stock para el producto ' . $ingrediente->productoId);
+                    }
+                }
             }
         }
         
@@ -275,4 +293,7 @@ class VentasController {
         header('Location: /ventas/carrito');
         exit;
     }
+    
+    
+    
 }

@@ -206,6 +206,12 @@ class ActiveRecord {
         return array_shift( $resultado ) ;
     }
 
+    public static function findReceta($id) {
+        $query = "SELECT * FROM " . static::$tabla  ." WHERE recetaId = {$id}";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
     public static function findReferencia($referencia) {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE referencia = '{$referencia}'";
         //debug($query);

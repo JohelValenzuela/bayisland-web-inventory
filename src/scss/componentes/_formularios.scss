@@ -79,6 +79,16 @@
 	position: inherit;
 }
 
+.fielset {
+	position: inherit;
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.fielset:last-child {
+	margin-bottom: 0rem;
+  }
+
 .contenedor-flex{
 	display: flex;
     flex-wrap: wrap;

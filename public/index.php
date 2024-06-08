@@ -20,6 +20,7 @@ use Controllers\MedidaController;
 use Controllers\RecetaController;
 use Controllers\RegaliasController;
 use Controllers\ReporteDefectosController;
+use Controllers\ReportePasajeroController;
 use MVC\Router;
 $router = new Router();
 
@@ -272,7 +273,13 @@ $router->post('/regalias/rechazar', [RegaliasController::class, 'rechazar']);
 /********************************/
 
 
+/********* REPORTE PASAJEROS ************/
+    $router->get('/pasajeros', [ReportePasajeroController::class, 'mostrar']);
 
+    $router->get('/pasajeros/crear', [ReportePasajeroController::class, 'crear']);
+    $router->post('/pasajeros/crear', [ReportePasajeroController::class, 'crear']);
+
+/********************************/
 
 
 

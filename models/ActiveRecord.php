@@ -389,6 +389,40 @@ class ActiveRecord {
         ];
     }
 
+    public function crearReportePasajero() {
+        // Sanitizar los datos
+        $atributos = $this->sanitizarAtributos();
+        
+        // Preparar las claves y valores para la inserción
+        $claves = [];
+        $valores = [];
+        foreach ($atributos as $clave => $valor) {
+            $claves[] = $clave;
+            // Si el valor es NULL, usar NULL en la consulta SQL
+            if ($valor === "") {
+                $valores[] = "NULL";
+            } else {
+                $valores[] = "'" . self::$db->real_escape_string($valor) . "'";
+            }
+        }
+        //debug($valores);
+        // Construir la consulta SQL
+        $query = "INSERT INTO " . static::$tabla . " (";
+        $query .= implode(', ', $claves);
+        $query .= ") VALUES (";
+        $query .= implode(', ', $valores);
+        $query .= ")";
+        //debug($query);
+        // Ejecutar la consulta SQL
+        $resultado = self::$db->query($query);
+
+        // Retornar el resultado y el ID del nuevo registro insertado
+        return [
+        'resultado' =>  $resultado,
+        'id' => self::$db->insert_id
+        ];
+    }
+
     // Actualizar el registro
     public function actualizar() {
         // Sanitizar los datos

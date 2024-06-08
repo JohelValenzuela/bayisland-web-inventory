@@ -144,6 +144,8 @@ class Router
             '/reportesDefectos',
             '/reportesDefectos/crear',
 
+            '/pasajeros',
+            '/pasajeros/crear',
 
         ];
 

@@ -21,14 +21,7 @@ class ReportePasajeroController {
         $reportes = ReportePasajero::all();
        
         foreach ($reportes as $reporte) {
-            $reporte->guia1 = Guia::find($reporte->guia1_id);
-            $reporte->guia2 = Guia::find($reporte->guia2_id);
-            $reporte->guia3 = Guia::find($reporte->guia3_id);
-            $reporte->guia4 = Guia::find($reporte->guia4_id);
-            $reporte->guia5 = Guia::find($reporte->guia5_id);
-            $reporte->guia_muelle = Guia::find($reporte->guia_muelle_id);
             $reporte->reportado_por = Guia::find($reporte->reportado_por_id);
-            $reporte->capitan = Capitan::find($reporte->capitan_id);
         }
 
         
@@ -42,12 +35,16 @@ class ReportePasajeroController {
 
     public static function crear(Router $router) {
 
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+        }
+
+        $alertas = [];
+
         $capitanes = Capitan::all();
         $guias = Guia::all();
-
-        // Verificar si el usuario está autenticado
-        isAuth();
-
+    
         // Manejar el POST para crear un nuevo reporte
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Array para almacenar los IDs de las guías
@@ -90,13 +87,13 @@ class ReportePasajeroController {
                 $pasajeros_muelle = $_POST['pasajeros_muelle'] ?? 0;
             } else {
                 // Almacenar el guia y pasajeros
-                $guias_muelle['guia_muelle_id'] = $_POST['guia_muelle'] ?? null;
+                $guias_muelle = $_POST['guia_muelle'] ?? null;
                 $pasajeros_muelle = $_POST['pasajeros_muelle'] ?? 0;
             }
 
 
             $nombre_reporta = $_POST['reportado_por_nombre'] ?? null;
-            //debug($nombre_reporta);
+            
             if ($nombre_reporta) {
                 // Crear una nueva instancia de Guia y guardarla en la base de datos
                 $nombre_reporta = new Guia(['nombre' => $nombre_reporta]);
@@ -123,7 +120,7 @@ class ReportePasajeroController {
                 $capitan_id = $_POST['capitan_id'] ?? null;
             }
       
-
+            
             // Crear un nuevo reporte con los datos recibidos
             $reporte_data = [
                 // Agregar los demás datos del formulario al reporte
@@ -134,12 +131,12 @@ class ReportePasajeroController {
                 'guias_bote_ids' => isset($_POST['guias_bote_ids']) ? implode(',', $_POST['guias_bote_ids']) : '',
                 'capitan_id' => $capitan_id ?? null,
             ];
-            //debug($reporte_data);
             // Fusionar los datos de las guías con los datos del reporte
             $reporte_data = array_merge($guias_data, $reporte_data);
             
             // Crear instancia de ReportePasajero
             $reporte = new ReportePasajero($reporte_data);
+            
             
             // Validar y guardar el reporte
             $alertas = $reporte->validar();
@@ -148,7 +145,14 @@ class ReportePasajeroController {
             
             if (empty($alertas)) {
                 // Guardar datos del reporte en la base de datos
-                $reporte->crearReportePasajero();
+                $resultado = $reporte->crearReportePasajero();
+
+                //debug($resultado);
+
+                if($resultado){
+                    ReportePasajero::setAlerta('exito', 'Se ha creado un nuevo reporte de pasajeros');
+                    $_SESSION['msg'] = ReportePasajero::getAlertas();
+                }
 
                 // Redirigir después de guardar los datos
                 header('Location: /pasajeros/crear');
@@ -156,10 +160,56 @@ class ReportePasajeroController {
             }
         }
 
+        $alertas = ReportePasajero::getAlertas();
+    
+        if (isset($_SESSION['msg'])) {
+            $alertas = $_SESSION['msg'];
+            unset($_SESSION['msg']);
+        }
+
         $router->render('pasajeros/crear', [
-            'alertas' => ReportePasajero::getAlertas(),
+            'alertas' => $alertas,
             'capitanes' => $capitanes,
             'guias' => $guias
         ]);
     }
+
+    public static function gestionaReporte(Router $router){
+
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+        }
+
+        $alertas = [];
+
+        $id = validarORedireccionar('/pasajeros'); 
+        $reporte = ReportePasajero::find($id);
+
+        $capitanes = Capitan::all();
+        $guias = Guia::all();
+        $reportes = ReportePasajero::all();
+       
+        foreach ($reportes as $reporte) { 
+            $reporte->guia1 = Guia::find($reporte->guia1_id);
+            $reporte->guia2 = ($reporte->guia2_id == NULL) ? '' : Guia::find($reporte->guia2_id);
+            $reporte->guia3 = ($reporte->guia3_id == NULL) ? '' : Guia::find($reporte->guia3_id);
+            $reporte->guia4 = ($reporte->guia4_id == NULL) ? '' : Guia::find($reporte->guia4_id);
+            $reporte->guia5 = ($reporte->guia5_id == NULL) ? '' : Guia::find($reporte->guia5_id);
+            $reporte->guia_muelle = ($reporte->guia_muelle_id == NULL) ? '' : Guia::find($reporte->guia_muelle_id);
+            $reporte->reportado_por = ($reporte->reportado_por_id == NULL) ? '' : Guia::find($reporte->reportado_por_id);
+            $reporte->capitan = ($reporte->capitan_id == NULL) ? '' : Capitan::find($reporte->capitan_id);
+        }
+
+
+        $alertas = ReportePasajero::getAlertas();
+
+        $router->render('pasajeros/gestionaReporte', [
+            'alertas' => $alertas,
+            'reporte' => $reporte,
+            'reportes' => $reportes,
+        ]);
+
+    }
+
 }

@@ -146,6 +146,7 @@ class Router
 
             '/pasajeros',
             '/pasajeros/crear',
+            '/pasajeros/gestionaReporte',
 
         ];
 

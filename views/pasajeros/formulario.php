@@ -97,8 +97,8 @@
                 <label for="capitan_id">Capitán del Bote:</label>
                 <select name="capitan_id" id="capitan_id">
                     <option value="">Seleccionar Capitán</option>
-                    <?php foreach ($guias as $guia) : ?>
-                        <option value="<?php echo $guia->id; ?>"><?php echo $guia->nombre; ?></option>
+                    <?php foreach ($capitanes as $capitan) : ?>
+                        <option value="<?php echo $capitan->id; ?>"><?php echo $capitan->nombre; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

@@ -149,6 +149,19 @@
 
                 <li>
                     <div class="enlace-link">
+                        <a href="/pasajeros">
+                            <i class='bx bx-bus'></i>
+                            <span class="enlace-texto">Reportar Pasajeros</span>
+                        </a>
+                        <i class='bx bxs-chevron-down arrow' ></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a class="enlace-texto" href="/regalias">Reportar Pasajeros</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <div class="enlace-link">
                         <a href="/auth/mostrar">
                             <i class='bx bx-user' ></i>
                             <span class="enlace-texto">Usuarios</span>

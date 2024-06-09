@@ -279,6 +279,9 @@ $router->post('/regalias/rechazar', [RegaliasController::class, 'rechazar']);
     $router->get('/pasajeros/crear', [ReportePasajeroController::class, 'crear']);
     $router->post('/pasajeros/crear', [ReportePasajeroController::class, 'crear']);
 
+    $router->get('/pasajeros/gestionaReporte', [ReportePasajeroController::class, 'gestionaReporte']);
+    $router->post('/pasajeros/gestionaReporte', [ReportePasajeroController::class, 'gestionaReporte']);
+
 /********************************/
 
 

@@ -1,0 +1,50 @@
+<?php
+
+namespace Controllers;
+
+use MVC\Router;
+use Model\VentaUltimaHora;
+use Model\Vendedor;
+use Model\Cobrador;
+
+class VentaUltimaHoraController {
+
+    public static function mostrar(Router $router) {
+        
+        $alertas = [];
+
+        $venta = VentaUltimaHora::all();
+
+        $alertas = VentaUltimaHora::getAlertas();
+
+        $router->render('ventas_ultima_hora/mostrar', [
+            'venta' => $venta,
+            'alertas' => $alertas
+        ]);
+    }
+
+    public static function crear(Router $router) {
+        $venta = new VentaUltimaHora;
+        $alertas = [];
+
+       
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $venta->sincronizar($_POST);
+            $alertas = $venta->validar();
+
+            if (empty($alertas)) {
+                $resultado = $venta->guardar();
+                if ($resultado) {
+                    VentaUltimaHora::setAlerta('exito', 'Venta creada al cliente ' . $venta->nombre_persona);
+                }
+            }
+        }
+
+        $alertas = VentaUltimaHora::getAlertas();
+
+        $router->render('ventas_ultima_hora/crear', [
+            'venta' => $venta,
+            'alertas' => $alertas
+        ]);
+    }
+}

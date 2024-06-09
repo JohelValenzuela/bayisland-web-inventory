@@ -21,6 +21,7 @@ use Controllers\RecetaController;
 use Controllers\RegaliasController;
 use Controllers\ReporteDefectosController;
 use Controllers\ReportePasajeroController;
+use Controllers\VentaUltimaHoraController;
 use MVC\Router;
 $router = new Router();
 
@@ -284,6 +285,14 @@ $router->post('/regalias/rechazar', [RegaliasController::class, 'rechazar']);
 
 /********************************/
 
+
+/********* VENTAS DE ULTIMA HORA ************/
+    $router->get('/ventas_ultima_hora', [VentaUltimaHoraController::class, 'mostrar']);
+
+    $router->get('/ventas_ultima_hora/crear', [VentaUltimaHoraController::class, 'crear']);
+    $router->post('/ventas_ultima_hora/crear', [VentaUltimaHoraController::class, 'crear']);
+
+/********************************/
 
 
 /********* ADMINISTRADOR ************/

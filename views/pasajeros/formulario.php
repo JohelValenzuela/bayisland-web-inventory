@@ -1,5 +1,5 @@
 
-    <fieldset class="fielset" id="contenedor_guias">
+    <fieldset class="fielset">
         <legend style="color: black;"><strong>DATOS DE GUÍA Y PASAJEROS</strong></legend>
               
         <?php $maxGuias = 5; // Define el número máximo de guías que quieres permitir ?>

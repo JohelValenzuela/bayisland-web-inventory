@@ -147,7 +147,9 @@ class Router
             '/pasajeros',
             '/pasajeros/crear',
             '/pasajeros/gestionaReporte',
-
+            
+            '/ventas_ultima_hora',
+            '/ventas_ultima_hora/crear',
         ];
 
         //ACCEDER A LAS RUTAS

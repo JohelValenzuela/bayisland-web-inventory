@@ -44,6 +44,7 @@ class ReportePasajeroController {
 
         $capitanes = Capitan::all();
         $guias = Guia::all();
+        
     
         // Manejar el POST para crear un nuevo reporte
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -137,6 +138,8 @@ class ReportePasajeroController {
             // Crear instancia de ReportePasajero
             $reporte = new ReportePasajero($reporte_data);
             
+            date_default_timezone_set('America/Costa_Rica');
+            $reporte->fecha = date('Y-m-d H:i:s');
             
             // Validar y guardar el reporte
             $alertas = $reporte->validar();
@@ -147,14 +150,14 @@ class ReportePasajeroController {
                 // Guardar datos del reporte en la base de datos
                 $resultado = $reporte->crearReportePasajero();
 
-                //debug($resultado);
-
                 if($resultado){
+                    
                     ReportePasajero::setAlerta('exito', 'Se ha creado un nuevo reporte de pasajeros');
                     $_SESSION['msg'] = ReportePasajero::getAlertas();
+                    
                 }
 
-                // Redirigir después de guardar los datos
+                //Redirigir después de guardar los datos
                 header('Location: /pasajeros/crear');
                 exit;
             }
@@ -170,7 +173,7 @@ class ReportePasajeroController {
         $router->render('pasajeros/crear', [
             'alertas' => $alertas,
             'capitanes' => $capitanes,
-            'guias' => $guias
+            'guias' => $guias,
         ]);
     }
 
@@ -186,12 +189,12 @@ class ReportePasajeroController {
         $id = validarORedireccionar('/pasajeros'); 
         $reporte = ReportePasajero::find($id);
 
+
+
         $capitanes = Capitan::all();
         $guias = Guia::all();
-        $reportes = ReportePasajero::all();
        
-        foreach ($reportes as $reporte) { 
-            $reporte->guia1 = Guia::find($reporte->guia1_id);
+            $reporte->guia1 = ($reporte->guia1_id == NULL) ? '' : Guia::find($reporte->guia1_id);
             $reporte->guia2 = ($reporte->guia2_id == NULL) ? '' : Guia::find($reporte->guia2_id);
             $reporte->guia3 = ($reporte->guia3_id == NULL) ? '' : Guia::find($reporte->guia3_id);
             $reporte->guia4 = ($reporte->guia4_id == NULL) ? '' : Guia::find($reporte->guia4_id);
@@ -199,7 +202,7 @@ class ReportePasajeroController {
             $reporte->guia_muelle = ($reporte->guia_muelle_id == NULL) ? '' : Guia::find($reporte->guia_muelle_id);
             $reporte->reportado_por = ($reporte->reportado_por_id == NULL) ? '' : Guia::find($reporte->reportado_por_id);
             $reporte->capitan = ($reporte->capitan_id == NULL) ? '' : Capitan::find($reporte->capitan_id);
-        }
+        
 
 
         $alertas = ReportePasajero::getAlertas();
@@ -207,7 +210,25 @@ class ReportePasajeroController {
         $router->render('pasajeros/gestionaReporte', [
             'alertas' => $alertas,
             'reporte' => $reporte,
-            'reportes' => $reportes,
+        ]);
+
+    }
+
+    public static function generarReportePDF(Router $router){
+
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+        }
+
+        $alertas = [];
+
+        
+
+        $alertas = ReportePasajero::getAlertas();
+
+        $router->render('fpdf/generarReportePDF', [
+            'alertas' => $alertas,
         ]);
 
     }

@@ -18,32 +18,6 @@ class MedidaController {
         $medidas = UnidadMedida::all();
         if(!empty($medidas)){
 
-        //     /**** COMIENZA PAGINADOR *****/
-            
-        //     $pagina_actual = $_GET['pagina'];
-        //     $pagina_actual = filter_var($pagina_actual, FILTER_VALIDATE_INT);
-
-        //     if(!$pagina_actual || $pagina_actual < 1) {  // Si es False o menor a 1 redirecciona a pagina 1
-        //         header('Location: /medida?pagina=1');
-        //     }
-
-        //     /* CONFIGURAR CANTIDAD DE REGISTROS POR PÁGINA */
-        //     $registros_por_pagina = 5;
-
-        //     $total_registros = UnidadMedida::total();
-
-        //     $paginacion = new Paginacion($pagina_actual, $registros_por_pagina, $total_registros);
-
-        //     if($paginacion->total_paginas() < $pagina_actual) { // Si la pagina actual es mayor a la paginacion redirecciona a pagina 1
-        //         header('Location: /medida?pagina=1');
-        //     }
-
-        //     /* REEMPLAZAR FUNCION all() por la funcion paginar() */
-        //     $medidas = UnidadMedida::paginar($registros_por_pagina, $paginacion->offset());
-
-        // /**** FINALIZA PAGINADOR *****/
-
-
 
             $router->render('medida/mostrar', [
                 'medidas' => $medidas
@@ -85,7 +59,7 @@ class MedidaController {
 
                     if($resultado) { // Si se guarda el usuario envia una alerta
                         //header('Location: /categoria');
-                        UnidadMedida::setAlerta('exito', 'Se ha creado una nueva categoría');
+                        UnidadMedida::setAlerta('exito', 'Se ha creado una nueva medida');
                     }
                 }    
             }
@@ -123,7 +97,7 @@ class MedidaController {
                 
                 if($resultado) { // Si se guarda el usuario envia una alerta
                     //header('Location: /categoria');
-                    UnidadMedida::setAlerta('exito', 'Se ha creado una nueva categoría');
+                    UnidadMedida::setAlerta('exito', 'Se ha actualizado la unidad de medida');
                 }
             }
         }      

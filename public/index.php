@@ -209,6 +209,7 @@ $router = new Router();
     $router->post('/recetas/carritoIngredientes', [RecetaController::class, 'carritoIngredientes']);
     $router->post('/recetas/eliminarIngredienteCarrito', [RecetaController::class, 'eliminarIngredienteCarrito']);
     $router->post('/recetas/vaciarCarritoIngredientes', [RecetaController::class, 'vaciarCarritoIngredientes']);
+    $router->post('/recetas/eliminar', [RecetaController::class, 'eliminar']);
 
 /********************************/
 
@@ -247,7 +248,6 @@ $router = new Router();
 
 
 /********* REPORTE REGALIAS ************/
-
 $router->get('/regalias', [RegaliasController::class, 'mostrar']);
 
 $router->get('/regalias/crear', [RegaliasController::class, 'crear']);
@@ -255,7 +255,6 @@ $router->post('/regalias/crear', [RegaliasController::class, 'crear']);
 
 $router->post('/regalias/aprobar', [RegaliasController::class, 'aprobar']);
 $router->post('/regalias/rechazar', [RegaliasController::class, 'rechazar']);
-
 /********************************/
 
 
@@ -282,7 +281,10 @@ $router->post('/regalias/rechazar', [RegaliasController::class, 'rechazar']);
 
     $router->get('/pasajeros/gestionaReporte', [ReportePasajeroController::class, 'gestionaReporte']);
     $router->post('/pasajeros/gestionaReporte', [ReportePasajeroController::class, 'gestionaReporte']);
-
+    
+    $router->get('/fpdf/generarReportePDF', [ReportePasajeroController::class, 'generarReportePDF']);
+    $router->post('/fpdf/generarReportePDF', [ReportePasajeroController::class, 'generarReportePDF']);
+    
 /********************************/
 
 

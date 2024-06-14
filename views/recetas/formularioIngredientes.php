@@ -2,15 +2,22 @@
     <div class="div-flex">
         <div class="campo campo-separado w-20">
             <label for="recetaId">Seleccionar Receta:</label>
-            <select name="recetaId" required>
-                <?php foreach ($recetas as $receta): ?>
+            <select class="buscar" name="recetaId" required>
+            <option value="">-- Seleccione Receta --</option>
+                <?php
+
+use Model\Producto;
+use Model\Receta;
+
+ foreach ($recetas as $receta): ?>
                     <option value="<?php echo $receta->id; ?>"><?php echo $receta->nombre; ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
         <div class="campo campo-separado w-40">
             <label for="productoId">Seleccionar Producto:</label>
-            <select name="productoId" required>
+            <select class="buscar" name="productoId" required>
+            <option value="">-- Seleccione un Producto --</option>
                 <?php foreach ($productos as $producto): ?>
                     <option value="<?php echo $producto->id; ?>"><?php echo $producto->nombre; ?></option>
                 <?php endforeach; ?>
@@ -19,7 +26,7 @@
 
         <div class="campo campo-separado w-20">
             <label for="cantidad">Cantidad:</label>
-            <input type="number" name="cantidad" min="1" required>
+            <input type="number" name="cantidad" min="0.1" step="0.1" value="0.0" required>
         </div>
 
         <div class="campo campo-separado w-20">
@@ -47,8 +54,8 @@
             <tbody>
                 <?php foreach($orden as $item): ?>
                     <tr>
-                        <td><?php echo $item['recetaId']; ?></td>
-                        <td><?php echo $item['nombre']; ?></td>
+                        <td><?php echo Receta::find($item['recetaId'])->nombre; ?></td>
+                        <td><?php echo Producto::find($item['nombre'])->nombre; ?></td>
                         <td><?php echo $item['cantidad']; ?></td>
                         <td>
                             <form action="/recetas/eliminarIngredienteCarrito" method="POST" style="display:inline;">

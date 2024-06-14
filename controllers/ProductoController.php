@@ -59,7 +59,7 @@ class ProductoController {
 
         
 
-        $producto->estado = "1";
+        $producto->estado = "Activo";
 
         $alertas = [];
 

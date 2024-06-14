@@ -35,6 +35,9 @@ class RegaliasController {
         $clientes = Cliente::all();
         $productos = Producto::all();
 
+        date_default_timezone_set('America/Costa_Rica');
+        $regalia->fecha_regalia = date('Y-m-d H:i:s');
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $regalia->sincronizar($_POST);
@@ -43,9 +46,20 @@ class RegaliasController {
             //debug($regalia);
 
             if (empty($alertas)) {
-                $regalia->guardar();
-                header('Location: /regalias');
+                $resultado = $regalia->guardar();
+                if ($resultado) {
+                    Regalia::setAlerta('exito', 'Reporte Creado');
+                    $_SESSION['msg'] = Regalia::getAlertas();
+                }
+                
             }
+        }
+
+        $alertas = Regalia::getAlertas();
+
+        if (isset($_SESSION['msg'])) {
+            $alertas = $_SESSION['msg'];
+            unset($_SESSION['msg']);
         }
 
         $router->render('regalias/crear', [

@@ -12,7 +12,8 @@
     <?php 
         include_once __DIR__ . "/../templates/alertas.php";
     ?>
-    
+
+
     <form action="/pasajeros/crear" class="form form-contenido contenedor-flex" method="POST" value="Crear" enctype="multipart/form-data">
         <?php include __DIR__ . '/formulario.php' ?>
 

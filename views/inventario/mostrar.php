@@ -10,9 +10,7 @@
       
         <button id="btnExportar" class="boton-exportar"> 
             <i class="fa-solid fa-file-excel"></i> EXCEL
-        </button>
-
-        <a class="boton-exportar print" href="" target="_blank"> <i class="fa-solid fa-print"></i> Imprimir</a>   
+        </button> 
 
     </form>
 

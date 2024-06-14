@@ -109,19 +109,26 @@ class RecetaController {
                 $orden[] = [
                     'recetaId' => $recetaId,
                     'productoId' => $productoId,
-                    'nombre' => Producto::find($productoId)->nombre,
+                    'nombre' => $productoId,
                     'cantidad' => $cantidad
                 ];
             }
     
             $_SESSION['carritoIngredientes'] = $orden;
-            Receta::setAlerta('exito', 'Producto agregado al carrito');
+
+            Receta::setAlerta('exito', 'Producto agregado a la lista de ingredientes');
+            $_SESSION['msg'] = Receta::getAlertas();
             
             header('Location: /recetas/carritoIngredientes');
             exit;
         }
     
         $alertas = Receta::getAlertas();
+
+        if (isset($_SESSION['msg'])) {
+            $alertas = $_SESSION['msg'];
+            unset($_SESSION['msg']);
+        }
     
         $router->render('recetas/carritoIngredientes', [
             'recetas' => $recetas,
@@ -141,7 +148,10 @@ class RecetaController {
             });
 
             $_SESSION["carritoIngredientes"] = $orden;
-            Receta::setAlerta('exito', 'Producto eliminado del carrito de ingredientes');
+
+            Receta::setAlerta('error', 'Producto eliminado de la lista de ingredientes');
+            $_SESSION['msg'] = Receta::getAlertas();
+
             header("Location: /recetas/carritoIngredientes");
             exit;
         }
@@ -161,6 +171,8 @@ class RecetaController {
         if(!isAdmin()) {
             header('Location: /templates/error403');
         }
+
+        $alertas = [];
     
         // Obtener los datos del carrito de ingredientes de la sesión
         $orden = $_SESSION["carritoIngredientes"] ?? [];
@@ -173,6 +185,9 @@ class RecetaController {
             $recetaIngrediente->cantidad = $item['cantidad'];
             $recetaIngrediente->guardar();
         }
+
+        Receta::setAlerta('exito', 'Lista de ingredientes añadida a la receta');
+        $_SESSION['msg'] = Receta::getAlertas();
         
 
         //debug($recetaIngrediente);
@@ -184,7 +199,4 @@ class RecetaController {
         header('Location: /recetas/carritoIngredientes');
         exit;
     }
-
-    
-
 }

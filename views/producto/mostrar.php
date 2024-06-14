@@ -8,13 +8,9 @@
         <a class="boton-exportar" href="producto/crear"> <i class="fa-regular fa-square-plus"></i> Agregar</a>
         <a class="boton-exportar pdf" href="/fpdf/pdfProducto" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF</a>  
 
-
         <button id="btnExportar" class="boton-exportar">
             <i class="fa-solid fa-file-excel"></i> EXCEL
         </button>
-
-        <a class="boton-exportar print" href="" target="_blank"> <i class="fa-solid fa-print"></i> Imprimir</a>   
-
     </form>
 
     <form class="form form-contenido form-botones">
@@ -69,7 +65,7 @@
                     <th>Total</th>
                     <th>Estado</th>
                     <th>Editar</th>
-                    <th>Eliminar</th>
+                    <!-- <th>Eliminar</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -107,19 +103,19 @@
                                 </a>                    
                             </div>
                             </td>
-                            <td>
-                            <div class="acciones-tabla">
-                                <a class="boton-accion">
-                                    <form class="no-margin" action="/producto/eliminar" method="POST"> 
-                                        <input type="hidden" name="id" value="<?php echo $productos->id; ?>">
-                                        <button type="submit" value="" class="boton-accion eliminar"> 
-                                            <i class="fa-regular fa-trash-can accion"></i> 
-                                        </button>
-                                    </form>
-                                </a>
-                                
-                            </div>
-                            </td>
+                            <!-- <td>
+                                <div class="acciones-tabla">
+                                    <a class="boton-accion">
+                                        <form class="no-margin" action="/producto/eliminar" method="POST"> 
+                                            <input type="hidden" name="id" value="<?php echo $productos->id; ?>">
+                                            <button type="submit" value="" class="boton-accion eliminar"> 
+                                                <i class="fa-regular fa-trash-can accion"></i> 
+                                            </button>
+                                        </form>
+                                    </a>
+                                    
+                                </div>
+                            </td> -->
                         </tr>
 
                 <?php endforeach; ?>

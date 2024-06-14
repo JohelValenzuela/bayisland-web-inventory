@@ -22,7 +22,7 @@ class RecetaIngredientes extends ActiveRecord {
         $this->id = $args['id'] ?? NULL ;
         $this->recetaId = $args['recetaId'] ?? '';
         $this->productoId = $args['productoId'] ?? '';
-        $this->cantidad = $args['cantidad'] ?? '';
+        $this->cantidad = $args['cantidad'] ?? 0;
     }
 
     public function validar() {

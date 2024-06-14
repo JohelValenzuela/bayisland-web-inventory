@@ -21,29 +21,15 @@
                 <tr>
                     <th>ID</th>
                     <th>Fecha</th>
-                    <!-- <th>Guía 1</th>
-                    <th>Pasajeros Guía 1</th>
-                    <th>Guía 2</th>
-                    <th>Pasajeros Guía 2</th>
-                    <th>Guía 3</th>
-                    <th>Pasajeros Guía 3</th>
-                    <th>Guía 4</th>
-                    <th>Pasajeros Guía 4</th>
-                    <th>Guía 5</th>
-                    <th>Pasajeros Guía 5</th>
-                    <th>Guía Muelle</th>
-                    <th>Pasajeros Guía Muelle</th>
-                    <th>Pasajeros NoShow</th> -->
                     <th>Reporta</th>
                     <th>Cantidad Guías</th>
                     <th>Cantidad Pasajeros</th>
                     <th>Cantidad NoShow</th>
-                    <th></th>
-                    <!-- <th>Capitán</th> -->
+                    <th>Ver Más</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($reportes as $reporte): ?>
+                <?php foreach($reportes as $reporte): ?> 
                     <?php
                         // Convertir la fecha de creación al formato dd-mm-yyyy
                         $fechaCreacion = new DateTime($reporte->fecha);
@@ -55,27 +41,14 @@
                 <tr>
                     <td><?php echo $reporte->id; ?></td>
                     <td><?php echo $fechaCreacionFormateada; ?></td>
-                    <!-- <td><?php echo $reporte->guia1->nombre; ?></td>
-                    <td><?php echo $reporte->guia1_pasajeros; ?></td>
-                    <td><?php echo $reporte->guia2->nombre; ?></td>
-                    <td><?php echo $reporte->guia2_pasajeros; ?></td>
-                    <td><?php echo $reporte->guia3->nombre; ?></td>
-                    <td><?php echo $reporte->guia3_pasajeros; ?></td>
-                    <td><?php echo $reporte->guia4->nombre; ?></td>
-                    <td><?php echo $reporte->guia4_pasajeros; ?></td>
-                    <td><?php echo $reporte->guia5->nombre; ?></td>
-                    <td><?php echo $reporte->guia5_pasajeros; ?></td>
-                    <td><?php echo $reporte->guia_muelle->nombre; ?></td>
-                    <td><?php echo $reporte->pasajeros_muelle; ?></td> -->
                     <td><?php echo $reporte->reportado_por->nombre; ?></td>
-                    <td><?php echo $reporte->guias_bote_ids; ?></td>
+                    <td><?php echo count(explode(',',$reporte->guias_bote_ids)); ?></td>
                     <td><?php echo $cantidad_pasajeros; ?></td>
                     <td><?php echo $reporte->pasajeros_no_show; ?></td>
-                    <!-- <td><?php echo $reporte->capitan->nombre; ?></td> -->
                     <td>
                         <div class="acciones-tabla">
                             <a class="boton-accion entrada" href="/pasajeros/gestionaReporte?id=<?php echo $reporte->id;?>">
-                                <i class="fa-regular fa-pen-to-square accion"></i>    
+                                <i class="fa-regular fa-eye accion toggle-on"></i>
                             </a>                  
                         </div>
                     </td>

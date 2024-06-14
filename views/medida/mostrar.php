@@ -12,8 +12,7 @@
         <button id="btnExportar" class="boton-exportar">
             <i class="fa-solid fa-file-excel"></i> EXCEL
         </button>
-
-        <a class="boton-exportar print" href="" target="_blank"> <i class="fa-solid fa-print"></i> Imprimir</a>   
+  
     </form>
 
     <form class="form form-contenido form-botones">
@@ -39,7 +38,7 @@
                     <th>Sigla</th>
                     <th>Estado</th>
                     <th>Editar</th>
-                    <th>Eliminar</th>
+                    <!-- <th>Eliminar</th> -->
                 </tr>
             </thead>
 
@@ -69,19 +68,18 @@
                         </a>
                         </div>
                     </td>
-                    <td>
-                    <div class="acciones-tabla">
-                        <a class="boton-accion">
-                            <form class="no-margin" action="/medida/eliminar" method="POST"> 
-                            <input type="hidden" name="id" value="">
-                            <button type="submit" value="" class="boton-accion eliminar"> 
-                                <i class="fa-regular fa-trash-can accion"></i> 
-                            </button>
-                            </form>
-                        </a>
-                        
+                    <!-- <td>
+                        <div class="acciones-tabla">
+                            <a class="boton-accion">
+                                <form class="no-margin" action="/medida/eliminar" method="POST"> 
+                                <input type="hidden" name="id" value="">
+                                <button type="submit" value="" class="boton-accion eliminar"> 
+                                    <i class="fa-regular fa-trash-can accion"></i> 
+                                </button>
+                                </form>
+                            </a>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
                 <?php endforeach; ?>
             <tbody>

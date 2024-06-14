@@ -60,7 +60,59 @@
                 </div>
                 <div class="card">
                     <div class="card-box">
+                        <div class="card-icon verdeAgua">
+                        <a href="ventas">
+                            <i class='bx bx-box' ></i>
+                        </a>
+                        </div>
+                        <div class="card-contenido">
+                            <div class="card-texto">Ventas</div>
+                            <div class="card-contador"><?php echo strval($ventasDash) ?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-box">
+                        <div class="card-icon morado">
+                        <a href="ventas_ultima_hora">
+                            <i class='bx bx-box' ></i>
+                        </a>
+                        </div>
+                        <div class="card-contenido">
+                            <div class="card-texto">Ventas Extra</div>
+                            <div class="card-contador"><?php echo strval($ventas_ultimaDash) ?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-box">
+                        <div class="card-icon rosaOscuro">
+                        <a href="recetas/mostrar">
+                            <i class='bx bx-food-menu'></i>
+                        </a>
+                        </div>
+                        <div class="card-contenido">
+                            <div class="card-texto">Recetas</div>
+                            <div class="card-contador"><?php echo strval($recetasDash) ?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-box">
                         <div class="card-icon naranja">
+                        <a href="recetas/mostrar">
+                            <i class='bx bx-fridge' ></i>
+                        </a>
+                        </div>
+                        <div class="card-contenido">
+                            <div class="card-texto">Ingredientes</div>
+                            <div class="card-contador"><?php echo strval($ingredientesDash) ?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-box">
+                        <div class="card-icon rojo">
                         <a href="inventario">
                             <i class='bx bx-history'></i>
                         </a>
@@ -73,7 +125,7 @@
                 </div>
                 <div class="card">
                     <div class="card-box">
-                        <div class="card-icon rosaOscuro">
+                        <div class="card-icon azul">
                         <a href="auth/mostrar">
                             <i class='bx bx-user' ></i>
                         </a>
@@ -86,7 +138,7 @@
                 </div>
                 <div class="card">
                     <div class="card-box">
-                        <div class="card-icon morado">
+                        <div class="card-icon teal">
                         <a href="medida">
                             <i class='bx bx-ruler'></i>
                         </a>
@@ -97,8 +149,46 @@
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-box">
+                        <div class="card-icon azulClaro">
+                        <a href="reportesDefectos">
+                            <i class='bx bx-repost'></i>
+                        </a>
+                        </div>
+                        <div class="card-contenido">
+                            <div class="card-texto">Reporte de Daños</div>
+                            <div class="card-contador"><?php echo strval($defectosDash) ?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-box">
+                        <div class="card-icon verdeAgua">
+                        <a href="regalias">
+                            <i class='bx bx-gift' ></i>
+                        </a>
+                        </div>
+                        <div class="card-contenido">
+                            <div class="card-texto">Reporte de Regalías</div>
+                            <div class="card-contador"><?php echo strval($regaliasDash) ?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-box">
+                        <div class="card-icon morado">
+                        <a href="pasajeros">
+                            <i class='bx bx-bus'></i>
+                        </a>
+                        </div>
+                        <div class="card-contenido">
+                            <div class="card-texto">Reporte de Pasajeros</div>
+                            <div class="card-contador"><?php echo strval($pasajerosDash) ?></div>
+                        </div>
+                    </div>
+                </div>
             </div>  
-
             <div class="card-tabla-flex">
                 <div class="card-tabla">
                     <div class="card-contenedor">

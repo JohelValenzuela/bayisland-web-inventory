@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(function(){var e=1;document.getElementById("mostrar_siguiente_guia").addEventListener("click",(function(){!function(){if(e<=5){var t=document.getElementById("guia_"+e);t&&(t.style.display="",e++),e>5&&(document.getElementById("mostrar_siguiente_guia").style.display="none")}}()}))}));

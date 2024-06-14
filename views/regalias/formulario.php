@@ -21,7 +21,7 @@
         </div>
         <div class="campo campo-separado w-20">
             <label for="cantidad">Cantidad</label>
-            <input type="number" name="cantidad" id="cantidad" value="<?php echo s($regalia->cantidad); ?>">
+            <input type="number" name="cantidad" id="cantidad" value="<?php echo s($regalia->cantidad) ?? 0; ?>">
         </div>
     </div>
 

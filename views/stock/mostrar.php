@@ -12,9 +12,7 @@
         
         <button id="btnExportar" class="boton-exportar"> 
             <i class="fa-solid fa-file-excel"></i> EXCEL
-        </button>
-
-        <a class="boton-exportar print" href="" target="_blank"> <i class="fa-solid fa-print"></i> Imprimir</a>   
+        </button>  
     </form>
 
     <form class="form form-contenido form-botones">
@@ -85,14 +83,14 @@
                                         <i class='bx bx-minus-circle icono' ></i> Retirar
                                     </a>
 
-                                    <a class="boton-accion">
+                                    <!-- <a class="boton-accion">
                                         <form class="no-margin" action="/inventario/eliminar" method="POST"> 
                                         <input type="hidden" name="id" value="">
                                         <button type="submit" value="" class="boton-accion eliminar"> 
                                             <i class="fa-regular fa-trash-can accion"></i>  Desactivar
                                         </button>
                                         </form>
-                                    </a>
+                                    </a> -->
                                     
                                     </div>
                                 </td>  <!--  Acciones Editar y Eliminar  -->

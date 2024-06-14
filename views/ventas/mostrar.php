@@ -5,24 +5,13 @@
     </div>
         
     <form class="form form-contenido form-botones">
-        <a class="boton-exportar" href="/ventas/carrito">
-            <i class="fa-regular fa-square-plus"></i> Crear Venta
-        </a>
-        <a class="boton-exportar" href="/cobros/seleccionarCliente">
-            <i class="fa-regular fa-square-plus"></i> Cobrar a Cliente
-        </a>
-        <a class="boton-exportar pdf" href="/fpdf/pdfStock" target="_blank">
-            <i class="fa-solid fa-file-pdf"></i> PDF
-        </a>  
-        <button id="btnExportar" class="boton-exportar"> 
-            <i class="fa-solid fa-file-excel"></i> EXCEL
-        </button>
-        <a class="boton-exportar print" href="" target="_blank">
-            <i class="fa-solid fa-print"></i> Imprimir
-        </a>   
+        <a class="boton-exportar" href="/ventas/carrito"> <i class="fa-regular fa-square-plus"></i> Crear Venta </a>
+        <a class="boton-exportar" href="/cobros/seleccionarCliente"> <i class="fa-regular fa-square-plus"></i> Cobrar a Cliente </a>
+        <a class="boton-exportar pdf" href="/fpdf/pdfStock" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF </a>  
+        <button id="btnExportar" class="boton-exportar"> <i class="fa-solid fa-file-excel"></i> EXCEL </button> 
     </form>
 
-    <form class="form form-contenido form-botones">
+    <!-- <form class="form form-contenido form-botones">
 
         <div class="campo select-buscar">
             <select class="buscar" name="cliente_id" id="cliente_id" style="width: 100%;">              
@@ -40,7 +29,7 @@
                 <option value="cancelado">Cancelado</option>
             </select>
         </div>
-    </form>
+    </form> -->
 
     <form action="" class="form form-contenido form-tabla" method="POST" enctype="multipart/form-data"> 
         <table class="tabla" id="">
@@ -127,7 +116,14 @@
                             </td>
                             <td data-titulo="Cantidad Pagada"><?php echo isset($cobro) ? $simboloMoneda . ' ' . $cobro->cantidad_pagada : $simboloMoneda . ' ' .  0; ?></td>
                             <td data-titulo="Debe"><?php echo isset($cobro) && isset($cobro->debe) ? $simboloMoneda . ' ' . $cobro->debe : $simboloMoneda . ' ' .  0; ?></td>
-                            <td data-titulo="Estado"><?php echo isset($cobro) && isset($cobro->estado) ? $cobro->estado : "Pendiente"; ?></td>
+                            
+                            <td data-titulo="Estado">
+                                <?php if(isset($cobro) && isset($cobro->estado)) : ?>
+                                    <a class="estado cancelado"> <?php echo $cobro->estado?></a>
+                                <?php else: ?>
+                                    <a class="estado pendientes"> Pendiente </a>
+                                <?php endif ?>               
+                            </td>
                         </tr>
                         <?php if($isVerMas) : ?>
                             <tr>

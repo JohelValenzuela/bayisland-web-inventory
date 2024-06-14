@@ -27,6 +27,9 @@ class VentaUltimaHoraController {
         $venta = new VentaUltimaHora;
         $alertas = [];
 
+        date_default_timezone_set('America/Costa_Rica');
+        $fechaActual = date(format:'Y-m-d H:i:s');
+        $venta->fecha = $fechaActual;
        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $venta->sincronizar($_POST);

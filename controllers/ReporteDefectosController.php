@@ -48,7 +48,8 @@ class ReporteDefectosController {
             if (empty($alertas)) {
                 $resultado = $reporte->guardar();
                 if ($resultado) {
-                    header('Location: /reportesDefectos');
+                    ReporteDefecto::setAlerta('exito', 'Reporte Creado');
+                    $_SESSION['msg'] = ReporteDefecto::getAlertas();
                 }
             }
         }
@@ -57,6 +58,13 @@ class ReporteDefectosController {
             $ventaProductos->producto = Producto::find($ventaProductos->producto_id);
             $ventaProductos->receta = Receta::find($ventaProductos->receta_id);
             $ventaProductos->venta = Venta::find($ventaProductos->receta_id);
+        }
+
+        $alertas = ReporteDefecto::getAlertas();
+
+        if (isset($_SESSION['msg'])) {
+            $alertas = $_SESSION['msg'];
+            unset($_SESSION['msg']);
         }
 
         $router->render('reportesDefectos/crear', [

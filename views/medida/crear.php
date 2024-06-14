@@ -27,7 +27,7 @@
         </div>
 
         <div class="campo campo-separado">
-            <input type="submit" value="Crear entrada" class="boton boton-azul">
+            <input type="submit" value="Crear Unidad de Medida" class="boton-exportar formulario">
         </div>
 
     </form> 

@@ -52,6 +52,7 @@ document.getElementById("btnExportar").addEventListener("click", function() {
 });
 
 
+
 //EXPORTAR EXCEL
 // const $btnExportar = document.querySelector("#btnExportar"),
 // $tabla = document.querySelector("#tabla");

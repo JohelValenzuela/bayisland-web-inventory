@@ -14,7 +14,6 @@
               <i class="fa-solid fa-file-excel"></i> EXCEL Pedidos
             </button>
 
-            <a class="boton-exportar print" href="" target="_blank"> <i class="fa-solid fa-print"></i> Imprimir</a>   
           </div>
 
           <div>
@@ -29,7 +28,7 @@
           </div> 
     </section>
 
-    <form class="form form-contenido form-botones">
+    <!-- <form class="form form-contenido form-botones">
 
         <div class="campo select-buscar w-40">
             <select class="buscar" name="estado" id="estado" style="width: 100%;">
@@ -41,7 +40,7 @@
             </select>
 
         </div>
-    </form>
+    </form> -->
 
     <?php 
       include_once __DIR__ . "/../templates/alertas.php";

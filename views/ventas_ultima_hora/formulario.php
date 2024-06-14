@@ -38,11 +38,11 @@
             <div class="div-flex">
                 <div class="campo campo-separado" style="margin-bottom: 3rem;">
                     <label for="total_dolares">Pago Dolares:</label>
-                    <input type="number" step="0.01" id="total_pagar" name="total_dolares" placeholder="Total a pagar" value="<?php echo s($venta->total_dolares); ?>">
+                    <input type="number" step="0.01" id="total_pagar" name="total_dolares" placeholder="Total a pagar" value="<?php echo s($venta->total_dolares) ?? 0.0; ?>">
                 </div>
                 <div class="campo campo-separado" style="margin-bottom: 3rem;">
                     <label for="total_colones">Pago Colones:</label>
-                    <input type="number" step="0.01" id="total_colones" name="total_colones" placeholder="Total a pagar" value="<?php echo s($venta->total_colones); ?>">
+                    <input type="number" step="0.01" id="total_colones" name="total_colones" placeholder="Total a pagar" value="<?php echo s($venta->total_colones) ?? 0.0; ?>">
                 </div>
             </div>
             <div class="campo campo-separado">

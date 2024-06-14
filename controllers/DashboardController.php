@@ -7,8 +7,15 @@ use Model\Categoria;
 use Model\Inventario;
 use Model\Pedido;
 use Model\Producto;
+use Model\Receta;
+use Model\RecetaIngredientes;
+use Model\Regalia;
+use Model\ReporteDefecto;
+use Model\ReportePasajero;
 use Model\Stock;
 use Model\UnidadMedida;
+use Model\Venta;
+use Model\VentaUltimaHora;
 use MVC\Router;
 
 class DashboardController {
@@ -50,8 +57,33 @@ class DashboardController {
             $usuarioDash = Auth::cuentaCantidad();
             $usuarioAdministrador = Auth::cuentaCantidadEstado('rolId', '3');
             $usuarioEncargado = Auth::cuentaCantidadEstado('rolId', '2');
+
+            // Recetas
+            $recetasDash = Receta::cuentaCantidad();
+
+            // Ventas
+            $ventasDash = Venta::cuentaCantidad();
+
+            // Ventas de última Hora
+            $ventas_ultimaDash = VentaUltimaHora::cuentaCantidad();
+
+            // Reportar Daños
+            $defectosDash = ReporteDefecto::cuentaCantidad();
+
+            // Reportar Regalía
+            $regaliasDash = Regalia::cuentaCantidad();
+
+            // Reportar Pasajeros
+            $pasajerosDash = ReportePasajero::cuentaCantidad();
+
+            // Reportar Pasajeros
+            $ingredientesDash = RecetaIngredientes::cuentaCantidad();
+
+            
         
         /*** TERMINA CONSULTAS DASHBOARD */
+
+
 
         /** MOSTRAR DATOS DE TABLA STOCK EN DASHBOARD */
 
@@ -98,7 +130,14 @@ class DashboardController {
             'producto' => $producto,
             'usuarios' => $usuarios,
             'inventario' => $inventario,
-            'pedido' => $pedido
+            'pedido' => $pedido,
+            'recetasDash' => $recetasDash,
+            'ventasDash' => $ventasDash,
+            'ventas_ultimaDash' => $ventas_ultimaDash,
+            'defectosDash' => $defectosDash,
+            'regaliasDash' => $regaliasDash,
+            'pasajerosDash' => $pasajerosDash,
+            'ingredientesDash' => $ingredientesDash,
         ]);
     }
 

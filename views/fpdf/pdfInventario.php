@@ -12,10 +12,9 @@ use Model\UnidadMedida;
 class PDF extends FPDF {
 
 
-    function Header()
-   {
-    $this->Image('build/img/header.png', 0, 0, 300); // Y  W  H
-    $this->Image('build/img/logo.png', 3, 3, 50); // Y  W  H
+   function Header() {
+      $this->Image('build/img/header.png', 0, 0, 300); // Y  W  H
+      $this->Image('build/img/logo.png', 3, 3, 50); // Y  W  H
       $this->SetFont('Arial', 'B', 19); //tipo fuente, negrita(B-I-U-BIU), tamañoTexto
       $this->Cell(95); // Movernos a la derecha
       $this->SetTextColor(0, 0, 0); //color

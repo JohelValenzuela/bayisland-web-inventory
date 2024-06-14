@@ -20,8 +20,8 @@ class VentaProductos extends ActiveRecord {
         $this->producto_id = $args['producto_id'] ?? 0;
         $this->receta_id = $args['receta_id'] ?? 0;
         $this->cantidad = $args['cantidad'] ?? 0;
-        $this->precio = $args['precio'] ?? null;
-        $this->metodoPago = $args['metodoPago'] ?? null;
+        $this->precio = $args['precio'] ?? 0;
+        $this->metodoPago = $args['metodoPago'] ?? '';
     }
 
     public function validar() {
@@ -38,7 +38,11 @@ class VentaProductos extends ActiveRecord {
         }
 
         if(!$this->cantidad) {
-            self::$alertas['error'][] = "Digita una cantidad para la venta";
+            self::$alertas['error'][] = "Digita una cantidad de producto";
+        }
+
+        if(!$this->precio) {
+            self::$alertas['error'][] = "Digita un precio para el producto";
         }
 
         return self::$alertas;

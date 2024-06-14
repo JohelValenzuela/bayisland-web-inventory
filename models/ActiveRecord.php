@@ -13,7 +13,7 @@ class ActiveRecord {
 
 
     // Visibilidad de los atributos
-    public $id, $nombre, $apellido, $confirmado, $correo, $rolId, $token, $cantidad, $volumen, $contenido, $categoriaId, $presentacion, $medidaId, $unidad_empaque, $estado, $cantidadPresentacion, $categoria, $medida, $referencia, $producto, $observacion, $usuario, $fechaCreacion, $precioUnidad, $precioMedida, $totalMedida, $productoId, $usuarioId, $cantidadTotal, $cantidadAnterior, $usuarioIdAprueba, $maestroId, $movimiento, $recetaId, $producto_id, $receta_id, $cliente, $usuario_id, $codigo_brazalete, $receta, $guia1_id, $guia2_id, $guia3_id, $guia4_id, $guia5_id, $guia_muelle_id, $reportado_por_id, $capitan_id;
+    public $id, $nombre, $apellido, $confirmado, $correo, $rolId, $token, $cantidad, $volumen, $contenido, $categoriaId, $presentacion, $medidaId, $unidad_empaque, $estado, $cantidadPresentacion, $categoria, $medida, $referencia, $producto, $observacion, $usuario, $fechaCreacion, $precioUnidad, $precioMedida, $totalMedida, $productoId, $usuarioId, $cantidadTotal, $cantidadAnterior, $usuarioIdAprueba, $maestroId, $movimiento, $recetaId, $producto_id, $receta_id, $cliente, $usuario_id, $codigo_brazalete, $receta, $guia1_id, $guia2_id, $guia3_id, $guia4_id, $guia5_id, $guia_muelle_id, $reportado_por_id, $capitan_id, $fecha, $guia1_pasajeros, $guia2_pasajeros, $guia3_pasajeros, $guia4_pasajeros, $guia5_pasajeros, $pasajeros_muelle, $reportado_por, $guias_bote_ids, $pasajeros_no_show;
 
     
 
@@ -415,7 +415,7 @@ class ActiveRecord {
         //debug($query);
         // Ejecutar la consulta SQL
         $resultado = self::$db->query($query);
-
+        
         // Retornar el resultado y el ID del nuevo registro insertado
         return [
         'resultado' =>  $resultado,
@@ -453,7 +453,7 @@ class ActiveRecord {
     // Eliminar un Registro por su ID
     public function eliminar() {
         $query = "DELETE FROM "  . static::$tabla . " WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
-        //debug($query);
+        debug($query);
         $resultado = self::$db->query($query);
         return $resultado;
     }

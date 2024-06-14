@@ -1,15 +1,24 @@
 <?php
-    use Model\Producto;
-    use Model\Receta;
-    use Model\Cliente;
-    
-    // Obtener todos los clientes
-    $clientes = Cliente::all();
+use Model\Producto;
+use Model\Receta;
+use Model\Cliente;
+
+// Obtener todos los clientes
+$clientes = Cliente::all();
 ?>
 
 <form action="/ventas/carrito" method="POST">
     <div class="div-flex">
-        <div class="campo campo-separado w-30">
+    <div class="campo campo-separado w-40">
+            <label for="cliente_switch">¿Cliente nuevo?</label>
+            <div class="switch-container">
+                <label class="switch">
+                    <input type="checkbox" id="cliente_switch">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        <div class="campo campo-separado w-50" id="cliente_existente">
             <label for="cliente">Seleccionar Cliente:</label>
             <select class="buscar" name="cliente_id">
                 <option value="">Seleccione un cliente</option>
@@ -18,17 +27,17 @@
                 <?php endforeach; ?>
             </select>
         </div>
-        <div class="campo campo-separado w-30">
-            <label for="nuevo_cliente">O ingrese nuevo cliente:</label>
-            <input type="text" name="nuevo_cliente">
+        <div class="campo campo-separado w-50" id="nuevo_cliente_div" style="display: none;">
+            <label for="nuevo_cliente">Ingrese nuevo cliente:</label>
+            <input type="text" id="nuevo_cliente" name="nuevo_cliente">
         </div>
-        <div class="campo campo-separado w-30">
+        <div class="campo campo-separado w-50" id="codigo_brazalete_div" style="display: none;">
             <label for="codigo_brazalete">Código Brazalete:</label>
-            <input type="text" name="codigo_brazalete" maxlength="20">
+            <input type="text" id="codigo_brazalete" name="codigo_brazalete" maxlength="20">
         </div>
-        <div class="campo campo-separado w-40">
+        <div class="campo campo-separado w-50">
             <label for="productoOrReceta">Seleccionar Producto o Receta:</label>
-            <select class="buscar" name="productoOrReceta">
+            <select class="buscar" name="productoOrReceta" required>
                 <option value="">Seleccione un producto o receta</option>
                 <?php foreach ($productos as $producto): ?>
                     <option value="<?php echo 'producto-' . $producto->id; ?>"><?php echo $producto->nombre . " " . $producto->presentacion; ?></option>
@@ -42,11 +51,11 @@
     <div class="div-flex">
         <div class="campo campo-separado w-30">
             <label for="cantidad">Cantidad:</label>
-            <input type="number" name="cantidad" min="1" required>
+            <input type="number" name="cantidad" min="1"  value="1" required>
         </div>
         <div class="campo campo-separado w-30">
             <label for="precio">Precio:</label>
-            <input type="number" name="precio" min="0.01" step="0.01" required>
+            <input type="number" name="precio" min="0.01" step="0.01" value="0.0" required>
         </div>
         <div class="campo campo-separado w-40">
             <label for="metodoPago">Método de Pago:</label>
@@ -128,11 +137,9 @@
 
         <form action="/ventas/realizarVenta" method="POST">
             <div class="campo campo-separado">
-                <input type="submit" value="Realizar Venta" class="boton boton-azul">
+                <input type="submit" value="Realizar Venta" class="boton-exportar formulario">
             </div>
         </form>
         
     <?php endif; ?>
 </section>
-
-

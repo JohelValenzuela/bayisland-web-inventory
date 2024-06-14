@@ -124,8 +124,9 @@ class VentasController {
             exit;
         }
     
+        
         $alertas = Venta::getAlertas();
-    
+
         if (isset($_SESSION['msg'])) {
             $alertas = $_SESSION['msg'];
             unset($_SESSION['msg']);

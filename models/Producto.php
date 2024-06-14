@@ -39,7 +39,7 @@ class Producto extends ActiveRecord {
         $this->totalMedida = $args['totalMedida'] ?? 0;
         $this->precioUnidad = $args['precioUnidad'] ?? 0;
         $this->precioMedida = $args['precioMedida'] ?? 0;
-        $this->total = $args['total'] ?? '';
+        $this->total = $args['total'] ?? 0;
         $this->estado = $args['estado'] ?? '';
     }
 
@@ -73,17 +73,17 @@ class Producto extends ActiveRecord {
             self::$alertas['error'][] = "La cantidad de unidades por empaque es obligatoria";
         }
 
-        if(!$this->totalMedida) {
-            self::$alertas['error'][] = "La medida total del producto es obligatorio";
-        }
+        // if(!$this->totalMedida) {
+        //     self::$alertas['error'][] = "La medida total del producto es obligatorio";
+        // }
 
-        if(!$this->precioUnidad) {
-            self::$alertas['error'][] = "El precio del producto es obligatorio";
-        }
+        // if(!$this->precioUnidad) {
+        //     self::$alertas['error'][] = "El precio del producto es obligatorio";
+        // }
 
-        if(!$this->precioMedida) {
-            self::$alertas['error'][] = "El precio por medida del producto es obligatorio";
-        }
+        // if(!$this->precioMedida) {
+        //     self::$alertas['error'][] = "El precio por medida del producto es obligatorio";
+        // }
 
         if(!$this->estado) {
             self::$alertas['error'][] = "El estado de producto es obligatorio";

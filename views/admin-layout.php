@@ -8,6 +8,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700;900&display=swap" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="../build/css/app.css">
+        <link rel="stylesheet" href="../build/css/style.css">
         <link rel="stylesheet" href="../build/css/datatables.css">
         <link rel="stylesheet" href="../build/css/select.css">
         <link rel="stylesheet" href="../build/css/responsive.css">
@@ -79,6 +80,19 @@
                     </div>
                     <ul class="sub-menu">
                         <li><a class="enlace-texto" href="/producto">Ventas</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <div class="enlace-link">
+                        <a href="/ventas_ultima_hora">
+                            <i class='bx bx-money'></i>
+                            <span class="enlace-texto">Ventas Extra</span>
+                        </a>
+                        <i class='bx bxs-chevron-down arrow' ></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a class="enlace-texto" href="/producto">Ventas Última Hora</a></li>
                     </ul>
                 </li>
 
@@ -218,7 +232,7 @@
     <script src="https://unpkg.com/file-saverjs@latest/FileSaver.min.js"></script>
     <script src="https://unpkg.com/tableexport@latest/dist/js/tableexport.min.js"></script>
     
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
 
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
 
@@ -230,6 +244,9 @@
 
 
     <script src="../build/js/app.js"></script>
+    <script src="../build/js/select2.js"></script>
+    <script src="../build/js/clienteNuevo.js"></script> 
+    <script src="../build/js/guias.js"></script>
     <script src="../build/js/buscar.js"></script>
     <script src="../build/js/tablas.js"></script>
 

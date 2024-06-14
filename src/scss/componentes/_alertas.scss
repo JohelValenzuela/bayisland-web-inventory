@@ -39,11 +39,21 @@
     padding: 1rem 0 1rem 0rem;
 }
 
+
+
 .estado {
     text-transform: uppercase;
     font-weight: bold;
     text-align: center;
     padding: 5px;
+
+    &.cancelado{
+        color: v.$rojo;
+    }
+    
+    &.pendientes{
+        color: v.$naranja;
+    }
 
     &.deshabilitado{
         text-transform: none;

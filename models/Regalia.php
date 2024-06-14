@@ -18,7 +18,7 @@ class Regalia extends ActiveRecord {
         $this->id = $args['id'] ?? null;
         $this->usuario_id = $args['usuario_id'] ?? '';
         $this->producto_id = $args['producto_id'] ?? '';
-        $this->cantidad = $args['cantidad'] ?? '';
+        $this->cantidad = $args['cantidad'] ?? 0;
         $this->observacion = $args['observacion'] ?? '';
         $this->fecha_regalia = $args['fecha_regalia'] ?? date('Y-m-d H:i:s');
         $this->estado = $args['estado'] ?? 'pendiente'; // Estado por defecto

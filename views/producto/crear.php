@@ -15,11 +15,6 @@
     
     <form action="/producto/crear" class="form form-contenido contenedor-flex" method="POST" value="Crear" enctype="multipart/form-data">
         <?php include __DIR__ . '/formulario.php' ?>
-
-    <div class="campo campo-separado">
-        <input type="submit" value="Crear Producto" class="boton-exportar formulario">
-    </div>
-
     </form> 
 
 </section>

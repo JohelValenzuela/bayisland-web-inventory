@@ -16,13 +16,12 @@
         <button id="btnExportar" class="boton-exportar">
             <i class="fa-solid fa-file-excel"></i> EXCEL
         </button>
-
-        <a class="boton-exportar print" href="" target="_blank"> <i class="fa-solid fa-print"></i> Imprimir</a>   
+ 
 
     </form>
 
 
-    <form action="/recetas/crear" class="form form-contenido form-tabla" enctype="multipart/form-data">
+    <form action="" class="form form-contenido form-tabla" enctype="multipart/form-data">
 
     <table class="tabla" id="tabla1">
     <thead>
@@ -31,7 +30,7 @@
             <th>ID</th>
             <th>Receta</th>
             <th>Observacion</th>
-            <th>Editar</th>
+            <!-- <th>Editar</th> -->
         </tr>
     </thead>
     <tbody>
@@ -60,13 +59,13 @@
                     <td data-titulo="Categoria"><?php echo $receta->nombre;?></td>
                     <td data-titulo="Producto"><?php echo $receta->observacion; ?></td>
                     
-                    <td>
+                    <!-- <td>
                         <div class="acciones-tabla">
                             <a class="boton-accion editar" href="/producto/actualizar?id=<?php echo $receta->id; ?>">
                                 <i class="fa-regular fa-pen-to-square accion"></i>  
                             </a>                    
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
                 <?php if($isVerMas) : ?>
                     <tr>
@@ -78,6 +77,7 @@
                                         <!-- <th>Receta</th> -->
                                         <th>Producto</th>
                                         <th>Cantidad</th>
+                                        <!-- <th>Eliminar</th> -->
                                     </tr>
                                 </thead>
                                 
@@ -93,6 +93,18 @@
                                                 <!-- <td data-titulo="Receta">< ?php echo $ingredientes->receta->nombre;?></td> -->
                                                 <td data-titulo="Producto"><?php echo $ingredienteReceta->producto->nombre; ?></td>
                                                 <td data-titulo="Cantidad"><?php echo $ingredienteReceta->cantidad; ?></td>
+                                                <!-- <td>
+                                                    <div class="acciones-tabla">
+                                                        <a class="boton-accion">
+                                                            <form class="no-margin" action="/recetas/eliminar" method="POST"> 
+                                                                <input type="hidden" name="id" value="<?php echo $ingredienteReceta->id; ?>">
+                                                                <button type="submit" value="" class="boton-accion eliminar"> 
+                                                                    <i class="fa-regular fa-trash-can accion"></i> 
+                                                                </button>
+                                                            </form>
+                                                        </a>
+                                                    </div>
+                                                </td> -->
                                             </tr>
                                     <?php 
                                             }

@@ -1,65 +1,153 @@
-<section class="home-section">
-    
+<section class="home-section" style="height: auto; background: white;">
     <?php include __DIR__ . '/navcarrito.php' ?>
     <?php include_once __DIR__ . "/../templates/alertas.php";?>
 
-    
-    <section action="" class="form form-contenido form-tabla" method="POST" enctype="multipart/form-data">
-      
-        <table class="tabla table_id" id="tabla">
+    <section class="display-buscador">
+        
+
+        
+    </section>
+
+    <form class="form form-contenido form-botones">
+    <div class="campo campo-separado buscador">
+    <label for="filtroCategoria">Filtrar por Categoría:</label>
+            <input type="text" id="inputBusqueda" class="campo-buscar" placeholder="Buscar productos...">
+            <span id="btnClear" class="clear-button">&#10005;</span>
+        </div>
+        <div class="campo campo-separado">
+            <label for="filtroCategoria">Filtrar por Categoría:</label>
+            <select id="filtroCategoria" class="filtro-categoria">
+                <option value="">Todas las categorías</option>
+                <?php foreach($categoria as $categoria):  ?>
+                    <option value="<?php echo s($categoria->id); ?>" ><?php echo s($categoria->nombre); ?> </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </form>
+
+    <div class="productos-container">
         <?php if(!empty($producto)) { ?>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>ID</th>
-                    <th>Categoría</th>
-                    <th>Producto</th>
-                    <th>Presentación</th>
-                    <th>Cant Presentación</th>
-                    <th>Medida</th>
-                    <th>Tipo Empaque</th>
-                    <th>Cant. por Empaque</th>
-                </tr>
-            </thead>
-
-            <tbody>
             <?php foreach($producto as $productos) : ?>
-                <tr>
-                    <td>
-                        <form class="no-margin" action="/pedido/carrito" method="POST"> 
-                            <div class="acciones-tabla">
-                                <input name="id" type="hidden" id="id" value="<?php echo $productos->id; ?>"> </input>
-                                <input name="categoriaId" type="hidden" id="categoriaId" value="<?php echo $productos->categoriaId;?>"> </input>
-                                <input name="cantidad" type="hidden" id="cantidad" value="<?php echo $productos->cantidad;?>"></input>
-                                <input name="nombre" type="hidden" id="nombre" value="<?php echo $productos->nombre; ?>"> </input>
-                                <input name="presentacion" type="hidden" id="presentacion" value="<?php echo $productos->presentacion; ?>"> </input>
-                                <input name="cantidadPresentacion" type="hidden" id="cantidadPresentacion" value="<?php echo $productos->cantidadPresentacion; ?>"> </input>
-                                <input name="medidaId" type="hidden" id="medidaId" value="<?php echo $productos->medidaId; ?>"> </input>
-                                <input name="unidad_empaque" type="hidden" id="unidad_empaque" value="<?php echo $productos->unidad_empaque; ?>"> </input>
+                <div class="producto-card" data-categoria="<?php echo $productos->categoria->id; ?>">
+                <img src="/build/img/marsol.webp" alt="<?php echo $productos->nombre; ?>">
+                    <div class="producto-info">
+                        <h3><?php echo $productos->nombre; ?></h3>
+                        <p><strong>Categoría:</strong> <?php echo $productos->categoria->nombre; ?></p>
+                        <p><strong>Presentación:</strong> <?php echo $productos->presentacion . ' ' . $productos->cantidadPresentacion . ' ' . $productos->medida->sigla; ?></p>
+                        <p><strong>Por Empaque:</strong> <?php echo $productos->cantidad . 'uds'; ?></p>
+                        <p><strong>Precio:</strong> $<?php echo 'precio'; ?></p>
 
-
-                                <button type="submit" value="" class="boton-accion eliminar"> 
-                                    <i class="fa-regular fa-square-plus agrega"> </i>
-                                </button>
+                        <form action="/pedido/carrito" method="POST">
+                            <input name="id" type="hidden" value="<?php echo $productos->id; ?>">
+                            <input name="categoriaId" type="hidden" value="<?php echo $productos->categoriaId; ?>">
+                            <input name="nombre" type="hidden" value="<?php echo $productos->nombre; ?>">
+                            <input name="presentacion" type="hidden" value="<?php echo $productos->presentacion; ?>">
+                            <input name="cantidadPresentacion" type="hidden" value="<?php echo $productos->cantidadPresentacion; ?>">
+                            <input name="medidaId" type="hidden" value="<?php echo $productos->medidaId; ?>">
+                            <input name="unidad_empaque" type="hidden" value="<?php echo $productos->unidad_empaque; ?>">
+                            <input name="cantidadEmpaque" type="hidden" value="<?php echo $productos->cantidad; ?>">
+                            <p><strong>Cantidad:</strong></p>
+                            <div class="campo campo-separado agregar-carrito div-flex">
+                                <div>
+                                    <input name="cantidad" type="number" class="input-carrito cantidad" style="margin-top: 0;" value="1" min="1" required>
+                                </div>
+                                <div style="display: flex; flex-direction: row; gap: 1rem;">
+                                    <button type="button" class="boton-exportar formulario agrega-carrito incremento">+</button>
+                                    <button type="button" class="boton-exportar formulario agrega-carrito decremento">-</button>
+                                </div>
+                            </div>
+                            
+                            <div class="campo campo-separado agregar-carrito">
+                                <button type="submit" class="boton-exportar formulario agrega-carrito">Agregar al carrito</button>
                             </div>
                         </form>
-                    </td>
-                    <td data-titulo="ID"><?php echo $productos->id;?></td>
-                    <td data-titulo="Categoría"><?php echo $productos->categoria->nombre;?></td>
-                    <td data-titulo="Producto"><?php echo $productos->nombre; ?></td>
-                    <td data-titulo="Presentación"><?php echo $productos->presentacion; ?></td>
-                    <td data-titulo="Cant.Presentación"><?php echo $productos->cantidadPresentacion; ?></td>
-                    <td data-titulo="Medida"><?php echo $productos->medida->nombre; ?></td>
-                    <td data-titulo="Empaque"><?php echo $productos->unidad_empaque; ?></td>
-                    <td data-titulo="Cantidad"><?php echo $productos->cantidad; ?></td>
-                </tr>
+                    </div>
+                </div>
             <?php endforeach; ?>
-            <tbody>
-      </table>
-    </section> 
+        <?php } else { ?>
+            <p class="alerta info">NO HAY PEDIDOS</p>
+        <?php } ?>
 
-    <?php } else { ?>
-      <p class="alerta info">NO HAY PEDIDOS</p>
-    <?php } ?>
+        <p id="mensajeNoResultados" class="alerta info" style="display: none;">No se encontraron productos.</p>
+    </div>
 
-</section>  
+    <script>
+        // JavaScript para filtrar productos por categoría
+        document.addEventListener('DOMContentLoaded', function() {
+            const botonesIncremento = document.querySelectorAll('.incremento');
+            const botonesDecremento = document.querySelectorAll('.decremento');
+            const inputsCantidad = document.querySelectorAll('.cantidad');
+
+            botonesIncremento.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    incrementarCantidad(this);
+                });
+            });
+
+            botonesDecremento.forEach(boton => {
+                boton.addEventListener('click', function() {
+                    decrementarCantidad(this);
+                });
+            });
+
+            function incrementarCantidad(boton) {
+                let inputCantidad = boton.parentElement.previousElementSibling.querySelector('.cantidad');
+                let cantidadActual = parseInt(inputCantidad.value);
+                inputCantidad.value = cantidadActual + 1;
+            }
+
+            function decrementarCantidad(boton) {
+                let inputCantidad = boton.parentElement.previousElementSibling.querySelector('.cantidad');
+                let cantidadActual = parseInt(inputCantidad.value);
+                if (cantidadActual > 1) {
+                    inputCantidad.value = cantidadActual - 1;
+                }
+            }
+
+            // Implementar el buscador
+            const inputBusqueda = document.getElementById('inputBusqueda');
+            const btnClear = document.getElementById('btnClear');
+            const mensajeNoResultados = document.getElementById('mensajeNoResultados');
+            const productos = document.querySelectorAll('.producto-card');
+
+            inputBusqueda.addEventListener('input', function() {
+                filtrarProductos();
+            });
+
+            const filtroCategoria = document.getElementById('filtroCategoria');
+            filtroCategoria.addEventListener('change', function() {
+                filtrarProductos();
+            });
+
+            function filtrarProductos() {
+                const valorBusqueda = inputBusqueda.value.trim().toLowerCase();
+                const valorCategoria = filtroCategoria.value;
+
+                productos.forEach(producto => {
+                    const nombreProducto = producto.querySelector('h3').textContent.toLowerCase();
+                    const categoriaProducto = producto.dataset.categoria;
+
+                    const cumpleBusqueda = nombreProducto.includes(valorBusqueda) || valorBusqueda === '';
+                    const cumpleCategoria = valorCategoria === '' || categoriaProducto === valorCategoria;
+
+                    if (cumpleBusqueda && cumpleCategoria) {
+                        producto.style.display = 'block';
+                    } else {
+                        producto.style.display = 'none';
+                    }
+                });
+
+                // Mostrar u ocultar el mensaje de no resultados
+                const algunProductoVisible = Array.from(productos).some(producto => producto.style.display !== 'none');
+                mensajeNoResultados.style.display = algunProductoVisible ? 'none' : 'block';
+            }
+
+            // Función para borrar el campo de búsqueda
+            btnClear.addEventListener('click', function() {
+                inputBusqueda.value = '';
+                filtrarProductos();
+            });
+        });
+    </script>
+
+</section>

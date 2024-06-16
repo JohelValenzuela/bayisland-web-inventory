@@ -122,8 +122,10 @@ class PedidoController {
     }
 
     public static function carrito(Router $router) {
+        
         $alertas = [];
-        // Verifica si se ha iniciado una sesión de carrito o se ha enviado un ID de producto
+
+        // Verificar si se ha iniciado una sesión de carrito o se ha enviado un ID de producto
         if(isset($_SESSION["carrito"]) || isset($_POST['id'])) {
             // Inicializa la variable $orden
             $orden = [];
@@ -134,28 +136,31 @@ class PedidoController {
             }
     
             // Si se ha enviado un ID de producto, agrega el producto al carrito
-            if(isset($_POST['id'])) {  
+            if(isset($_POST['id'])) {
                 $id = $_POST['id'];
                 $categoriaId = $_POST['categoriaId'];
                 $nombre = $_POST['nombre'];
-                $presentacion = $_POST['presentacion']; 
+                $presentacion = $_POST['presentacion'];
                 $cantidadPresentacion = $_POST['cantidadPresentacion'];
-                $medidaId = $_POST['medidaId']; 
-                $unidad_empaque =  $_POST['unidad_empaque'];
-                $cantidad = $_POST['cantidad']; 
+                $medidaId = $_POST['medidaId'];
+                $unidad_empaque = $_POST['unidad_empaque'];
+                $cantidadEmpaque = $_POST['cantidadEmpaque'];
+                $cantidad = $_POST['cantidad'];
     
                 // Verifica si el producto ya está en el carrito
                 $indice = array_search($id, array_column($orden, 'id'));
+                
     
-                if($indice !== false){  // El producto ya está en el carrito, aumenta la cantidad
-                    $orden[$indice]["cuantos"] += 1;
+                if($indice !== false){  
+                    // El producto ya está en el carrito, aumenta la cantidad según lo recibido
+                    $orden[$indice]["cuantos"] += $cantidad;
                     $_SESSION["carrito"] = $orden; // Actualiza el carrito en la sesión
-                    Pedido::setAlerta('info', 'El producto ' . $_POST['nombre'] . ' ya está en la orden de compra, se agregó 1 en su cantidad');
+                    Pedido::setAlerta('exito', 'Se agregaron ' . $cantidad . ' unidades del producto ' . $_POST['nombre'] . ' a la orden de compra.' . ' (' . $orden[$indice]["cuantos"] . ' unidades en total)');
                     $_SESSION['msg'] = Pedido::getAlertas();
                     header("Location: ".$_SERVER["HTTP_REFERER"]."");
                     exit;
                 } else {
-                    // Agrega el producto al carrito
+                    // Agrega el producto al carrito con la cantidad inicial
                     $orden[] = array(
                         "id" => $id,
                         "categoriaId" => $categoriaId,
@@ -164,25 +169,35 @@ class PedidoController {
                         "cantidadPresentacion" => $cantidadPresentacion,
                         "medidaId" => $medidaId,
                         "unidad_empaque" => $unidad_empaque,
-                        "cantidad" => $cantidad,
-                        "cuantos" => 1
+                        "cantidad" => $cantidadEmpaque,
+                        "cuantos" => $cantidad  // Inicia con la cantidad recibida
                     );
+                    
                 }
     
                 // Establece un mensaje de éxito y redirige
-                Pedido::setAlerta('exito', 'Se agregó ' . $_POST['nombre'] . ' a la orden de compra');
+                Pedido::setAlerta('exito', 'Se agregaron ' . $cantidad . ' unidades del producto ' . $_POST['nombre'] . ' a la orden de compra');
                 $_SESSION['msg'] = Pedido::getAlertas();
-                header("Location: ".$_SERVER["HTTP_REFERER"]."");
+               
+                
             }
     
             // Actualiza el carrito en la sesión
             $_SESSION["carrito"] = $orden;
+            
         }
 
+        header("Location: ".$_SERVER["HTTP_REFERER"]."");
+
         $alertas = Pedido::getAlertas();
-        //debug($alertas);
-    
+        // Renderiza la vista de carrito con las alertas
+        $router->render('pedido/carrito', [
+            'alertas' => $alertas
+        ]);
     }
+    
+    
+    
 
     public static function editarCarrito(){
         if(isset($_POST["id"]) && isset($_POST["cantidad"])){
@@ -261,156 +276,62 @@ class PedidoController {
         unset($_SESSION["carrito"]);
     }
 
-    // public static function guardaPedido(Router $router){
-
-    //     $alertas = [];
-    //     $pedido = new Pedido;
-
-
-    //     $pedido->referencia = uniqid();
-    //     $pedido->observacion = 'Pedido #' . $pedido->referencia ;
-    //     date_default_timezone_set('America/Costa_Rica');
-    //     $pedido->fechaCreacion = date(format:'Y-m-d H:i:s');
-    //     $pedido->usuarioId = intval($_SESSION['id']);
-
-
-    //     if(isset($_SESSION["carrito"])){
-    //         $orden = $_SESSION["carrito"];
-            
-    //     }
-
-    //     if(isset($_SESSION["carrito"])){
-    //         $lleno = 'lleno';
-    //         for($i=0;$i<=count($orden)-1;$i ++){
-                        
-                
-                
-    //             if(isset($orden[$i])){
-    //                 if($orden[$i] != NULL){     
-
-                    
-    //                     // $pedido->cuantos = $orden[$i+1]["cuantos"];
-    //                     // $pedido->id = $orden[$i]["id"];
-    //                     // $pedido->categoriaId = $orden[$i]["categoriaId"];
-    //                     // $pedido->nombre = $orden[$i]["nombre"];
-    //                     // $pedido->presentacion = $orden[$i]["presentacion"]; 
-    //                     // $pedido->cantidadPresentacion = $orden[$i]["cantidadPresentacion"]; 
-    //                     // $pedido->medidaId = $orden[$i]["medidaId"]; 
-    //                     // $pedido->unidad_empaque = $orden[$i]["unidad_empaque"]; 
-    //                     // $pedido->cantidad = $orden[$i]["cantidad"];
-
-                        
-    //                     $pedido->categoriaId = intval($orden[$i]["categoriaId"]);
-    //                     $pedido->productoId = intval($orden[$i]["id"]);
-    //                     $pedido->cantidad = intval($orden[$i]["cuantos"]);
-                        
-    //                     if($pedido->cantidad <= 0){
-    //                         $pedido->cantidad = intval($orden[$i]["cuantos"]) + 1;
-    //                     }
-                        
-    //                     $resultado = $pedido->crear();
-    //                     Pedido::setAlerta('exito', 'Pedido enviado correctamente');
-    //     }}}
-    //                 unset($_SESSION["carrito"]);
-                    
-    //     }
-    //     header("Location: /pedido"); 
-    //     $alertas = Pedido::getAlertas();
-        
-    //     $router->render('pedido/mostrar', [
-    //         'alertas' => $alertas,
-    //     ]);
-    // }
-
-    public static function guardaPedido(Router $router){
-
+    
+    public static function guardaPedido(Router $router) {
         $alertas = [];
         $pedido = new Pedido;
-
         $maestro = new MaestroPedido;
         $detalle = new DetallePedido;
-
-        
+    
         $referencia = uniqid();      
-
-        // id
-        $maestro->referencia = $referencia; // referencia
+    
+        // Asigna los valores al maestro del pedido
+        $maestro->referencia = $referencia;
         date_default_timezone_set('America/Costa_Rica');
-        $maestro->usuarioId = intval($_SESSION['id']);  // usuarioId
-        $maestro->usuarioIdAprueba = 0;  // usuarioIdAprueba -- Default en 0 - Nadie ha aprobado
-        $maestro->fechaCreacion = date(format:'Y-m-d H:i:s'); // fechaCreacion
-        $maestro->estado = 'Pendiente';  // estado
-
+        $maestro->usuarioId = intval($_SESSION['id']);  
+        $maestro->usuarioIdAprueba = 0;  
+        $maestro->fechaCreacion = date('Y-m-d H:i:s');
+        $maestro->estado = 'Pendiente';
+    
+        // Crea el maestro del pedido en la base de datos
         $resultado = $maestro->crear();
-
         $idmaestro = $resultado['id'];
-
-        //debug($maestro);
-
-        // $detalle->referencia = uniqid();
-        // $pedido->observacion = 'Pedido #' . $pedido->referencia ;
-        // date_default_timezone_set('America/Costa_Rica');
-        // $pedido->fechaCreacion = date(format:'Y-m-d H:i:s');
-        // $pedido->usuarioId = intval($_SESSION['id']);
-
-
+    
+        // Obtiene el carrito de la sesión
         if(isset($_SESSION["carrito"])){
             $orden = $_SESSION["carrito"];
-            
         }
-
+    
+        // Recorre el carrito para guardar cada detalle del pedido
         if(isset($_SESSION["carrito"])){
-            $lleno = 'lleno';
-            for($i=0;$i<=count($orden)-1;$i ++){
-
-                if(isset($orden[$i])){
-                    if($orden[$i] != NULL){     
-   
-
-                        // id
-                        $detalle->maestroId = $idmaestro; // maestroId
-                        $detalle->productoId = intval($orden[$i]["id"]); // productoId
-                        $detalle->cantidad = intval($orden[$i]["cuantos"]); // cantidad
-                        $detalle->observacion = 'Pedido #' . $referencia ; // observación
-
-                    
-                        // $pedido->cuantos = $orden[$i+1]["cuantos"];
-                        // $pedido->id = $orden[$i]["id"];
-                        // $pedido->categoriaId = $orden[$i]["categoriaId"];
-                        // $pedido->nombre = $orden[$i]["nombre"];
-                        // $pedido->presentacion = $orden[$i]["presentacion"]; 
-                        // $pedido->cantidadPresentacion = $orden[$i]["cantidadPresentacion"]; 
-                        // $pedido->medidaId = $orden[$i]["medidaId"]; 
-                        // $pedido->unidad_empaque = $orden[$i]["unidad_empaque"]; 
-                        // $pedido->cantidad = $orden[$i]["cantidad"];
-                        // $pedido->categoriaId = intval($orden[$i]["categoriaId"]);
-                        // $pedido->productoId = intval($orden[$i]["id"]);
-                        // $pedido->cantidad = intval($orden[$i]["cuantos"]);
-                        
-                        if($detalle->cantidad <= 0){
-                            $detalle->cantidad = intval($orden[$i]["cuantos"]) + 1;
-                        }
-
-                        $resultado = $detalle->crear();
-                       
-
-                        if($resultado) { // Si se guarda el usuario envia una alerta
-                            Pedido::setAlerta('exito', 'Pedido enviado correctamente');
-                            //header('Location: /producto');
-                        }
-
-                        
-        }}}
-                    unset($_SESSION["carrito"]);
-                    
+            for($i=0; $i<count($orden); $i++) {
+                // Crea un nuevo detalle del pedido con los datos del carrito
+                $detalle->maestroId = $idmaestro;
+                $detalle->productoId = intval($orden[$i]["id"]);
+                $detalle->cantidad = intval($orden[$i]["cuantos"]);
+                $detalle->observacion = 'Pedido #' . $referencia;
+    
+                // Guarda el detalle del pedido en la base de datos
+                $resultado = $detalle->crear();
+    
+                if($resultado) {
+                    Pedido::setAlerta('exito', 'Pedido enviado correctamente');
+                }
+            }
         }
-        header("Location: /pedido"); 
+    
+        // Limpia el carrito de la sesión después de guardar el pedido
+        unset($_SESSION["carrito"]);
+    
+        // Redirige a la página de pedidos con las alertas
+        header("Location: /pedido");
         $alertas = Pedido::getAlertas();
-        
+    
         $router->render('pedido/mostrar', [
             'alertas' => $alertas,
         ]);
     }
+    
 
     public static function actualizar(Router $router){
 
@@ -532,7 +453,7 @@ class PedidoController {
 
     }
 
-    // Elimina producto del detalle del pedido
+  
     public static function eliminar(){
         
         isAuth();
@@ -561,25 +482,5 @@ class PedidoController {
 
         
     }
-
-//     public static function actualizaReferencia(Router $router){
-//     isAuth();
-//     if(!tieneRol()) {
-//         header('Location: /templates/error403');
-//     }
-
-//     $alertas = [];
-//     $referenciaBuscada = $_POST["referencia"];
-
-//     Pedido::findReferenciaGuarda($_POST['estado'], $_POST['observacion'], $referenciaBuscada);
-//     Pedido::setAlerta('exito', 'Se ha actualizado el producto');
-
-//         $alertas = Pedido::getAlertas();
-//         $router->render('pedido/mostrar', [
-//             'alertas' => $alertas
-//         ]);
-
-//         header('Location: /pedido');
-// }
 
 }

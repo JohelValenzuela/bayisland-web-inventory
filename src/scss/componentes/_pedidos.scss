@@ -1,0 +1,139 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.productos-container {
+	background: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    height: 80%;
+    margin: 0 auto;
+    padding: 30px 25px 40px;
+    width: 100%;
+    justify-content: space-evenly;
+    align-content: flex-start;
+    flex-direction: row;
+}
+
+.producto-card {
+	border: 1px solid #11101d;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    width: 330px;
+
+	img {
+		width: 100%;
+		height: auto; /* Ajusta la altura automáticamente según el ancho */
+		max-height: 200px; /* Establece una altura máxima para las imágenes */
+		object-fit: cover; /* Ajusta la imagen para llenar el contenedor sin deformarla */
+	}
+
+}
+
+.producto-info {
+	display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 10px;
+
+	h3 {
+        font-size: 2.6rem;
+        margin-bottom: 10px;
+        color: v.$azulPrincipal;
+        overflow: hidden;
+        text-overflow: ellipsis; /* Recortar texto largo con puntos suspensivos */
+        white-space: nowrap; /* Evitar que el texto se ajuste automáticamente */
+        max-height: 3.2rem; /* Altura máxima para el título */
+		margin-bottom: 3rem;
+    }
+
+    p {
+        margin-bottom: 5px;
+        color: v.$azulPrincipal;
+        flex: 1; /* Ocupa el espacio vertical disponible */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Recortar texto largo con puntos suspensivos */
+        max-height: 6.4rem; /* Altura máxima para los párrafos */
+    }
+}
+
+.clear-button{
+    color: #000;
+    display: block;
+    position: absolute;
+    right: 2rem;
+    top: 4.5rem;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.campo-buscar{
+    border-radius: .5rem;
+    border: 1px solid #000;
+    color: #1a1b15;
+    font-size: 16px;
+    font-weight: 700;
+    height: 100%;
+    margin-top: 1rem;
+    outline: none;
+    padding: 0 15px;
+    width: 100%;
+}
+
+.display-buscador{
+    display: flex;
+    justify-content:flex-end;
+    padding: 10px 25px 10px 0px;
+}
+
+.buscador{
+    margin-bottom:0rem;
+    height: 5rem;
+}
+
+.boton-accion {
+    background-color: v.$azulPrincipal;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+.agregar-carrito {
+    padding: 1rem;
+    margin: 0rem;
+
+    .input-carrito {
+        height: 5rem;
+    }
+}
+
+.agrega-carrito {
+    width: 100%;
+
+	&.incremento{
+        height: 5rem; 
+        width: 5rem;
+		&:hover {
+			background-color: v.$verdeLima;
+			border: none;
+			color: v.$azulPrincipal;
+		}
+	}
+
+	&.decremento{
+        height: 5rem; 
+        width: 5rem;
+		&:hover {
+			background-color: v.$rojo;
+			border: none;
+			color: v.$azulPrincipal;
+		}
+		
+	}
+}

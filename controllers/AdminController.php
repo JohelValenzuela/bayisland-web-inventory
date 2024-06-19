@@ -71,6 +71,54 @@ class AdminController {
         $router->render('fpdf/pdfMedidas', []);
     }
 
+    public static function pdfGestionaPasajero(Router $router){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+        $router->render('fpdf/pdfGestionaPasajero', []);
+    }
+
+    public static function pdfPasajeros(Router $router){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+        $router->render('fpdf/pdfPasajeros', []);
+    }
+
+    public static function pdfDefectos(Router $router){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+        $router->render('fpdf/pdfDefectos', []);
+    }
+
+    public static function pdfRegalias(Router $router){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+        $router->render('fpdf/pdfRegalias', []);
+    }
+
+    public static function pdfVentasUltimaHora(Router $router){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+        $router->render('fpdf/pdfVentasUltimaHora', []);
+    }
+
+    public static function pdfRecetas(Router $router){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+        $router->render('fpdf/pdfRecetas', []);
+    }
+
 
     
 }

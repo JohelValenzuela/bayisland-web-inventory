@@ -20,12 +20,12 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    width: 330px;
+    width: 300px;
 
 	img {
 		width: 100%;
 		height: auto; /* Ajusta la altura automáticamente según el ancho */
-		max-height: 200px; /* Establece una altura máxima para las imágenes */
+		max-height: 150px; /* Establece una altura máxima para las imágenes */
 		object-fit: cover; /* Ajusta la imagen para llenar el contenedor sin deformarla */
 	}
 
@@ -52,9 +52,12 @@
         margin-bottom: 5px;
         color: v.$azulPrincipal;
         flex: 1; /* Ocupa el espacio vertical disponible */
-        overflow: hidden;
+        // overflow: hidden;
         text-overflow: ellipsis; /* Recortar texto largo con puntos suspensivos */
         max-height: 6.4rem; /* Altura máxima para los párrafos */
+        flex: 1;
+        margin-top: 10px;
+        margin-bottom: 5px;
     }
 }
 
@@ -92,17 +95,17 @@
     height: 5rem;
 }
 
-.boton-accion {
-    background-color: v.$azulPrincipal;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    &:hover {
-        background-color: #0056b3;
-    }
-}
+// .boton-accion {
+//     background-color: v.$azulPrincipal;
+//     color: white;
+//     border: none;
+//     padding: 8px 12px;
+//     cursor: pointer;
+//     border-radius: 5px;
+//     &:hover {
+//         background-color: #0056b3;
+//     }
+// }
 
 .agregar-carrito {
     padding: 1rem;

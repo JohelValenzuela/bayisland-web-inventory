@@ -147,7 +147,6 @@ class Router
             '/pasajeros',
             '/pasajeros/crear',
             '/pasajeros/gestionaReporte',
-            '/fpdf/generarReportePDF',
             
             '/ventas_ultima_hora',
             '/ventas_ultima_hora/crear',

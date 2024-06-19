@@ -198,6 +198,8 @@ $router = new Router();
 
 /********* RECETAS ************/
 
+
+
     // RECETAS
 
     $router->get('/recetas/mostrar', [RecetaController::class, 'mostrar']);
@@ -281,9 +283,7 @@ $router->post('/regalias/rechazar', [RegaliasController::class, 'rechazar']);
 
     $router->get('/pasajeros/gestionaReporte', [ReportePasajeroController::class, 'gestionaReporte']);
     $router->post('/pasajeros/gestionaReporte', [ReportePasajeroController::class, 'gestionaReporte']);
-    
-    $router->get('/fpdf/generarReportePDF', [ReportePasajeroController::class, 'generarReportePDF']);
-    $router->post('/fpdf/generarReportePDF', [ReportePasajeroController::class, 'generarReportePDF']);
+
     
 /********************************/
 
@@ -311,6 +311,13 @@ $router->post('/regalias/rechazar', [RegaliasController::class, 'rechazar']);
     $router->get('/fpdf/pdfInventario', [AdminController::class, 'pdfInventario']);
     $router->get('/fpdf/pdfUsuario', [AdminController::class, 'pdfUsuario']);
     $router->get('/fpdf/pdfMedidas', [AdminController::class, 'pdfMedidas']);
+    $router->get('/fpdf/pdfGestionaPasajero', [AdminController::class, 'pdfGestionaPasajero']);
+    $router->get('/fpdf/pdfPasajeros', [AdminController::class, 'pdfPasajeros']);
+    $router->get('/fpdf/pdfDefectos', [AdminController::class, 'pdfDefectos']);
+    $router->get('/fpdf/pdfRegalias', [AdminController::class, 'pdfRegalias']);
+    $router->get('/fpdf/pdfVentasUltimaHora', [AdminController::class, 'pdfVentasUltimaHora']);
+    $router->get('/fpdf/pdfRecetas', [AdminController::class, 'pdfRecetas']);
+    
 
 
     // GESTIÓN DE ARCHIVOS EXCEL

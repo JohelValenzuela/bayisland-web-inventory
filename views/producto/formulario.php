@@ -1,4 +1,4 @@
-<div class="div-flex" style="height: 290px;">
+<div class="div-flex" style="height: 375px;">
     <div class="campo campo-separado w-50">
         <fieldset>
             <legend style="color: black;"><strong>INFORMACIÓN DE PRODUCTO</strong></legend>
@@ -34,37 +34,10 @@
                     <option <?php echo $producto->presentacion === 'Bolsa' ? 'selected' : '' ?> value="Bolsa">Bolsa</option>
                 </select>
             </div>
-
             <div class="campo campo-separado">
                 <label for="cantidadPresentacion" >Cantidad Presentación</label>
                 <input  name="cantidadPresentacion" id="cantidadPresentacion" type="float" placeholder="Cantidad de Presentación, Ej: 355ml - 1.75L, 250gr"  value="<?php echo s($producto->cantidadPresentacion) ?>"/>
             </div>
-        </fieldset>
-    </div>
-</div>
-        
-<div class="div-flex" style="height: 290px;">
-    <div class="campo campo-separado w-50">
-        <fieldset>
-            <legend style="color: black;"><strong>TIPO DE PRESENTACIÓN</strong></legend>
-            <div class="campo campo-separado">
-                <label for="unidad_empaque">Unidad / Empaque</label>
-                <select class="buscar" name="unidad_empaque" id="unidad_empaque" style="width: 100%;">
-                    <option disabled selected value>-- Seleccione --</option>
-                    <option <?php echo $producto->unidad_empaque === 'Unidad' ? 'selected' : '' ?> value="Unidad">Unidad</option>
-                    <option <?php echo $producto->unidad_empaque === 'Empaque' ? 'selected' : '' ?> value="Empaque">Empaque</option>
-                </select>
-            </div>
-
-            <div class="campo campo-separado">
-                <label for="cantidad" >Cantidad de Unidades por Empaque</label>
-                <input  name="cantidad" id="cantidad" type="number" placeholder="Cantidad"  value="<?php echo s($producto->cantidad) ?>"/>
-            </div>     
-        </fieldset>
-    </div>  
-    <div class="campo campo-separado w-50">
-        <fieldset>
-            <legend style="color: black;"><strong>MEDIDA DE PRODUCTO</strong></legend>
             <div class="campo campo-separado">
                 <label for="medidas" >Unidad de Medida</label>
                 <select class="buscar" name="medidaId" id="medidas" style="width: 100%;">              
@@ -74,15 +47,43 @@
                 <?php endforeach; ?>            
                 </select>
             </div>
+        </fieldset>
+    </div>
+</div>
+        
+<div class="div-flex" style="height: 375px;">
+    <div class="campo campo-separado w-50">
+        <fieldset style="margin-top: -10rem;">
+            <legend style="color: black;"><strong>TIPO DE PRESENTACIÓN</strong></legend>
+            <div class="campo campo-separado">
+                <label for="unidad_empaque">Unidad / Empaque</label>
+                <select class="buscar" name="unidad_empaque" id="unidad_empaque" style="width: 100%;">
+                    <option disabled selected value>-- Seleccione --</option>
+                    <option <?php echo $producto->unidad_empaque === 'Unidad' ? 'selected' : '' ?> value="Unidad">Unidad</option>
+                    <option <?php echo $producto->unidad_empaque === 'Empaque' ? 'selected' : '' ?> value="Empaque">Empaque</option>
+                </select>
+            </div>
+            <div class="campo campo-separado">
+                <label for="cantidad" >Cantidad de Unidades por Empaque</label>
+                <input  name="cantidad" id="cantidad" type="number" placeholder="Cantidad"  value="<?php echo s($producto->cantidad) ?>"/>
+            </div>   
+            <div class="campo campo-unido w-50" style="margin-top: 6rem;">
+                <label for="imagen">Seleccionar imagen del Producto</label>
+                <input style="border: none; margin-top: 1rem; align-content: center;" type="file" name="imagen" id="imagen" accept="image/*" />
+            </div>  
+            <div class="campo campo-unido  w-50" style="margin-top: 6rem;">
+                <label for="imagen">Agregar Producto</label>
+                <input type="submit" value="Crear Producto" class="boton-exportar formulario">
+            </div>
+        </fieldset>
+    </div>  
+    <div class="campo campo-separado w-50">
+        <fieldset>
+            <legend style="color: black;"><strong>PRECIO DEL PRODUCTO</strong></legend>
             <div class="campo campo-separado">
                 <label for="totalMedida" >Total de Medida</label>
                 <input  name="totalMedida" id="totalMedida" type="number" placeholder="Precio del Producto"  value="<?php echo s($producto->totalMedida) ?? 0 ?>"/>
             </div>
-        </fieldset>
-    </div>
-    <div class="campo campo-separado w-50">
-        <fieldset>
-            <legend style="color: black;"><strong>PRECIO DEL PRODUCTO</strong></legend>
             <div class="campo campo-separado">
                 <label for="precioUnidad" >Precio Producto</label>
                 <input  name="precioUnidad" id="precioUnidad" type="number" placeholder="Precio del Producto"  value="<?php echo s($producto->precioUnidad) ?? 0 ?>"/>
@@ -92,15 +93,5 @@
                 <input  name="precioMedida" id="precioMedida" type="number" placeholder="Precio por Medida"  value="<?php echo s($producto->precioMedida) ?? 0 ?>"/>
             </div>
         </fieldset>
-    </div>  
-</div>   
-<div class="div-flex" style="height: 0px;"></div>
-    <div class="campo campo-separado w-50" style="height: 100px;">
-        <fieldset>
-            <legend style="color: black;"><strong>CREAR PRODUCTO</strong></legend>
-            <div class="campo campo-separado">
-                <input type="submit" value="Crear Producto" class="boton-exportar formulario">
-            </div>
-        </fieldset>
-    </div>
-</div>   
+    </div> 
+</div>    

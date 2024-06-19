@@ -25,12 +25,6 @@
                 <option value="<?php echo s($producto->estado = 'Activo') ?>">Activo</option>
                 <option value="<?php echo s($producto->estado = 'Inactivo') ?>" >Inactivo</option>               
             </select>
-
         </div>
-
-        <div class="campo campo-separado">
-            <input type="submit" value="Actualizar Producto" class="boton boton-azul">
-        </div>
-
     </form> 
   </section>   

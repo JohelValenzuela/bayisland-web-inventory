@@ -6,7 +6,7 @@
 
     <form class="form form-contenido form-botones">
         <a class="boton-exportar" href="/ventas_ultima_hora/crear"> <i class="fa-regular fa-square-plus"></i> Crear Venta</a>
-        <a class="boton-exportar pdf" href="/fpdf/pdfProducto" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF</a>  
+        <a class="boton-exportar pdf" href="/fpdf/pdfVentasUltimaHora" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF</a>  
 
 
         <button id="btnExportar" class="boton-exportar">

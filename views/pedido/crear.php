@@ -29,13 +29,13 @@
         <?php if(!empty($producto)) { ?>
             <?php foreach($producto as $productos) : ?>
                 <div class="producto-card" data-categoria="<?php echo $productos->categoria->id; ?>">
-                <img src="/build/img/marsol.webp" alt="<?php echo $productos->nombre; ?>">
+                <img src="/build/img/<?php echo $productos->imagen_nombre; ?>" alt="<?php echo $productos->nombre; ?>">
                     <div class="producto-info">
-                        <h3><?php echo $productos->nombre; ?></h3>
+                        <h3 style="margin-bottom: 1.5rem;"><?php echo $productos->nombre; ?></h3>
                         <p><strong>Categoría:</strong> <?php echo $productos->categoria->nombre; ?></p>
                         <p><strong>Presentación:</strong> <?php echo $productos->presentacion . ' ' . $productos->cantidadPresentacion . ' ' . $productos->medida->sigla; ?></p>
                         <p><strong>Por Empaque:</strong> <?php echo $productos->cantidad . 'uds'; ?></p>
-                        <p><strong>Precio:</strong> $<?php echo 'precio'; ?></p>
+                        <!-- <p><strong>Precio:</strong> $<?php echo 'precio'; ?></p> -->
 
                         <form action="/pedido/carrito" method="POST">
                             <input name="id" type="hidden" value="<?php echo $productos->id; ?>">

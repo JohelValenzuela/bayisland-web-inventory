@@ -123,7 +123,7 @@ use Model\UnidadMedida;
                                             <!-- <td> <?php echo $orden[$i]["categoriaId"];?></td> -->
                                             <td style="width: 305.58px;"> <?php echo $orden[$i]["nombre"] . ' - ' .$orden[$i]["presentacion"] . " - " . $orden[$i]["cantidadPresentacion"] . ' ' . UnidadMedida::find($orden[$i]["medidaId"])->sigla; ?></td>
                                             
-                                            <td style="width: 107.3px;"> <?php echo $orden[$i]["unidad_empaque"] . ' ' . $orden[$i]["cantidad"]; ?></td>
+                                            <td style="width: 124.895px;"> <?php echo $orden[$i]["unidad_empaque"] . ' ' . $orden[$i]["cantidad"]; ?></td>
                                             
                                         </tr>
 

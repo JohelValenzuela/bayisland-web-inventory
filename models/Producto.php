@@ -8,7 +8,7 @@ class Producto extends ActiveRecord {
     protected static $tabla = 'producto';
 
     // Columnas
-    protected static $columnasDB = ['id', 'categoriaId', 'nombre', 'presentacion', 'cantidadPresentacion', 'medidaId', 'unidad_empaque', 'cantidad', 'totalMedida', 'precioUnidad', 'precioMedida', 'total', 'estado'];
+    protected static $columnasDB = ['id', 'categoriaId', 'nombre', 'presentacion', 'cantidadPresentacion', 'medidaId', 'unidad_empaque', 'cantidad', 'totalMedida', 'precioUnidad', 'precioMedida', 'total', 'estado', 'imagen_nombre'];
 
     // Atributos
     public $id;
@@ -24,6 +24,7 @@ class Producto extends ActiveRecord {
     public $precioMedida;
     public $total;
     public $estado;
+    public $imagen_nombre;
 
 
     // Constructor de atributos
@@ -41,6 +42,7 @@ class Producto extends ActiveRecord {
         $this->precioMedida = $args['precioMedida'] ?? 0;
         $this->total = $args['total'] ?? 0;
         $this->estado = $args['estado'] ?? '';
+        $this->imagen_nombre = $args['imagen_nombre'] ?? null;
     }
 
     public function validar() {
@@ -88,6 +90,8 @@ class Producto extends ActiveRecord {
         if(!$this->estado) {
             self::$alertas['error'][] = "El estado de producto es obligatorio";
         }
+
+        
 
         return self::$alertas;
     }

@@ -50,7 +50,7 @@ use Model\UnidadMedida;
 
     <div class="home-carrito">
         <a href="#openModal" class="boton-accion carrito"> 
-            <i class='bx bxs-shopping-bags carrito'></i>
+            <i class='bx bx-cart carrito'></i>
             <?php echo $totalcantidad; ?>
         </a>
     </div>

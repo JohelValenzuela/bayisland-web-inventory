@@ -98,6 +98,22 @@
     flex-wrap: wrap;
     align-content: center;
     justify-content: space-between;
+
+	&.listado-categoria{
+		list-style: none;
+		padding: 0;
+
+		li {
+			flex: 1 1 50%;
+			padding: 5px;
+		}
+	}
+}
+
+.contenedor-categoria{
+	width: 20%;
+	padding: 1rem;
+	border-right: 1px solid #ccc;
 }
 
 .contenido-flex{
@@ -343,6 +359,21 @@ label {
     font-size: 2.6rem;
     margin-top: 3rem;
 	width: 100%;
+}
+
+.categoria-enlace{
+	display: block;
+	padding: 10px 20px;
+	background-color: #1b192d;
+    color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	text-align: center;
+
+	&.categoria-seleccionada{
+		background-color: red;
+		color: #fff;
+	}
 }
 
 

@@ -30,10 +30,10 @@ use Model\Venta;
                     date_default_timezone_set("America/Costa_Rica");
                     setlocale(LC_ALL,"es_ES");
                 ?>
+                <p style="color: black;"><strong>Venta:</strong> Nº <?php echo $ventaCliente->id; ?></p>
                 <p style="color: black;"><strong>Fecha: </strong><?php echo date("F, j, Y, g:i a"); ?></p>
-                <p style="color: black;"><strong>Nombre:</strong> <?php echo $clienteSeleccionado->nombre; ?></p>
-                <p style="color: black;"><strong>Código de Brazalete:</strong> <?php echo $clienteSeleccionado->codigo_brazalete; ?></p>
-                <?php if (!empty($productosVenta)) : ?>
+                <p style="color: black;"><strong>Cliente:</strong> <?php echo $clienteSeleccionado->nombre . " - " . $clienteSeleccionado->codigo_brazalete; ?></p>
+                <!-- <?php if (!empty($productosVenta)) : ?>
                     <?php foreach($productosVenta as $producto) : ?>
                         <?php $cobroVinculado = Cobro::findVenta($producto->venta_id); ?>
                         <?php if(!$cobroVinculado) : ?>
@@ -43,7 +43,7 @@ use Model\Venta;
                             <?php endif; ?>
                         <?php endif; ?>                   
                     <?php endforeach; ?> 
-                <?php endif; ?>
+                <?php endif; ?> -->
             </div>
         <?php endif; ?>
 
@@ -118,7 +118,7 @@ use Model\Venta;
                         <?php
                             $totalColones = ($sum_dolares * $_SESSION['tipo_cambio']) + $sum_colones ;
                             $totalDolares = ($sum_colones / $_SESSION['tipo_cambio']) + $sum_dolares;
-                        ?>
+                            ?>
                         <?php if ($sum_colones > 0 || $sum_dolares > 0) : ?>
                             <p style="color: black;"><strong>Monto Colones:</strong> ₡<?php echo number_format($totalColones, 0); ?></p>
                             <p style="color: black;"><strong>Monto Dólares:</strong> $<?php echo number_format($totalDolares, 2); ?></p>
@@ -133,7 +133,7 @@ use Model\Venta;
 
                     <div class="campo campo-separado w-50">
                         <label for="cantidad_pagada">Cantidad a Pagar:</label>
-                        <input type="number" name="cantidad_pagada" min="0.01" step="0.01" required>
+                        <input type="number" name="cantidad_pagada" min="0.01" step="0.01" value="<?php echo $totalDolares; ?>" required>
                     </div>
 
                     <div class="campo campo-separado w-50">

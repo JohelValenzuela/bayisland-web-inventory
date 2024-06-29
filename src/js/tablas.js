@@ -73,8 +73,16 @@ $('#cliente_id').on('change',function(){
     dataTable.search.fixed('cliente_id', $(this).val()).draw();
 })
 
+$('#cliente_id').on('change',function(){
+    dataTable.search.fixed('cliente', $(this).val()).draw();
+})
+
 $('#roles').on('change',function(){
     dataTable.search.fixed('rol', $(this).val()).draw();
+}
+)
+$('#bodegaId').on('change',function(){
+    dataTable.search.fixed('bodega', $(this).val()).draw();
 })
 
 

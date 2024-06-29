@@ -3,6 +3,8 @@
 namespace Controllers;
 
 use Model\Auth;
+use Model\Bodega;
+use Model\Bodegas;
 use Model\Inventario;
 use Model\ReporteDefecto;
 use Model\Producto;
@@ -16,6 +18,7 @@ class ReporteDefectosController {
 
     public static function mostrar(Router $router) {
         $reportes = ReporteDefecto::all();
+        $bodegas = Bodegas::all();
 
         foreach ($reportes as $reporte) {
             $reporte->usuario = Auth::find($reporte->usuario_id);
@@ -24,7 +27,8 @@ class ReporteDefectosController {
 
 
         $router->render('reportesDefectos/mostrar', [
-            'reportes' => $reportes
+            'reportes' => $reportes,
+            'bodegas' => $bodegas
         ]);
     }
     
@@ -33,6 +37,7 @@ class ReporteDefectosController {
         $productos = Producto::all();
         $recetas = Receta::all();
         $ventaProducto = VentaProductos::all();
+        $bodegas = Bodegas::all();
 
         $reporte = new ReporteDefecto;
         $alertas = [];
@@ -73,7 +78,8 @@ class ReporteDefectosController {
             'recetas' => $recetas,
             'reporte' => $reporte,
             'alertas' => $alertas,
-            'ventaProducto' => $ventaProducto
+            'ventaProducto' => $ventaProducto,
+            'bodegas' => $bodegas
         ]);
     }
 
@@ -82,7 +88,7 @@ class ReporteDefectosController {
             $id = $_POST['id'];
             $reporte = ReporteDefecto::find($id);
             if ($reporte) {
-                $stock = Stock::findStock($reporte->producto_id);
+                $stock = Stock::findStockBodega($reporte->producto_id, $reporte->bodegaId);
                 if ($stock) {
                     $stock->cantidad -= $reporte->cantidad;
                     $stock->movimiento = 'Salida';
@@ -94,11 +100,12 @@ class ReporteDefectosController {
             }
             
             // Registrar la salida en el kardex
-            $productoStock = Stock::findStock($reporte->producto_id);
+            $productoStock = Stock::findStockBodega($reporte->producto_id, $reporte->bodegaId);
             if ($productoStock) {
-
-                $ultimaEntrada = Inventario::findRegistro($productoStock->productoId);
+                
+                $ultimaEntrada = Inventario::findStockBodega($productoStock->productoId, $reporte->bodegaId);
                 $referenciaAnterior = $ultimaEntrada ? $ultimaEntrada->referencia : '';
+
                 
                 $kardex = new Inventario();
                 $kardex->referencia = $referenciaAnterior;
@@ -111,8 +118,8 @@ class ReporteDefectosController {
                 $kardex->estado = 'Activo';
                 $kardex->usuarioId = $_SESSION['id'];
                 $kardex->fechaCreacion = date('Y-m-d H:i:s');
+                $kardex->bodegaId = $reporte->bodegaId;
                 $kardex->guardar();
-                //debug($kardex);
 
                 header('Location: /reportesDefectos');
             }

@@ -2,6 +2,15 @@
 
     <div class="div-flex">
         <div class="campo campo-separado w-40">
+            <label for="bodegaId">Seleccione un Almacén</label>
+            <select class="buscar" name="bodegaId" id="bodegaId">
+                <option value="">-- Seleccione Bodega --</option>
+                <?php foreach ($bodegas as $bodega) : ?>
+                    <option value="<?php echo $bodega->id; ?>"><?php echo $bodega->nombre . " - " . $bodega->ubicacion; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="campo campo-separado w-40">
             <label for="usuario_id">Usuario que reporta</label>
             <select class="buscar" name="usuario_id" id="usuario_id">
                 <option value="">-- Seleccione --</option>

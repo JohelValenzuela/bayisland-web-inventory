@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Model\Auth;
+use Model\Bodegas;
 use Model\Cliente;
 use Model\Inventario;
 use Model\Producto;
@@ -14,6 +15,7 @@ class RegaliasController {
 
     public static function mostrar(Router $router) {
         $regalias = Regalia::all();
+        $bodegas = Bodegas::all();
 
         foreach ($regalias as $regalia) {
             $regalia->usuario = Auth::find($regalia->usuario_id);
@@ -22,7 +24,8 @@ class RegaliasController {
 
 
         $router->render('regalias/mostrar', [
-            'regalias' => $regalias
+            'regalias' => $regalias,
+            'bodegas' => $bodegas
         ]);
     }
 
@@ -34,12 +37,12 @@ class RegaliasController {
         $usuarios = Auth::all();
         $clientes = Cliente::all();
         $productos = Producto::all();
+        $bodegas = Bodegas::all();
 
         date_default_timezone_set('America/Costa_Rica');
         $regalia->fecha_regalia = date('Y-m-d H:i:s');
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
             $regalia->sincronizar($_POST);
             $alertas = $regalia->validar();
 
@@ -68,6 +71,7 @@ class RegaliasController {
             'productos' => $productos,
             'alertas' => $alertas,
             'usuarios' => $usuarios,
+            'bodegas' => $bodegas
         ]);
     }
 
@@ -76,7 +80,7 @@ class RegaliasController {
             $id = $_POST['id'];
             $regalia = Regalia::find($id);
             if ($regalia) {
-                $stock = Stock::findStock($regalia->producto_id);
+                $stock = Stock::findStockBodega($regalia->producto_id, $regalia->bodegaId);
                 if ($stock) {
                     $stock->cantidad -= $regalia->cantidad;
                     $stock->movimiento = 'Salida';
@@ -88,17 +92,17 @@ class RegaliasController {
             }
 
             // Registrar la salida en el kardex
-            $productoStock = Stock::findStock($regalia->producto_id);
+            $productoStock = Stock::findStockBodega($regalia->producto_id, $regalia->bodegaId);
             if ($productoStock) {
 
-                $ultimaEntrada = Inventario::findRegistro($productoStock->productoId);
+                $ultimaEntrada = Inventario::findStockBodega($productoStock->productoId, $regalia->bodegaId);
                 $referenciaAnterior = $ultimaEntrada ? $ultimaEntrada->referencia : '';
                 
-
+                
                 $kardex = new Inventario();
                 $kardex->referencia = $referenciaAnterior;
                 $kardex->productoId = $productoStock->productoId;
-                $kardex->cantidadAnterior = $ultimaEntrada ? $ultimaEntrada->cantidadTotal : 0;
+                $kardex->cantidadAnterior = $ultimaEntrada->cantidadTotal;
                 $kardex->operacion = 'Regalía';
                 $kardex->cantidadEntrada = 0;
                 $kardex->cantidadSalida = $regalia->cantidad;
@@ -106,8 +110,11 @@ class RegaliasController {
                 $kardex->estado = 'Activo';
                 $kardex->usuarioId = $_SESSION['id'];
                 $kardex->fechaCreacion = date('Y-m-d H:i:s');
-                //debug($kardex);
+                $kardex->bodegaId = $regalia->bodegaId;
                 $kardex->guardar();
+                
+                //debug($kardex);
+
 
 
                 header('Location: /regalias');

@@ -7,29 +7,33 @@
     <form class="form form-contenido form-botones">
         <a class="boton-exportar" href="/ventas/carrito"> <i class="fa-regular fa-square-plus"></i> Crear Venta </a>
         <a class="boton-exportar" href="/cobros/seleccionarCliente"> <i class="fa-regular fa-square-plus"></i> Cobrar a Cliente </a>
-        <a class="boton-exportar pdf" href="/fpdf/pdfStock" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF </a>  
+        <a class="boton-exportar pdf" href="/fpdf/pdfVentas" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF </a>  
         <button id="btnExportar" class="boton-exportar"> <i class="fa-solid fa-file-excel"></i> EXCEL </button> 
     </form>
 
-    <!-- <form class="form form-contenido form-botones">
-
-        <div class="campo select-buscar">
-            <select class="buscar" name="cliente_id" id="cliente_id" style="width: 100%;">              
-                <option disabled selected value>-- Filtrar Cliente --</option>
-                <option value="">Seleccione un cliente</option>       
-                <?php foreach ($clientes as $cliente): ?>
-                    <option value="<?php echo $cliente->id; ?>"><?php echo $cliente->nombre; ?></option>
-                <?php endforeach; ?>           
+    <form class="form form-contenido form-botones">
+        <div class="campo campo-unido">
+            <label for="filtroCliente">Buscar Cliente:</label>
+            <input type="text" id="filtroCliente" placeholder="Filtrar por Cliente">
+        </div>
+        <div class="campo campo-unido">
+            <label for="filtroFechaInicio">Fecha Inicio:</label>
+            <input type="date" id="filtroFechaInicio" placeholder="Fecha Inicio">
+        </div>
+        <div class="campo campo-unido">
+            <label for="filtroFechaFin">Fecha Fin:</label>
+            <input type="date" id="filtroFechaFin" placeholder="Fecha Fin">
+        </div>
+        <div class="campo campo-unido">
+            <label for="filtroEstado">Filtrar Estado:</label>
+            <select id="filtroEstado" style="width: 100%;">
+                <option disabled selected value>-- Filtrar Estado --</option>
+                <option value="">Mostrar Todos</option>
+                <option value="Cancelado">Cancelado</option>
+                <option value="Pendiente">Pendiente</option>               
             </select>
         </div>
-        <div class="campo select-buscar">
-            <select class="buscar" id="estado_cobro" name="estado_cobro" style="width: 100%;">
-                <option value="">Estado del Cobro</option>
-                <option value="pendiente">Pendiente</option>
-                <option value="cancelado">Cancelado</option>
-            </select>
-        </div>
-    </form> -->
+    </form>
 
     <form action="" class="form form-contenido form-tabla" method="POST" enctype="multipart/form-data"> 
         <table class="tabla" id="">
@@ -40,10 +44,8 @@
                     <th>Cliente</th>
                     <th>Código Brazalete</th>
                     <th>Fecha Venta</th>
-                    <!-- Nuevas columnas para detalles del cobro -->
                     <th>Cantidad por Pagar</th>
                     <th>Cantidad Pagada</th>
-                    <th>Debe</th>
                     <th>Estado</th>
                 </tr>
             </thead>
@@ -115,8 +117,6 @@
                                 ?>
                             </td>
                             <td data-titulo="Cantidad Pagada"><?php echo isset($cobro) ? $simboloMoneda . ' ' . $cobro->cantidad_pagada : $simboloMoneda . ' ' .  0; ?></td>
-                            <td data-titulo="Debe"><?php echo isset($cobro) && isset($cobro->debe) ? $simboloMoneda . ' ' . $cobro->debe : $simboloMoneda . ' ' .  0; ?></td>
-                            
                             <td data-titulo="Estado">
                                 <?php if(isset($cobro) && isset($cobro->estado)) : ?>
                                     <a class="estado cancelado"> <?php echo $cobro->estado?></a>
@@ -199,3 +199,58 @@
         </table>
     </form>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filtroCliente = document.getElementById('filtroCliente');
+    const filtroFechaInicio = document.getElementById('filtroFechaInicio');
+    const filtroFechaFin = document.getElementById('filtroFechaFin');
+    const filtroEstado = document.getElementById('filtroEstado');
+    const tabla = document.querySelector('.form-tabla tbody');
+
+    function parseFecha(fechaStr) {
+        const [dia, mes, añoHora] = fechaStr.split('-');
+        const [año, hora] = añoHora.split(' ');
+        return new Date(`${año}-${mes}-${dia}T${hora}`);
+    }
+
+    function filtrarTabla() {
+        const cliente = filtroCliente.value.toLowerCase();
+        const fechaInicio = filtroFechaInicio.value ? new Date(filtroFechaInicio.value) : null;
+        const fechaFin = filtroFechaFin.value ? new Date(filtroFechaFin.value) : null;
+        const estado = filtroEstado.value;
+        
+        Array.from(tabla.rows).forEach(row => {
+            const clienteNombre = row.querySelector('td[data-titulo="Nombre"]').textContent.toLowerCase();
+            const fechaVentaStr = row.querySelector('td[data-titulo="Fecha"]').textContent;
+            const fechaVenta = parseFecha(fechaVentaStr);
+            const estadoVenta = row.querySelector('td[data-titulo="Estado"] a').textContent;
+
+            let mostrar = true;
+
+            if (cliente && !clienteNombre.includes(cliente)) {
+                mostrar = false;
+            }
+
+            if (fechaInicio && fechaVenta < fechaInicio) {
+                mostrar = false;
+            }
+
+            if (fechaFin && fechaVenta > fechaFin) {
+                mostrar = false;
+            }
+
+            if (estado && estado !== estadoVenta) {
+                mostrar = false;
+            }
+
+            row.style.display = mostrar ? '' : 'none';
+        });
+    }
+
+    filtroCliente.addEventListener('input', filtrarTabla);
+    filtroFechaInicio.addEventListener('input', filtrarTabla);
+    filtroFechaFin.addEventListener('input', filtrarTabla);
+    filtroEstado.addEventListener('change', filtrarTabla);
+});
+</script>

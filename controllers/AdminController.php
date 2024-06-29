@@ -79,6 +79,22 @@ class AdminController {
         $router->render('fpdf/pdfGestionaPasajero', []);
     }
 
+    public static function pdfVentas(Router $router){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+        $router->render('fpdf/pdfVentas', []);
+    }
+
+    public static function pdfGestionaVenta(Router $router){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+        $router->render('fpdf/pdfGestionaVenta', []);
+    }
+
     public static function pdfPasajeros(Router $router){
         isAuth();
         if(!tieneRol()) {

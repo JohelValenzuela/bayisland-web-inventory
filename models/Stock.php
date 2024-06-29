@@ -8,7 +8,7 @@ class Stock extends ActiveRecord {
     protected static $tabla = 'stock';
 
     // Columnas
-    protected static $columnasDB = ['id', 'productoId','cantidad', 'movimiento', 'usuarioId', 'fechaCreacion', 'estado'];
+    protected static $columnasDB = ['id', 'productoId','cantidad', 'movimiento', 'usuarioId', 'fechaCreacion', 'estado', 'bodegaId'];
 
     // Atributos
     public $id;
@@ -18,6 +18,7 @@ class Stock extends ActiveRecord {
     public $usuarioId;
     public $fechaCreacion;
     public $estado;  
+    public $bodegaId;  
 
 
 
@@ -30,6 +31,7 @@ class Stock extends ActiveRecord {
         $this->usuarioId = $args['usuarioId'] ?? '';
         $this->fechaCreacion = $args['fechaCreacion'] ?? '';
         $this->estado = $args['estado'] ?? '';
+        $this->bodegaId = $args['bodegaId'] ?? '';
     }
 
     public function validar() {
@@ -47,18 +49,22 @@ class Stock extends ActiveRecord {
             self::$alertas['error'][] = "El estado de producto es obligatorio";
         }
 
+        if(!$this->bodegaId) {
+            self::$alertas['error'][] = "Selecciona una bodega";
+        }
+
         return self::$alertas;
     }
 
-    public function existeStock($productoId) {
+    public function existeStock($productoId, $bodegaId) {
         // Query SQL. Se leen los datos de la DB.
-        $query = "SELECT * FROM " . self::$tabla . " WHERE productoId = '{$productoId}'";
+        $query = "SELECT * FROM " . self::$tabla . " WHERE productoId = {$productoId} && bodegaId = {$bodegaId}";
 
         //debug($query);
         
         // Consulta SQL. Se guardan los datos en resultado
         $resultado = self::$db->query($query);
-
+        
         // Si el usuario ya está registrado, se agrega a las alertas
         if($resultado->num_rows) {
             //self::$alertas['exito'][] = 'La referencia es válida';

@@ -15,6 +15,15 @@
 
     <form action="" class="form form-contenido contenedor-flex" method="POST" value="Crear" enctype="multipart/form-data">
        
+        <div class="campo campo-separado w-40">
+            <label for="bodegaId">Seleccione un Almacén</label>
+            <select class="buscar" name="bodegaId" id="bodegaId">
+                <option value="">-- Seleccione Bodega --</option>
+                <?php foreach ($bodegas as $bodega) : ?>
+                    <option value="<?php echo $bodega->id; ?>"><?php echo $bodega->nombre . " - " . $bodega->ubicacion; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
     
         <div class="campo campo-separado campo-flex">
             <label for="producto">Producto del Pedido</label>  

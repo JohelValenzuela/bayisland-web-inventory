@@ -8,7 +8,7 @@ class Inventario extends ActiveRecord {
     protected static $tabla = 'kardex';
 
     // Columnas
-    protected static $columnasDB = ['id', 'referencia', 'productoId', 'cantidadAnterior', 'operacion', 'cantidadEntrada', 'cantidadSalida', 'cantidadTotal', 'estado', 'usuarioId', 'fechaCreacion'];
+    protected static $columnasDB = ['id', 'referencia', 'productoId', 'cantidadAnterior', 'operacion', 'cantidadEntrada', 'cantidadSalida', 'cantidadTotal', 'estado', 'usuarioId', 'fechaCreacion', 'bodegaId'];
 
     // Atributos
     public $id;
@@ -22,6 +22,7 @@ class Inventario extends ActiveRecord {
     public $estado; 
     public $usuarioId; 
     public $fechaCreacion;
+    public $bodegaId; 
 
 
 
@@ -35,6 +36,7 @@ class Inventario extends ActiveRecord {
         $this->estado = $args['estado'] ?? '';
         $this->usuarioId = $args['usuarioId'] ?? '';
         $this->fechaCreacion = $args['fechaCreacion'] ?? '';
+        $this->bodegaId = $args['bodegaId'] ?? '';
     }
 
     public function validar() {
@@ -50,6 +52,10 @@ class Inventario extends ActiveRecord {
 
         if(!$this->estado) {
             self::$alertas['error'][] = "El estado de producto es obligatorio";
+        }
+
+        if(!$this->bodegaId) {
+            self::$alertas['error'][] = "Selecciona una bodega";
         }
 
 

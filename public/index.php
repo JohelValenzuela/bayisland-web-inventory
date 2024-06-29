@@ -312,12 +312,13 @@ $router->post('/regalias/rechazar', [RegaliasController::class, 'rechazar']);
     $router->get('/fpdf/pdfUsuario', [AdminController::class, 'pdfUsuario']);
     $router->get('/fpdf/pdfMedidas', [AdminController::class, 'pdfMedidas']);
     $router->get('/fpdf/pdfGestionaPasajero', [AdminController::class, 'pdfGestionaPasajero']);
+    $router->get('/fpdf/pdfGestionaVenta', [AdminController::class, 'pdfGestionaVenta']);
     $router->get('/fpdf/pdfPasajeros', [AdminController::class, 'pdfPasajeros']);
     $router->get('/fpdf/pdfDefectos', [AdminController::class, 'pdfDefectos']);
     $router->get('/fpdf/pdfRegalias', [AdminController::class, 'pdfRegalias']);
     $router->get('/fpdf/pdfVentasUltimaHora', [AdminController::class, 'pdfVentasUltimaHora']);
+    $router->get('/fpdf/pdfVentas', [AdminController::class, 'pdfVentas']);
     $router->get('/fpdf/pdfRecetas', [AdminController::class, 'pdfRecetas']);
-    
 
 
     // GESTIÓN DE ARCHIVOS EXCEL

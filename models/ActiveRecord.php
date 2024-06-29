@@ -13,7 +13,7 @@ class ActiveRecord {
 
 
     // Visibilidad de los atributos
-    public $id, $nombre, $apellido, $confirmado, $correo, $rolId, $token, $cantidad, $volumen, $contenido, $categoriaId, $presentacion, $medidaId, $unidad_empaque, $estado, $cantidadPresentacion, $categoria, $medida, $referencia, $producto, $observacion, $usuario, $fechaCreacion, $precioUnidad, $precioMedida, $totalMedida, $productoId, $usuarioId, $cantidadTotal, $cantidadAnterior, $usuarioIdAprueba, $maestroId, $movimiento, $recetaId, $producto_id, $receta_id, $cliente, $usuario_id, $codigo_brazalete, $receta, $guia1_id, $guia2_id, $guia3_id, $guia4_id, $guia5_id, $guia_muelle_id, $reportado_por_id, $capitan_id, $fecha, $guia1_pasajeros, $guia2_pasajeros, $guia3_pasajeros, $guia4_pasajeros, $guia5_pasajeros, $pasajeros_muelle, $reportado_por, $guias_bote_ids, $pasajeros_no_show;
+    public $id, $nombre, $apellido, $confirmado, $correo, $rolId, $token, $cantidad, $volumen, $contenido, $categoriaId, $presentacion, $medidaId, $unidad_empaque, $estado, $cantidadPresentacion, $categoria, $medida, $referencia, $producto, $observacion, $usuario, $fechaCreacion, $precioUnidad, $precioMedida, $totalMedida, $productoId, $usuarioId, $cantidadTotal, $cantidadAnterior, $usuarioIdAprueba, $maestroId, $movimiento, $recetaId, $producto_id, $receta_id, $cliente, $usuario_id, $codigo_brazalete, $receta, $guia1_id, $guia2_id, $guia3_id, $guia4_id, $guia5_id, $guia_muelle_id, $reportado_por_id, $capitan_id, $fecha, $guia1_pasajeros, $guia2_pasajeros, $guia3_pasajeros, $guia4_pasajeros, $guia5_pasajeros, $pasajeros_muelle, $reportado_por, $guias_bote_ids, $pasajeros_no_show, $bodegaId;
 
     
 
@@ -176,6 +176,14 @@ class ActiveRecord {
         return array_shift( $resultado ) ;
     }
 
+    public static function findVentaProductos($id) {
+        $query = "SELECT * FROM venta_productos WHERE venta_id = {$id}";
+        //debug($query);
+        $resultado = self::consultarSQL($query);
+        //var_dump($resultado);
+        return $resultado ;
+    }
+
     public static function findVentaPorCliente($cliente_id) {
         $query = "SELECT * FROM " . static::$tabla . " WHERE cliente = {$cliente_id}";
         //debug($query);
@@ -201,6 +209,13 @@ class ActiveRecord {
 
     public static function findStock($id) {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE productoId = {$id}";
+        //debug($query);
+        $resultado = self::consultarSQL($query);
+        return array_shift( $resultado ) ;
+    }
+
+    public static function findStockBodega($id, $bodegaId) {
+        $query = "SELECT * FROM " . static::$tabla  ." WHERE productoId = {$id} && bodegaId = {$bodegaId} ORDER BY id DESC LIMIT 1";
         //debug($query);
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
@@ -240,7 +255,7 @@ class ActiveRecord {
         $query = "SELECT * FROM " . static::$tabla . " WHERE cliente = {$codigo}";
         //debug($query);
         $resultado = self::consultarSQL($query);
-        return array_shift($resultado);
+        return $resultado;
     }
 
     public static function findVenta($codigo,) {

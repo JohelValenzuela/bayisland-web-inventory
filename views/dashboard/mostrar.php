@@ -209,10 +209,9 @@
                                 <tbody>
                                     <?php foreach($stock as $stock) : ?>
                                         <?php if($stock->cantidad <= 100) {
-                                            if($stock->cantidad <= 30){
+                                            if($stock->cantidad < 30){
                                                 $clase = 'cantidad min';
-                                            }
-                                            if($stock->cantidad > 30){
+                                            } else if($stock->cantidad > 30){
                                                 $clase = 'cantidad med';
                                             }?>
                                         

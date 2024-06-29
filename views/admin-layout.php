@@ -19,203 +19,155 @@
             <div class="logo-detalle">
                 <i class='bx bxs-ship'></i>
             </div>
-
                 <ul class="enlace-navegacion">
-                <li>
-                    <a href="/dashboard">
-                        <i class='bx bx-grid-alt' ></i>
-                        <span class="enlace-texto">Dashboard</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="enlace-texto" href="/dashboard">Dashboard</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="enlace-link enlace">
+                    <li>
+                        <a href="/dashboard"  id="myLink">
+                            <i class='bx bx-grid-alt' ></i>
+                            <span class="enlace-texto">Dashboard</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li><a class="enlace-texto" href="/dashboard">Dashboard</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="/categoria">
                             <i class='bx bx-collection'></i>
                             <span class="enlace-texto">Categoría</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/categoria">Categoría</a></li>
-                    </ul>
-                </li>
-
-                
-                <li>
-                    <div class="enlace-link">
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/categoria">Categoría</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="/producto">
                             <i class='bx bx-package' ></i>
                             <span class="enlace-texto">Producto</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/producto">Producto</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="enlace-link">
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/producto">Producto</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="/recetas/mostrar">
                             <i class='bx bx-food-menu'></i>
                             <span class="enlace-texto">Recetas</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/producto">Recetas</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="enlace-link">
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/producto">Recetas</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="/ventas">
                             <i class='bx bxs-shopping-bags'></i>
                             <span class="enlace-texto">Ventas</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/producto">Ventas</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="enlace-link">
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/producto">Ventas</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="/ventas_ultima_hora">
                             <i class='bx bx-money'></i>
                             <span class="enlace-texto">Ventas Extra</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/producto">Ventas Última Hora</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="enlace-link">
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/producto">Ventas Última Hora</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="/pedido">
                             <i class='bx bx-cart'></i>
                             <span class="enlace-texto">Pedido</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="#">Pedido</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="enlace-link">
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="#">Pedido</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="/stock">
                             <i class='bx bx-box' ></i>
                             <span class="enlace-texto">Stock</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="#">Stock</a></li>
-                    </ul>
-                </li>
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="#">Stock</a></li>
+                        </ul>
+                    </li>
 
-                <li>
-                    <div class="enlace-link">
+                    <li>
                         <a href="/inventario">
                             <i class='bx bx-history'></i><!-- <i class='bx bx-book-alt'></i> -->
                             <span class="enlace-texto">Kardex</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="#">Kardex</a></li>
-                    </ul>
-                </li>
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="#">Kardex</a></li>
+                        </ul>
+                    </li>
 
-                <li>
-                    <div class="enlace-link">
+                    <li>
                         <a href="/reportesDefectos">
                             <i class='bx bx-repost'></i>
                             <span class="enlace-texto">Reportar Daños</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/reportesDefectos">Reportar Daños</a></li>
-                    </ul>
-                </li>
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/reportesDefectos">Reportar Daños</a></li>
+                        </ul>
+                    </li>
 
-                <li>
-                    <div class="enlace-link">
+                    <li>
                         <a href="/regalias">
                             <i class='bx bx-gift' ></i>
                             <span class="enlace-texto">Reportar Regalía</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/regalias">Reportar Regalía</a></li>
-                    </ul>
-                </li>
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/regalias">Reportar Regalía</a></li>
+                        </ul>
+                    </li>
 
-                <li>
-                    <div class="enlace-link">
+                    <li>
                         <a href="/pasajeros">
                             <i class='bx bx-bus'></i>
                             <span class="enlace-texto">Reportar Pasajeros</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/regalias">Reportar Pasajeros</a></li>
-                    </ul>
-                </li>
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/regalias">Reportar Pasajeros</a></li>
+                        </ul>
+                    </li>
 
-                <li>
-                    <div class="enlace-link">
-                        <a href="/auth/mostrar">
+                    <li><a href="/auth/mostrar">
                             <i class='bx bx-user' ></i>
                             <span class="enlace-texto">Usuarios</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/auth/mostrar">Usuarios</a></li>
-                    </ul>
-                </li>
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/auth/mostrar">Usuarios</a></li>
+                        </ul>
+                    </li>
 
-                <li>
-                    <div class="enlace-link">
+                    <li>
                         <a href="/medida">
                             <i class='bx bx-ruler'></i>
                             <span class="enlace-texto">Medidas</span>
                         </a>
-                        <i class='bx bxs-chevron-down arrow' ></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="enlace-texto" href="/medida">Unidades de Medida</a></li>
-                    </ul>
-                </li>
-                
-                <li>
-                    <div class="perfil-detalle">
-                        <div class="profile-content">
-                            
+                        <ul class="sub-menu">
+                            <li><a class="enlace-texto" href="/medida">Unidades de Medida</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <div class="perfil-detalle">
+                            <div class="profile-content">
+                                
+                            </div>
+                            <a href="/auth/logout">
+                                <i class='bx bx-log-out logout'></i>
+                            </a> 
+                            <div class="nombre-rol">
+                                <div class="nombre_perfil"><?php echo s($_SESSION['nombre']) ?? '?' ?></div>
+                                <div class="rol"><?php echo s($_SESSION['rol']) ?? ''  ?></div>
+                            </div>
+                                
                         </div>
-                        <a href="/auth/logout">
-                            <i class='bx bx-log-out logout'></i>
-                        </a> 
-                        <div class="nombre-rol">
-                            <div class="nombre_perfil"><?php echo s($_SESSION['nombre']) ?? '?' ?></div>
-                            <div class="rol"><?php echo s($_SESSION['rol']) ?? ''  ?></div>
-                        </div>
-                            
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
         </div>
 
     <?php echo $contenido; ?>

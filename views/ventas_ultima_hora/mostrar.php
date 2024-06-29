@@ -1,7 +1,7 @@
 <section class="home-section">
     <div class="home-content">
         <i class='bx bx-menu' ></i>
-        <span class="text">Ventas de Última Hora</span>
+        <span class="text">Venta de Tours</span>
     </div>
 
     <form class="form form-contenido form-botones">

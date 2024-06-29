@@ -5,6 +5,9 @@
             <span class="text"> Crear Venta</span>
         </div>
         <div class="home-carrito">
+            <a class="boton-exportar volver" style="margin-right: 1rem;" target="_blank" href="/fpdf/pdfGestionaVenta?id=<?php echo $ventaCliente->id ?? 0;?>">
+                <i class="fa-solid fa-file-pdf"></i>   Generar PDF  
+            </a>  
             <a href="/ventas" class="boton-exportar volver"> Regresar  <i class="fa-solid fa-person-walking-arrow-loop-left"></i> </a>
         </div>
     </div>

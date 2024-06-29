@@ -4,7 +4,7 @@ namespace Model;
 
 class ReporteDefecto extends ActiveRecord {
     protected static $tabla = 'reportes_defectos';
-    protected static $columnasDB = ['id', 'usuario_id', 'producto_id', 'cantidad', 'observacion', 'fecha_reporte', 'estado'];
+    protected static $columnasDB = ['id', 'usuario_id', 'producto_id', 'cantidad', 'observacion', 'fecha_reporte', 'estado', 'bodegaId'];
 
     public $id;
     public $usuario_id;
@@ -13,6 +13,7 @@ class ReporteDefecto extends ActiveRecord {
     public $observacion;
     public $fecha_reporte;
     public $estado;
+    public $bodegaId; 
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
@@ -22,6 +23,7 @@ class ReporteDefecto extends ActiveRecord {
         $this->observacion = $args['observacion'] ?? '';
         $this->fecha_reporte = $args['fecha_reporte'] ?? date('Y-m-d H:i:s');
         $this->estado = $args['estado'] ?? 'pendiente'; // Estado por defecto
+        $this->bodegaId = $args['bodegaId'] ?? '';
     }
 
     public function validar() {
@@ -33,6 +35,9 @@ class ReporteDefecto extends ActiveRecord {
         }
         if (!$this->cantidad) {
             self::$alertas['error'][] = 'La cantidad es obligatoria';
+        }
+        if(!$this->bodegaId) {
+            self::$alertas['error'][] = "Selecciona una bodega";
         }
         return self::$alertas;
     }

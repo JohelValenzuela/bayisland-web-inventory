@@ -17,15 +17,21 @@
 
     <form class="form form-contenido form-botones">
         <div class="campo select-buscar">
+            <select class="buscar" id="bodegaId" name="bodega">
+            <option disabled selected value>-- Filtrar Bodega --</option>
+                <option value="">Mostrar Todos</option>
+                <?php foreach ($bodegas as $bodega) : ?>
+                    <option value="<?php echo $bodega->nombre . " - " . $bodega->ubicacion; ?>"><?php echo $bodega->nombre . " - " . $bodega->ubicacion; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="campo select-buscar">
             <select class="buscar" id="productoId" name="producto" style="width: 100%;">
-            
                 <option disabled selected value>-- Filtrar Producto --</option>
                 <option value="">Mostrar Todos</option>
-                
                 <?php foreach($producto as $producto):  ?>
                     <option value="<?php echo s($producto->nombre); ?>" ><?php echo s($producto->nombre); ?> </option>
                 <?php endforeach; ?>
-                
             </select>
         </div>
         <div class="campo select-buscar">
@@ -45,14 +51,13 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Bodega</th>
                     <th>Producto</th>
                     <th>Presentación</th>
                     <th>Cantidad</th>
                     <th>Movimiento</th>
                     <th>Creado Por</th>
                     <th>Fecha de Creación</th>
-                    <!-- <th>Estado</th> -->
-                    <th></th>
                 </tr>
             </thead>
 
@@ -67,33 +72,13 @@
                             ?>
                             <tr>
                                 <td data-titulo="Id"><?php echo $stock->id; ?></td> <!--  ID  -->
+                                <td data-titulo="Bodega"><?php echo $stock->bodega->nombre . '-' . $stock->bodega->ubicacion; ?></td>
                                 <td data-titulo="Nombre"><?php echo $stock->producto->nombre?></td> <!--  Nombre  -->
                                 <td data-titulo="Presentación"><?php echo $stock->producto->presentacion;?></td> <!--  Presentación  -->
                                 <td data-titulo="Cantidad"><?php echo $stock->cantidad; ?></td> <!--  Cantidad  -->
                                 <td data-titulo="Movimiento"><?php echo $stock->movimiento; ?></td> <!--  Nombre Movimiento  -->
                                 <td data-titulo="Creador"><?php echo $stock->usuario->nombre . " " . $stock->usuario->apellido  ; ?></td> <!--  Creador  -->
                                 <td data-titulo="Creado"><?php echo $fechaCreacionFormateada; ?></td> <!-- Fecha Creación   -->
-                                <td>
-                                    <div class="acciones-tabla">
-                                    <a class="boton-accion entrada" href="/stock/entradaStock?id=<?php echo $stock->id; ?>">
-                                        <i class='bx bx-plus-circle icono'></i> Agregar
-                                    </a>
-
-                                    <a class="boton-accion salida" href="/stock/salidaStock?id=<?php echo $stock->id; ?>">
-                                        <i class='bx bx-minus-circle icono' ></i> Retirar
-                                    </a>
-
-                                    <!-- <a class="boton-accion">
-                                        <form class="no-margin" action="/inventario/eliminar" method="POST"> 
-                                        <input type="hidden" name="id" value="">
-                                        <button type="submit" value="" class="boton-accion eliminar"> 
-                                            <i class="fa-regular fa-trash-can accion"></i>  Desactivar
-                                        </button>
-                                        </form>
-                                    </a> -->
-                                    
-                                    </div>
-                                </td>  <!--  Acciones Editar y Eliminar  -->
                             </tr>
                         <?php endif ?>
                     <?php endforeach; ?>

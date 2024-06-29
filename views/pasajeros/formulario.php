@@ -1,5 +1,5 @@
 <fieldset class="fielset">
-    <legend style="color: black;"><strong>DATOS DE GUÍA Y PASAJEROS</strong></legend>
+    <legend><strong>DATOS DE GUÍA Y PASAJEROS</strong></legend>
           
     <?php $maxGuias = 5; // Define el número máximo de guías que quieres permitir ?>
     <?php  for ($i = 1; $i <= $maxGuias; $i++) { // Itera para generar los campos de guía ?>  
@@ -27,7 +27,7 @@
 </fieldset>
 
 <fieldset class="fielset"> 
-    <legend style="color: black;"><strong>CANTIDAD DE PASAJEROS EN MUELLE Y NO-SHOW</strong></legend>
+    <legend><strong>CANTIDAD DE PASAJEROS EN MUELLE Y NO-SHOW</strong></legend>
     <div class="div-flex">
         <div class="campo campo-separado w-40">
             <label for="guia_muelle">Guía Muelle:</label>
@@ -54,7 +54,7 @@
 </fieldset>
 
 <fieldset class="fielset"> 
-    <legend style="color: black;"><strong>USUARIO QUE REPORTA</strong></legend>
+    <legend><strong>USUARIO QUE REPORTA</strong></legend>
     <div class="div-flex">
         <div class="campo campo-separado w-50">
             <label for="reportado_por_id">Reportado por:</label>
@@ -73,7 +73,7 @@
 </fieldset>
 
 <fieldset class="fielset"> 
-    <legend style="color: black;"><strong>GUÍAS EN BOTE</strong></legend>
+    <legend><strong>GUÍAS EN BOTE</strong></legend>
     <div class="div-flex">
     <div class="campo campo-separado w-50"">
         <label for="guias_bote_ids">Guías en el Bote:</label>
@@ -87,7 +87,7 @@
 </fieldset>
 
 <fieldset class="fielset"> 
-    <legend style="color: black;"><strong>CAPITÁN DE BOTE</strong></legend>
+    <legend><strong>CAPITÁN DE BOTE</strong></legend>
     <div class="div-flex">
         <div class="campo campo-separado w-50">
             <label for="capitan_id">Capitán del Bote:</label>

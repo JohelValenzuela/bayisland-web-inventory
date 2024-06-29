@@ -16,15 +16,21 @@
 
     <form class="form form-contenido form-botones">
         <div class="campo select-buscar">
+            <select class="buscar" id="bodegaId" name="bodega">
+            <option disabled selected value>-- Filtrar Bodega --</option>
+                <option value="">Mostrar Todos</option>
+                <?php foreach ($bodegas as $bodega) : ?>
+                    <option value="<?php echo $bodega->nombre . " - " . $bodega->ubicacion; ?>"><?php echo $bodega->nombre . " - " . $bodega->ubicacion; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="campo select-buscar">
             <select class="buscar" id="productoId" name="producto" style="width: 100%;">
-            
                 <option disabled selected value>-- Filtrar Producto --</option>
                 <option value="">Mostrar Todos</option>
-                
                 <?php foreach($producto as $producto):  ?>
                     <option value="<?php echo s($producto->nombre); ?>" ><?php echo s($producto->nombre); ?> </option>
                 <?php endforeach; ?>
-                
             </select>
         </div>
         <div class="campo select-buscar">
@@ -45,6 +51,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Bodega</th>
                     <th>Referencia</th>
                     <th>Producto</th>
                     <th>Cantidad Anterior</th>
@@ -68,6 +75,7 @@
                     ?>
                 <tr>
                     <td data-titulo="Id"><?php echo $inventarios->id; ?></td> <!--  ID  -->
+                    <td data-titulo="Bodega"><?php echo $inventarios->bodega->nombre . '-' . $inventarios->bodega->ubicacion; ?></td> <!--  Referencia  -->
                     <td data-titulo="Referencia"><?php echo $inventarios->referencia; ?></td> <!--  Referencia  -->
                     <td data-titulo="Nombre"><?php echo $inventarios->producto->nombre; ?></td> <!--  Nombre  -->
                     <td data-titulo="Anterior"><?php echo $inventarios->cantidadAnterior; ?></td> <!--  Cantidad Anterior  -->

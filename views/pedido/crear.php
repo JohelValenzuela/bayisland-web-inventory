@@ -34,7 +34,7 @@
                 </li>
                 <?php foreach($categoria as $cat): ?>
                     <li style="flex: 1 1 50%;">
-                        <a href="#" class="categoria-enlace" data-categoria="<?php echo $cat->id; ?>" style="">
+                        <a href="#" class="categoria-enlace" data-categoria="<?php echo $cat->id; ?>">
                             <?php echo s($cat->nombre); ?>
                         </a>
                     </li>

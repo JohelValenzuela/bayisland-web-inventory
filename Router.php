@@ -106,6 +106,7 @@ class Router
             '/stock/nuevaSalida',
             '/stock/nuevoStock',
             '/stock/salida',
+            '/stock/recibir',
             '/inventario/entrada',
             '/inventario/salida',
             '/inventario',

@@ -12,7 +12,7 @@ class ReportePasajeroController {
     public static function mostrar(Router $router) {
 
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 
@@ -32,11 +32,10 @@ class ReportePasajeroController {
         ]);
     }
 
-
     public static function crear(Router $router) {
 
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 
@@ -180,7 +179,7 @@ class ReportePasajeroController {
     public static function gestionaReporte(Router $router){
 
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 
@@ -217,7 +216,7 @@ class ReportePasajeroController {
     public static function generarReportePDF(Router $router){
 
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 

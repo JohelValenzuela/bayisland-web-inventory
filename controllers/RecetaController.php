@@ -139,6 +139,10 @@ class RecetaController {
     }
 
     public static function eliminarIngredienteCarrito() {
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+        }
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $productoId = $_POST['productoId'];
             $orden = $_SESSION["carritoIngredientes"];
@@ -158,6 +162,10 @@ class RecetaController {
     }
 
     public static function vaciarCarritoIngredientes() {
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+        }
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             unset($_SESSION["carritoIngredientes"]);
             Receta::setAlerta('exito', 'Carrito de ingredientes vaciado');

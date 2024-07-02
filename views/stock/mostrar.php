@@ -3,10 +3,11 @@
         <i class='bx bx-menu' ></i>
         <span class="text">Control de Stock</span>
     </div>
-        
     <form class="form form-contenido form-botones">
+        <?php if($_SESSION['rol'] == 'Administrador') : ?>
         <a class="boton-exportar" href="/stock/nuevoStock"> <i class="fa-regular fa-square-plus"></i> Agregar</a>
         <a class="boton-exportar" href="/stock/nuevaSalida"> <i class="fa-regular fa-square-minus"></i> Retirar</a>
+        <?php endif ?>
         <a class="boton-exportar pdf" href="/fpdf/pdfStock" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF </a>  
 
         
@@ -14,6 +15,10 @@
             <i class="fa-solid fa-file-excel"></i> EXCEL
         </button>  
     </form>
+
+    <?php 
+      include_once __DIR__ . "/../templates/alertas.php";
+    ?>
 
     <form class="form form-contenido form-botones">
         <div class="campo select-buscar">

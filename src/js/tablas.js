@@ -3,6 +3,41 @@ let dataTable = new DataTable("#tabla", {
     
     responsive: true,
 
+    columnDefs: [
+        {
+            "targets": "_all",
+            "defaultContent": ""
+        }
+    ],
+
+    buttons: [{
+        extend: 'excelHtml5',
+        text: '  Excel',
+        className: 'btn btn-primary glyphicon glyphicon-list-alt',
+        title: 'User Report',
+        footer: true
+      }, {
+        extend: 'pdfHtml5',
+        text: '  PDF',
+        className: 'btn btn-primary glyphicon glyphicon-file',
+        title: 'User Report'
+      }, {
+        extend: 'csvHtml5',
+        text: '  CSV',
+        className: 'btn btn-primary glyphicon glyphicon-save-file',
+        title: 'User Report'
+      }, {
+        extend: 'copy',
+        text: '  Copy',
+        className: 'btn btn-primary glyphicon glyphicon-duplicate'
+      }, {
+        extend: 'print',
+        text: '  Print',
+        title: 'User Report',
+        className: 'btn btn-primary glyphicon glyphicon-print',
+        message: 'User Report'
+      }],
+
     layout:{
         // top2Start: 'paging',
         topStart: 'pageLength',

@@ -19,12 +19,21 @@ class VentasController {
 
     public static function mostrar(Router $router) {
 
+        
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 
-        $venta = Venta::all();
+        $user = $_SESSION['id'];
+
+        if ($_SESSION['rol'] == 'Encargado') {
+            $venta = Venta::all();
+        } else if($_SESSION['rol'] == 'Administrador') {
+            $venta = Venta::all();
+        }
+
+       
         $clientes = Cliente::all();
         $ventaProducto = VentaProductos::all();
         $cobros = Cobro::all();
@@ -52,6 +61,9 @@ class VentasController {
 
     public static function carrito(Router $router) {
         isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
     
         $alertas = [];
         $productos = Producto::all();
@@ -141,8 +153,11 @@ class VentasController {
         ]);
     }
     
-    
     public static function eliminarProductoCarrito() {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $productoIndex = $_POST['productoIndex'];
 
@@ -168,9 +183,12 @@ class VentasController {
             exit;
         }
     }
-    
 
     public static function vaciarCarritoVentas() {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             unset($_SESSION["carritoVentas"]);
             Venta::setAlerta('exito', 'Carrito de ventas vaciado');
@@ -181,8 +199,11 @@ class VentasController {
     }
 
     public static function realizarVenta(Router $router) {
-        // Verificar si el usuario está autenticado
+       
         isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
         
         // Obtener los datos del carrito de ventas de la sesión
         $carrito = $_SESSION["carritoVentas"] ?? [];
@@ -334,7 +355,5 @@ class VentasController {
         header('Location: /ventas/carrito');
         exit;
     }
-    
-    
     
 }

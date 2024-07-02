@@ -10,6 +10,11 @@ use Model\Cobrador;
 class VentaUltimaHoraController {
 
     public static function mostrar(Router $router) {
+
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
         
         $alertas = [];
 
@@ -24,6 +29,11 @@ class VentaUltimaHoraController {
     }
 
     public static function crear(Router $router) {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+        
         $venta = new VentaUltimaHora;
         $alertas = [];
 

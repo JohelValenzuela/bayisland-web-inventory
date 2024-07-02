@@ -11,8 +11,5 @@ class Errores {
 
     public static function error404(Router $router){
         $router->render('templates/error404', []);
-    }
-
-    
-        
+    }     
 }

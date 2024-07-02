@@ -10,11 +10,6 @@ class AdminController {
         $router->render('admin/admin', []);
     }
 
-    public static function csvProducto(Router $router){
-        $router->render('producto/csvProducto', []);
-    }
-    
-
     public static function pdfCategoria(Router $router){
         isAuth();
         if(!tieneRol()) {

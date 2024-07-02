@@ -4,8 +4,10 @@ namespace Controllers;
 
 use Classes\Paginacion;
 use Model\Auth;
+use Model\Bodegas;
 use Model\Categoria;
 use Model\DetallePedido;
+use Model\Inventario;
 use Model\MaestroPedido;
 use Model\Pedido;
 use Model\Producto;
@@ -15,8 +17,14 @@ use MVC\Router;
 class PedidoController {
 
     public static function crear(Router $router) {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         $alertas = [];
         $producto = Producto::all();
+        
         if(!empty($producto)){
 
             
@@ -24,6 +32,7 @@ class PedidoController {
     
             $categoria = Categoria::all();
             $medidas = UnidadMedida::all();
+            $bodega = Bodegas::all();
 
             foreach ($producto as $productos) {
                 $productos->categoria = Categoria::find($productos->categoriaId);
@@ -39,14 +48,15 @@ class PedidoController {
             if (isset($_SESSION['msg'])) {
                 $alertas = $_SESSION['msg'];
                 unset($_SESSION['msg']); // Limpia la variable de sesión
-            }
-                
+            } 
 
             $router->render('pedido/crear', [
                 'producto' => $producto,
+                'productos' => $productos,
                 'categoria' => $categoria,
                 'medidas' => $medidas,
                 'resultado' => $resultado,
+                'bodega' => $bodega,
                 'alertas' => $alertas                
             ]);
             
@@ -80,7 +90,7 @@ class PedidoController {
             $detalle = DetallePedido::all();
             $categoria = Categoria::all();
             $producto = Producto::all();
-            $usuarios = Auth::all();
+            $usuarios = Auth::all(); 
 
             // Recorrer los maestros
             foreach ($maestro as $maestros) {
@@ -91,6 +101,7 @@ class PedidoController {
                 // Obtener los usuarios asociados a este maestro
                 $maestros->usuario = Auth::find($maestros->usuarioId);
                 $maestros->usuarioAprueba = Auth::find($maestros->usuarioIdAprueba);
+                $maestros->bodega = Bodegas::find($maestros->bodegaId);
             }
 
             foreach ($detalle as $detalles) {
@@ -123,6 +134,11 @@ class PedidoController {
 
     public static function carrito(Router $router) {
         
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         $alertas = [];
 
         // Verificar si se ha iniciado una sesión de carrito o se ha enviado un ID de producto
@@ -155,7 +171,7 @@ class PedidoController {
                     // El producto ya está en el carrito, aumenta la cantidad según lo recibido
                     $orden[$indice]["cuantos"] += $cantidad;
                     $_SESSION["carrito"] = $orden; // Actualiza el carrito en la sesión
-                    Pedido::setAlerta('exito', 'Se agregaron ' . $cantidad . ' unidades del producto ' . $_POST['nombre'] . ' a la orden de compra.' . ' (' . $orden[$indice]["cuantos"] . ' unidades en total)');
+                    Pedido::setAlerta('exito', $cantidad . 'x ' . $_POST['nombre'] . ' agregado a la orden');
                     $_SESSION['msg'] = Pedido::getAlertas();
                     header("Location: ".$_SERVER["HTTP_REFERER"]."");
                     exit;
@@ -176,7 +192,7 @@ class PedidoController {
                 }
     
                 // Establece un mensaje de éxito y redirige
-                Pedido::setAlerta('exito', 'Se agregaron ' . $cantidad . ' unidades del producto ' . $_POST['nombre'] . ' a la orden de compra');
+                Pedido::setAlerta('exito', $cantidad . 'x ' . $_POST['nombre'] . ' agregado a la orden');
                 $_SESSION['msg'] = Pedido::getAlertas();
                
                 
@@ -188,6 +204,7 @@ class PedidoController {
         }
 
         header("Location: ".$_SERVER["HTTP_REFERER"]."");
+        //header("Location: /pedido/crear#openModal");
 
         $alertas = Pedido::getAlertas();
         // Renderiza la vista de carrito con las alertas
@@ -196,10 +213,12 @@ class PedidoController {
         ]);
     }
     
-    
-    
-
     public static function editarCarrito(){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         if(isset($_POST["id"]) && isset($_POST["cantidad"])){
             $id = $_POST["id"];
             $cantidad = $_POST["cantidad"];
@@ -212,8 +231,12 @@ class PedidoController {
         }
     }
     
-    // Función para editar el carrito, toma los argumentos directamente
     private static function editarCarritoFuncion($id, $cantidad){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         // Lógica para editar el carrito
         if(isset($_SESSION["carrito"])){
             $orden = $_SESSION["carrito"];
@@ -243,6 +266,11 @@ class PedidoController {
     }
 
     public static function eliminarProductoCarrito() {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         if(isset($_POST['id'])) {
             $id = $_POST['id'];
             
@@ -250,7 +278,7 @@ class PedidoController {
             if(isset($_SESSION["carrito"])) {
                 $orden = $_SESSION["carrito"];
 
-                Pedido::setAlerta('info', 'Se ha eliminado ' . $orden[$id]["nombre"] . ' de la orden de compra');
+                Pedido::setAlerta('info', $orden[$id]["nombre"] . ' eliminado de la orden');
                 $_SESSION['msg'] = Pedido::getAlertas();
         
                 // Verifica si el ID del producto existe en el carrito
@@ -270,33 +298,48 @@ class PedidoController {
     }
     
     public static function borrarCarrito(){
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
         Pedido::setAlerta('info', 'Se ha eliminado la orden de compra');
         $_SESSION['msg'] = Pedido::getAlertas();
         header("Location: ".$_SERVER["HTTP_REFERER"]."");
         unset($_SESSION["carrito"]);
     }
-
-    
+  
     public static function guardaPedido(Router $router) {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
         $alertas = [];
         $pedido = new Pedido;
         $maestro = new MaestroPedido;
-        $detalle = new DetallePedido;
+        $detalle = new DetallePedido();
+
+        if(empty($_POST['bodegaId'])){
+            Pedido::setAlerta('info', 'Selecciona una Bodega');
+            $_SESSION['msg'] = Pedido::getAlertas();
+            header("Location: /pedido/crear#openModal");
+        }
     
-        $referencia = uniqid();      
-    
+        $bodegaId = $_POST['bodegaId'] ?? null;
+        
         // Asigna los valores al maestro del pedido
-        $maestro->referencia = $referencia;
+        $maestro->referencia = uniqid();      
         date_default_timezone_set('America/Costa_Rica');
         $maestro->usuarioId = intval($_SESSION['id']);  
         $maestro->usuarioIdAprueba = 0;  
         $maestro->fechaCreacion = date('Y-m-d H:i:s');
         $maestro->estado = 'Pendiente';
-    
+        $maestro->bodegaId = $bodegaId;
+        
+        
         // Crea el maestro del pedido en la base de datos
         $resultado = $maestro->crear();
         $idmaestro = $resultado['id'];
-    
+        
         // Obtiene el carrito de la sesión
         if(isset($_SESSION["carrito"])){
             $orden = $_SESSION["carrito"];
@@ -304,19 +347,15 @@ class PedidoController {
     
         // Recorre el carrito para guardar cada detalle del pedido
         if(isset($_SESSION["carrito"])){
-            for($i=0; $i<count($orden); $i++) {
+            foreach($orden as $item) {
                 // Crea un nuevo detalle del pedido con los datos del carrito
                 $detalle->maestroId = $idmaestro;
-                $detalle->productoId = intval($orden[$i]["id"]);
-                $detalle->cantidad = intval($orden[$i]["cuantos"]);
-                $detalle->observacion = 'Pedido #' . $referencia;
+                $detalle->productoId = intval($item["id"]);
+                $detalle->cantidad = intval($item["cuantos"]);
+                $detalle->observacion = 'Pedido #' . $maestro->referencia;
     
                 // Guarda el detalle del pedido en la base de datos
-                $resultado = $detalle->crear();
-    
-                if($resultado) {
-                    Pedido::setAlerta('exito', 'Pedido enviado correctamente');
-                }
+                $detalle->crear();
             }
         }
     
@@ -324,19 +363,15 @@ class PedidoController {
         unset($_SESSION["carrito"]);
     
         // Redirige a la página de pedidos con las alertas
+        $_SESSION['msg'] = Pedido::getAlertas();
         header("Location: /pedido");
-        $alertas = Pedido::getAlertas();
-    
-        $router->render('pedido/mostrar', [
-            'alertas' => $alertas,
-        ]);
+        exit();
     }
     
-
     public static function actualizar(Router $router){
 
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 
@@ -386,7 +421,7 @@ class PedidoController {
     public static function gestionaReferencia(Router $router){
 
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 
@@ -453,11 +488,10 @@ class PedidoController {
 
     }
 
-  
     public static function eliminar(){
         
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 

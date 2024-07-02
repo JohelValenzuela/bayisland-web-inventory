@@ -5,22 +5,35 @@ namespace Controllers;
 use Classes\Paginacion;
 use Model\Auth;
 use Model\Bodegas;
+use Model\DetallePedido;
 use Model\Inventario;
+use Model\MaestroPedido;
 use Model\Producto;
 use Model\Stock;
 use MVC\Router;
 
 class InventarioController {
 
-    // MOSTRAR STOCK
     public static function mostrarStock(Router $router) {
 
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 
+        $alertas = [];
+
         $stock = Stock::all();
+
+        $alertas = Stock::getAlertas();
+
+            
+        if (isset($_SESSION['msg'])) {
+            $alertas = $_SESSION['msg'];
+            unset($_SESSION['msg']); // Limpia la variable de sesión
+        }
+
+
         if(!empty($stock)){
 
             $producto = Producto::all();
@@ -37,26 +50,33 @@ class InventarioController {
                 'stock' => $stock,
                 'producto' => $producto,
                 'usuarios' => $usuarios,
-                'bodegas' => $bodegas
+                'bodegas' => $bodegas,
+                'alertas' => $alertas
             ]);
         } else {
             $router->render('stock/mostrar', []);
         }
     }
 
-    // MOSTRAR INVENTARIOS
     public static function mostrar(Router $router) {
 
+        
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 
-        $inventario = Inventario::all();
+        $user = $_SESSION['id'];
+
+        if ($_SESSION['rol'] == 'Encargado') {
+            $inventario = Inventario::allNombre(intval($user));
+        } else if($_SESSION['rol'] == 'Administrador') {
+            $inventario = Inventario::all();
+        }
+
+        
         if(!empty($inventario)){
 
-                   
-            $inventario = Inventario::all();
             $producto = Producto::all();
             $usuarios = Auth::all();
             $bodegas = Bodegas::all();
@@ -79,7 +99,6 @@ class InventarioController {
         }
     }
 
-    //NUEVO STOCK
     public static function nuevoStock(Router $router){
         
         isAuth();
@@ -104,6 +123,7 @@ class InventarioController {
         if($resultado->num_rows) { // SI EXISTE - SOLO AGREGA LA CANTIDAD
             
             $stock = Stock::findStockBodega($_POST['productoId'], $_POST['bodegaId']); // Busco el id del producto seleccionado
+            //debug($stock);
             $cantStockAnterior = $stock->cantidad ?? 0; // Almaceno la cantidad del produto de la DB
             
             $movimiento = 'Entrada';
@@ -155,7 +175,10 @@ class InventarioController {
             if($resultado) {                
                 Stock::setAlerta('exito', 'Se han agregado ' . $cantIngresada  . ' productos al stock ');
                 Stock::setAlerta('exito', 'Cantidad en stock: ' . $cantNueva);
+                $_SESSION['msg'] = Stock::getAlertas();
             }
+
+            header('Location: /stock');
 
             //exit('EXISTE');
 
@@ -312,7 +335,10 @@ class InventarioController {
             if($resultado) {                
                 Stock::setAlerta('exito', 'Se han retirado ' . $inventario->cantidadSalida  . ' productos del stock ');
                 Stock::setAlerta('exito', 'Cantidad en stock: ' . $inventario->cantidadTotal);
+                $_SESSION['msg'] = Stock::getAlertas();
             }
+
+            header('Location: /stock');
 
             //exit('EXISTE');
 
@@ -329,10 +355,139 @@ class InventarioController {
         ]);
     }
 
+    public static function recibir(Router $router) {
+        isAuth();
+        if (!isAdmin()) {
+            header('Location: /templates/error403');
+            exit;
+        }
+    
+        $id = validarORedireccionar('/pedido');  
+        $detalle = MaestroPedido::find($id);
+
+        $maestro = $detalle->id;
+        $bodegaDestino = $detalle->bodegaId;
+        $bodegaOrigen = 1;  // ID de la bodega origen
+    
+        // Obtener detalles del pedido según el pedidoId
+        $detallesPedido = DetallePedido::findDetallePedido($maestro);
+    
+        $suficienteStock = true;
+        foreach ($detallesPedido as $detalle) {
+            $productoId = $detalle->productoId;
+            $cantidad = $detalle->cantidad;
+    
+            // Verificar si existe stock suficiente en la bodega origen
+            $stockBodegaOrigen = Stock::findStockBodega($productoId, $bodegaOrigen);
+    
+            if (!$stockBodegaOrigen || $stockBodegaOrigen->cantidad < $cantidad) {
+                $suficienteStock = false;
+                break;
+            }
+        }
+    
+        if ($suficienteStock) {
+            foreach ($detallesPedido as $detalle) {
+                $productoId = $detalle->productoId;
+                $cantidad = $detalle->cantidad;
+    
+                // Restar la cantidad en la bodega origen
+                $stockBodegaOrigen = Stock::findStockBodega($productoId, $bodegaOrigen);
+                $stockBodegaOrigen->cantidad -= $cantidad;
+                $resultado = $stockBodegaOrigen->actualizar();
+    
+                // Verificar si existe stock en la bodega destino
+                $stockExistente = Stock::findStockBodega($productoId, $bodegaDestino);
+    
+                if ($stockExistente) {
+                    // Si existe stock, actualizar la cantidad
+                    $stockExistente->cantidad += $cantidad;
+                    $resultado = $stockExistente->actualizar();
+                } else {
+                    // Si no existe stock, crear uno nuevo
+                    $stockNuevo = new Stock();
+                    $stockNuevo->productoId = $productoId;
+                    $stockNuevo->bodegaId = $bodegaDestino;
+                    $stockNuevo->cantidad = $cantidad;
+                    $stockNuevo->estado = 'Activo';
+                    $resultado = $stockNuevo->crear();
+                }
+    
+                $kardex = Inventario::findStockBodega($productoId ?? 0 , $bodegaDestino ?? 0);
+                $cantAnteriorInventario = intval($kardex->cantidadTotal ?? 0);
+    
+                if ($kardex) {
+                    $referenciaDestino = $kardex->referencia;
+                } else {
+                    $referenciaDestino = uniqid();
+                }
+    
+                // Registro en el inventario/kardex
+                $inventario = new Inventario;
+                $inventario->referencia = $referenciaDestino;
+                $inventario->productoId = $productoId;
+                $inventario->cantidadAnterior = $cantAnteriorInventario;
+                $inventario->operacion = 'Entrada Pedido';
+                $inventario->cantidadEntrada = $cantidad;
+                $inventario->cantidadSalida = 0;
+                $inventario->cantidadTotal = $cantAnteriorInventario + $cantidad;
+                $inventario->estado = 'Activo';
+                $inventario->usuarioId = $_SESSION['id'];
+                $inventario->fechaCreacion = date('Y-m-d H:i:s');
+                $inventario->bodegaId = $bodegaDestino;
+                $resultado = $inventario->crear();
+    
+                // Registro en el inventario/kardex para bodega origen
+                $kardexOrigen = Inventario::findStockBodega($productoId ?? 0 , $bodegaOrigen ?? 0);
+                $cantAnteriorInventarioOrigen = intval($kardexOrigen->cantidadTotal ?? 0);
+    
+                if ($kardexOrigen) {
+                    $referenciaOrigen = $kardexOrigen->referencia;
+                } else {
+                    $referenciaOrigen = uniqid();
+                }
+
+                $inventarioOrigen = new Inventario;
+                $inventarioOrigen->referencia = $referenciaOrigen;
+                $inventarioOrigen->productoId = $productoId;
+                $inventarioOrigen->cantidadAnterior = $cantAnteriorInventarioOrigen;
+                $inventarioOrigen->operacion = 'Salida Pedido';
+                $inventarioOrigen->cantidadEntrada = 0;
+                $inventarioOrigen->cantidadSalida = $cantidad;
+                $inventarioOrigen->cantidadTotal = $cantAnteriorInventarioOrigen - $cantidad;
+                $inventarioOrigen->estado = 'Activo';
+                $inventarioOrigen->usuarioId = $_SESSION['id'];
+                $inventarioOrigen->fechaCreacion = date('Y-m-d H:i:s');
+                $inventarioOrigen->bodegaId = $bodegaOrigen;
+                $resultado = $inventarioOrigen->crear();
+            }
+
+            $maestroEstado = MaestroPedido::find($maestro);
+            $maestroEstado->estado = 'Recibido';
+            $maestroEstado->actualizar();
+
+    
+            if ($resultado) {
+                Stock::setAlerta('info', 'Se ha recibido el stock del pedido ' . $maestro . ' - ' . Bodegas::find($bodegaDestino)->nombre . ' - ' . Bodegas::find($bodegaDestino)->ubicacion);
+                $_SESSION['msgPedido'] = Stock::getAlertas();
+            }
+    
+            header('Location: /pedido');
+        } else {
+            Stock::setAlerta('error', 'No hay suficiente stock en la bodega 1 para completar el pedido.');
+            $_SESSION['msgPedido'] = Stock::getAlertas();
+            header('Location: /pedido');
+        }
+
+        
+    
+        // Redirigir o renderizar una vista según sea necesario
+        $router->render('stock/recibir', [
+
+        ]);
+    }
 
 }
-
-
 
 
 

@@ -21,31 +21,31 @@
     </div>
     <div class="contenido-flex">
         <?php if ($reporte->guia1_id != NULL && $reporte->guia1_pasajeros > 0) : ?>
-            <p style="color: black;"><strong>Guía 1:</strong> <?php echo ($reporte->guia1_id) ? $reporte->guia1->nombre . ' - ' . $reporte->guia1_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
+            <p><strong>Guía 1:</strong> <?php echo ($reporte->guia1_id) ? $reporte->guia1->nombre . ' - ' . $reporte->guia1_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
         <?php endif?>
 
         <?php if ($reporte->guia2_id != NULL && $reporte->guia2_pasajeros > 0) : ?>
-            <p style="color: black;"><strong>Guía 2:</strong> <?php echo ($reporte->guia2_id) ? $reporte->guia2->nombre . ' - ' . $reporte->guia2_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
+            <p><strong>Guía 2:</strong> <?php echo ($reporte->guia2_id) ? $reporte->guia2->nombre . ' - ' . $reporte->guia2_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
         <?php endif?>
 
         <?php if ($reporte->guia3_id != NULL && $reporte->guia3_pasajeros > 0) : ?>
-            <p style="color: black;"><strong>Guía 3:</strong> <?php echo ($reporte->guia3_id) ? $reporte->guia3->nombre . ' - ' . $reporte->guia3_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
+            <p><strong>Guía 3:</strong> <?php echo ($reporte->guia3_id) ? $reporte->guia3->nombre . ' - ' . $reporte->guia3_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
         <?php endif?>
 
         <?php if ($reporte->guia4_id != NULL && $reporte->guia4_pasajeros > 0) : ?>
-            <p style="color: black;"><strong>Guía 4:</strong> <?php echo ($reporte->guia4_id) ? $reporte->guia4->nombre . ' - ' . $reporte->guia4_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
+            <p><strong>Guía 4:</strong> <?php echo ($reporte->guia4_id) ? $reporte->guia4->nombre . ' - ' . $reporte->guia4_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
         <?php endif?>
 
         <?php if ($reporte->guia5_id != NULL && $reporte->guia5_pasajeros > 0) : ?>
-            <p style="color: black;"><strong>Guía 5:</strong> <?php echo ($reporte->guia5_id) ? $reporte->guia5->nombre . ' - ' . $reporte->guia5_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
+            <p><strong>Guía 5:</strong> <?php echo ($reporte->guia5_id) ? $reporte->guia5->nombre . ' - ' . $reporte->guia5_pasajeros . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
         <?php endif?>
 
         <?php if ($reporte->guia_muelle != NULL && $reporte->pasajeros_muelle > 0) : ?>
-            <p style="color: black;"><strong>Guía Muelle:</strong> <?php echo ($reporte->guia_muelle) ? $reporte->guia_muelle->nombre . ' - ' . $reporte->pasajeros_muelle . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
+            <p><strong>Guía Muelle:</strong> <?php echo ($reporte->guia_muelle) ? $reporte->guia_muelle->nombre . ' - ' . $reporte->pasajeros_muelle . ' pasajeros' : 'Sin Guía - 0 pasajeros'; ?></p>
         <?php endif?>
         
         <?php if ($reporte->pasajeros_no_show > 0) : ?>
-            <p style="color: black;"><strong>NoShow:</strong> <?php echo $reporte->pasajeros_no_show . ' pasajeros'; ?></p>
+            <p><strong>NoShow:</strong> <?php echo $reporte->pasajeros_no_show . ' pasajeros'; ?></p>
         <?php endif?>
         
         <!-- <table class="tabla" id="">

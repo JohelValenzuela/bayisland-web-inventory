@@ -31,6 +31,8 @@
                             <a class="estado aceptado"> Aceptado </a>
                         <?php elseif($maestro->estado === 'Rechazado'): ?>
                             <a class="estado rechazado"> Rechazado </a>
+                        <?php elseif($maestro->estado === 'Recibido'): ?>
+                            <a class="estado recibido"> Recibido </a>
                         <?php else: ?>
                             <a class="estado pendiente"> Pendiente </a>
                         <?php endif ?>              
@@ -101,12 +103,23 @@
         <input class="estado deshabilitado" disabled  name="cantidad2" id="cantidad2" type="text" value="<?php echo s($totalCantidadProductos) ?>"/>
     </div>
 
-    <div class="campo campo-separado w-40">
-        <label for="estado" >Estado</label>
-        <select name="estado" id="">
-            <option selected value>-- Seleccione --</option>
-            <option value="<?php echo s($maestro->estado = 'Aceptado') ?>">Aceptar</option>
-            <option value="<?php echo s($maestro->estado = 'Rechazado') ?>" >Rechazar</option>               
-        </select>
-    </div>
+    <?php if($maestro->estado === 'Recibido'): ?>
+        <div class="campo campo-separado w-40">
+            <label for="estado" >Estado</label>
+            <select class="estado deshabilitado" disabled name="estado" id="">
+                <option selected value>-- Seleccione --</option>
+                <option value="<?php echo s($maestro->estado = 'Aceptado') ?>">Aceptar</option>
+                <option value="<?php echo s($maestro->estado = 'Rechazado') ?>" >Rechazar</option>               
+            </select>
+        </div>
+    <?php else : ?>
+        <div class="campo campo-separado w-40">
+            <label for="estado" >Estado</label>
+            <select name="estado" id="">
+                <option selected value>-- Seleccione --</option>
+                <option value="<?php echo s($maestro->estado = 'Aceptado') ?>">Aceptar</option>
+                <option value="<?php echo s($maestro->estado = 'Rechazado') ?>" >Rechazar</option>               
+            </select>
+        </div>
+    <?php endif ?>
 </div>

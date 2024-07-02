@@ -48,11 +48,11 @@
 
     <section action="" class="form form-contenido form-tabla" method="POST" enctype="multipart/form-data">
 
-        <table class="tabla" id="tabla1">
+        <table class="tabla" id="tabla">
     <thead>
-        <tr>
-            <th></th>    
+        <tr>   
             <th>ID</th>
+            <th>Bodega</th>
             <th>Referencia</th>
             <th>Creado Por</th>
             <th>Desicion Por</th>
@@ -91,22 +91,23 @@
                     ?>
 
                     <tr>
-                        <td>
+                        <!-- <td>
                             <div class="acciones-tabla">
-                                <?php if(!$isVerMas) : ?> <!-- Mostrar el botón "Ver Más" solo si no se está mostrando la tabla -->
-                                    <a class="boton-accion entrada" href="?id=<?php echo $maestros->id; ?>&action=ver_mas">
+                                < ?php if(!$isVerMas) : ?>
+                                    <a class="boton-accion entrada" href="?id=< ?php echo $maestros->id; ?>&action=ver_mas">
                                         <i class="fa-regular fa-eye accion toggle-on"></i>
                                     </a>
-                                <?php endif ?>              
-                                <?php if($isVerMas) : ?> <!-- Mostrar el botón "Ocultar" solo si se está mostrando la tabla -->
-                                    <a class="boton-accion salida" href="?id=<?php echo $maestros->id; ?>&action=ocultar">
+                                < ?php endif ?>              
+                                < ?php if($isVerMas) : ?>
+                                    <a class="boton-accion salida" href="?id=< ?php echo $maestros->id; ?>&action=ocultar">
                                         <i class="fa-regular fa-eye-slash accion toggle-off"></i>
                                     </a>  
-                                <?php endif ?>
+                                < ?php endif ?>
                             </div>
-                        </td>
+                        </td> -->
 
                         <td data-titulo="Id"><?php echo $maestros->id; ?></td>
+                        <td data-titulo="Bodega"><?php echo $maestros->bodega->nombre . ' - ' . $maestros->bodega->ubicacion; ?></td> 
                         <td data-titulo="Referencia"><?php echo $maestros->referencia; ?></td>
                         <td data-titulo="Creador"><?php echo $maestros->usuario->nombre . " " . $maestros->usuario->apellido; ?></td>
                         <?php if ($maestros->usuarioIdAprueba == 0) : ?>
@@ -119,6 +120,8 @@
                                 <a class="estado aceptado"> Aceptado </a>
                             <?php elseif($maestros->estado === 'Rechazado'): ?>
                                 <a class="estado rechazado"> Rechazado </a>
+                            <?php elseif($maestros->estado === 'Recibido'): ?>
+                                <a class="estado recibido"> Recibido </a>
                             <?php else: ?>
                                 <a class="estado pendiente"> Pendiente </a>
                             <?php endif ?>              
@@ -127,8 +130,17 @@
                         <td>
                             <div class="acciones-tabla">
                                 <a class="boton-accion entrada" href="/pedido/gestionaReferencia?id=<?php echo $maestros->id;?>">
-                                    <i class="fa-regular fa-pen-to-square accion"></i>    
-                                </a>                  
+                                    <i class="fa-regular fa-pen-to-square accion"></i>
+                                </a>
+                                <?php if($maestros->estado === 'Aceptado') : ?>
+                                    <a id="btnRecibirPedido" class="boton-accion agrega" href="/stock/recibir?id=<?php echo $maestros->id; ?>&bodegaId=<?php echo $maestros->bodegaId; ?>">
+                                        <i class="fa-solid fa-boxes accion"></i> Recibir Pedido
+                                    </a>
+                                    <?php elseif($maestros->estado === 'Recibido' || $maestros->estado === 'Pendiente' || $maestros->estado === 'Rechazado'): ?>
+                                    <a id="btnRecibirPedido" class="boton-accion estado deshabilitado no-borde">
+                                        <i class="fa-solid fa-boxes accion"></i> Recibir Pedido
+                                    </a>
+                                <?php endif ?>                  
                             </div>
                         </td>
                     </tr>
@@ -215,11 +227,6 @@
         <?php } ?> 
     </tbody>
 </table>     
-
-<script type="text/javascript">
-    var datosTabla1 = <?php echo json_encode($datosTabla1); ?>;
-    var datosTabla2 = <?php echo json_encode($datosTabla2); ?>;
-</script>    
 
     </section>   
 </section>   

@@ -17,6 +17,12 @@ use MVC\Router;
 class ReporteDefectosController {
 
     public static function mostrar(Router $router) {
+
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         $reportes = ReporteDefecto::all();
         $bodegas = Bodegas::all();
 
@@ -33,6 +39,12 @@ class ReporteDefectosController {
     }
     
     public static function crear(Router $router) {
+
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         $usuarios = Auth::all();
         $productos = Producto::all();
         $recetas = Receta::all();
@@ -84,6 +96,13 @@ class ReporteDefectosController {
     }
 
     public static function aprobar(Router $router) {
+
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $reporte = ReporteDefecto::find($id);
@@ -127,6 +146,13 @@ class ReporteDefectosController {
     }
 
     public static function rechazar(Router $router) {
+
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $reporte = ReporteDefecto::find($id);

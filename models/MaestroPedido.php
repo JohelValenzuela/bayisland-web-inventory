@@ -8,7 +8,7 @@ class MaestroPedido extends ActiveRecord {
     protected static $tabla = 'maestro_pedido';
 
     // Columnas
-    protected static $columnasDB = ['id', 'referencia', 'estado', 'usuarioId', 'usuarioIdAprueba', 'fechaCreacion'];
+    protected static $columnasDB = ['id', 'referencia', 'estado', 'usuarioId', 'usuarioIdAprueba', 'fechaCreacion', 'bodegaId'];
 
     // Atributos
     public $id;
@@ -17,6 +17,7 @@ class MaestroPedido extends ActiveRecord {
     public $usuarioId;
     public $usuarioIdAprueba;
     public $fechaCreacion;
+    public $bodegaId;
 
     // Constructor de atributos
     public function __construct($args = []){
@@ -26,31 +27,22 @@ class MaestroPedido extends ActiveRecord {
         $this->usuarioId = $args['usuarioId'] ?? '';
         $this->usuarioIdAprueba = $args['usuarioIdAprueba'] ?? '';
         $this->fechaCreacion = $args['fechaCreacion'] ?? '';
+        $this->bodegaId = $args['bodegaId'] ?? '';
     }
 
     public function validar() {
-
-        //? SE CREA AUTOMATICO
-        //* - id
-        //* - referencia
-        //* - estado
-        //* - usuarioId
-        //* - usuarioIdAprueba
-        //* - fechaCreacion
-        
-
         if(!$this->estado) {
             self::$alertas['error'][] = "El estado de la categoría es obligatorio";
         }
-
+        if(!$this->bodegaId) {
+            self::$alertas['error'][] = "La bodega es obligatoria";
+        }
         return self::$alertas;
     }
-
 
     public function crearReferencia() {
         $this->referencia = uniqid();
     }
-
     
     public function existeReferencia($referencia) {
         // Query SQL. Se leen los datos de la DB.

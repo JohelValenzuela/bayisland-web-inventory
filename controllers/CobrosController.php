@@ -13,6 +13,10 @@ use MVC\Router;
 class CobrosController {
 
     public static function mostrar(Router $router) {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
         $clientes = Cliente::all();
         $clienteSeleccionado = null;
 
@@ -27,6 +31,11 @@ class CobrosController {
     }
 
     public static function seleccionarCliente(Router $router) {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         $alertas = [];
         $clientes = Cliente::all();
         $clienteSeleccionado = null;
@@ -70,6 +79,11 @@ class CobrosController {
     }
 
     public static function guardarCobro(Router $router) {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         $alertas = [];
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cliente_id'])) {
@@ -175,9 +189,4 @@ class CobrosController {
         ]);
     }
     
-    
-    
-    
-    
-
 }

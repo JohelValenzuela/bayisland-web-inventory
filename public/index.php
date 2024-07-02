@@ -166,6 +166,9 @@ $router = new Router();
 
     $router->get('/stock/nuevaSalida', [InventarioController::class, 'nuevaSalida']);
     $router->post('/stock/nuevaSalida', [InventarioController::class, 'nuevaSalida']);
+    
+    $router->get('/stock/recibir', [InventarioController::class, 'recibir']);
+    $router->post('/stock/recibir', [InventarioController::class, 'recibir']);
 
     // $router->post('/stock/eliminar', [InventarioController::class, 'eliminar']);
 /********************************/

@@ -30,9 +30,9 @@ use Model\Venta;
                     date_default_timezone_set("America/Costa_Rica");
                     setlocale(LC_ALL,"es_ES");
                 ?>
-                <p style="color: black;"><strong>Venta:</strong> Nº <?php echo $ventaCliente->id; ?></p>
-                <p style="color: black;"><strong>Fecha: </strong><?php echo date("F, j, Y, g:i a"); ?></p>
-                <p style="color: black;"><strong>Cliente:</strong> <?php echo $clienteSeleccionado->nombre . " - " . $clienteSeleccionado->codigo_brazalete; ?></p>
+                <p><strong>Venta:</strong> Nº <?php echo $ventaCliente->id; ?></p>
+                <p><strong>Fecha: </strong><?php echo date("F, j, Y, g:i a"); ?></p>
+                <p><strong>Cliente:</strong> <?php echo $clienteSeleccionado->nombre . " - " . $clienteSeleccionado->codigo_brazalete; ?></p>
                 <!-- <?php if (!empty($productosVenta)) : ?>
                     <?php foreach($productosVenta as $producto) : ?>
                         <?php $cobroVinculado = Cobro::findVenta($producto->venta_id); ?>
@@ -120,10 +120,10 @@ use Model\Venta;
                             $totalDolares = ($sum_colones / $_SESSION['tipo_cambio']) + $sum_dolares;
                             ?>
                         <?php if ($sum_colones > 0 || $sum_dolares > 0) : ?>
-                            <p style="color: black;"><strong>Monto Colones:</strong> ₡<?php echo number_format($totalColones, 0); ?></p>
-                            <p style="color: black;"><strong>Monto Dólares:</strong> $<?php echo number_format($totalDolares, 2); ?></p>
+                            <p><strong>Monto Colones:</strong> ₡<?php echo number_format($totalColones, 0); ?></p>
+                            <p><strong>Monto Dólares:</strong> $<?php echo number_format($totalDolares, 2); ?></p>
                         <?php endif; ?>
-                        <p style="color: black;"><strong style="text-transform: capitalize;"> Tipo cambio dolar: </strong><?php echo number_format($_SESSION['tipo_cambio'], 2) . " colones" ; ?></p>
+                        <p><strong style="text-transform: capitalize;"> Tipo cambio dolar: </strong><?php echo number_format($_SESSION['tipo_cambio'], 2) . " colones" ; ?></p>
                     </div>
                 <?php endif; ?>
 

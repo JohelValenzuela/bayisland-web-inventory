@@ -23,7 +23,7 @@ class DashboardController {
     public static function mostrar(Router $router) {
 
         isAuth();
-        if(!isAdmin()) {
+        if(!tieneRol()) {
             header('Location: /templates/error403');
         }
 

@@ -62,6 +62,12 @@
         border: 2px solid #d8d3d3;
     }
 
+    &.no-borde{
+        border: none;
+        background-color: transparent;
+        text-transform: uppercase;
+    }
+
     &.activo{
         color: v.$verde;
         background-color: v.$verdeClaro;
@@ -80,6 +86,11 @@
     &.rechazado{
         color: v.$rojo;
         background-color: v.$rojoClaro;
+    }
+
+    &.recibido{
+        color: v.$amarillo;
+        background-color: v.$amarilloClaro;
     }
 
     &.pendiente{

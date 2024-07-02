@@ -182,7 +182,6 @@ class ProductoController {
             'alertas' => $alertas
         ]);
     }
-    
 
     public static function eliminar(){
         
@@ -204,6 +203,4 @@ class ProductoController {
         
         
     }
-
-
 }

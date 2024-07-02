@@ -14,6 +14,11 @@ use MVC\Router;
 class RegaliasController {
 
     public static function mostrar(Router $router) {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
+
         $regalias = Regalia::all();
         $bodegas = Bodegas::all();
 
@@ -30,6 +35,10 @@ class RegaliasController {
     }
 
     public static function crear(Router $router) {
+        isAuth();
+        if(!tieneRol()) {
+            header('Location: /templates/error403');
+        }
 
         $alertas = [];
         
@@ -76,6 +85,13 @@ class RegaliasController {
     }
 
     public static function aprobar(Router $router) {
+
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $regalia = Regalia::find($id);
@@ -125,6 +141,13 @@ class RegaliasController {
     }
 
     public static function rechazar(Router $router) {
+
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+            exit;
+        }
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $regalia = Regalia::find($id);

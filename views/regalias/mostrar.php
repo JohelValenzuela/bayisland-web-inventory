@@ -53,6 +53,7 @@
                         <?php endif ?>              
                     </td>
                     <td>
+                    <?php if($_SESSION['rol'] == 'Administrador') : ?>
                         <?php if ($regalia->estado == 'pendiente') : ?>
                             <div class="acciones-tabla">
                                 <form method="POST" action="/regalias/aprobar" style="display:inline;">
@@ -69,6 +70,7 @@
                                 </form>
                             </div>
                         <?php endif; ?>
+                    <?php endif ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

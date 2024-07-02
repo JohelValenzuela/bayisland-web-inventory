@@ -13,7 +13,7 @@ class ActiveRecord {
 
 
     // Visibilidad de los atributos
-    public $id, $nombre, $apellido, $confirmado, $correo, $rolId, $token, $cantidad, $volumen, $contenido, $categoriaId, $presentacion, $medidaId, $unidad_empaque, $estado, $cantidadPresentacion, $categoria, $medida, $referencia, $producto, $observacion, $usuario, $fechaCreacion, $precioUnidad, $precioMedida, $totalMedida, $productoId, $usuarioId, $cantidadTotal, $cantidadAnterior, $usuarioIdAprueba, $maestroId, $movimiento, $recetaId, $producto_id, $receta_id, $cliente, $usuario_id, $codigo_brazalete, $receta, $guia1_id, $guia2_id, $guia3_id, $guia4_id, $guia5_id, $guia_muelle_id, $reportado_por_id, $capitan_id, $fecha, $guia1_pasajeros, $guia2_pasajeros, $guia3_pasajeros, $guia4_pasajeros, $guia5_pasajeros, $pasajeros_muelle, $reportado_por, $guias_bote_ids, $pasajeros_no_show, $bodegaId;
+    public $id, $nombre, $apellido, $confirmado, $correo, $rolId, $token, $cantidad, $volumen, $contenido, $categoriaId, $presentacion, $medidaId, $unidad_empaque, $estado, $cantidadPresentacion, $categoria, $medida, $referencia, $producto, $observacion, $usuario, $fechaCreacion, $precioUnidad, $precioMedida, $totalMedida, $productoId, $usuarioId, $cantidadTotal, $cantidadAnterior, $usuarioIdAprueba, $maestroId, $movimiento, $recetaId, $producto_id, $receta_id, $cliente, $usuario_id, $codigo_brazalete, $receta, $guia1_id, $guia2_id, $guia3_id, $guia4_id, $guia5_id, $guia_muelle_id, $reportado_por_id, $capitan_id, $fecha, $guia1_pasajeros, $guia2_pasajeros, $guia3_pasajeros, $guia4_pasajeros, $guia5_pasajeros, $pasajeros_muelle, $reportado_por, $guias_bote_ids, $pasajeros_no_show, $bodegaId, $ubicacion;
 
     
 
@@ -219,6 +219,13 @@ class ActiveRecord {
         //debug($query);
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
+    }
+
+    public static function findDetallePedido($id) {
+        $query = "SELECT * FROM " . static::$tabla  ." WHERE maestroId = {$id}";
+        //debug($query);
+        $resultado = self::consultarSQL($query);
+        return $resultado;
     }
 
     public static function findReceta($id) {

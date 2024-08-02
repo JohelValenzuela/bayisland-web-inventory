@@ -36,6 +36,10 @@ $router = new Router();
     $router->get('/auth/crear_cuenta', [AuthController::class, 'crear_cuenta']);
     $router->post('/auth/crear_cuenta', [AuthController::class, 'crear_cuenta']);
 
+    // Crear Cuenta
+    $router->get('/auth/crear_cuentaTemporal', [AuthController::class, 'crear_cuentaTemporal']);
+    $router->post('/auth/crear_cuentaTemporal', [AuthController::class, 'crear_cuentaTemporal']);
+
 
     // Olvide Contraseña
     $router->get('/auth/olvide_password', [AuthController::class, 'olvide_password']);
@@ -48,10 +52,14 @@ $router = new Router();
     // Confirmación de cuenta
     $router->get('/auth/confirmar_cuenta', [AuthController::class, 'confirmar_cuenta']);
     $router->get('/auth/mensaje', [AuthController::class, 'mensaje']);
+    $router->get('/auth/detalles', [AuthController::class, 'detalles']);
 
 
     // Mostrar Usuarios
     $router->get('/auth/mostrar', [AuthController::class, 'mostrar']);
+
+    // Mostrar Usuarios Temporales
+    $router->get('/auth/mostrarTemporal', [AuthController::class, 'mostrarTemporal']);
 
     // Actualizar Usuarios
     $router->get('/auth/actualizar_cuenta', [AuthController::class, 'actualizar_cuenta']);
@@ -63,8 +71,18 @@ $router = new Router();
     // Desactivar Usuario
     $router->post('/auth/desactivar', [AuthController::class, 'desactivar']);
 
-        // Activar Usuario
-        $router->post('/auth/activar', [AuthController::class, 'activar']);
+    // Activar Usuario
+    $router->post('/auth/activar', [AuthController::class, 'activar']);
+    
+    // Desactivar Usuario Temporal
+    $router->post('/auth/desactivarTemporal', [AuthController::class, 'desactivarTemporal']);
+
+    // Activar Usuario Temporal
+    $router->post('/auth/activarTemporal', [AuthController::class, 'activarTemporal']);
+
+    // Generar Password Temporal
+    $router->get('/auth/generarPassword', [AuthController::class, 'generarPassword']);
+    $router->post('/auth/generarPassword', [AuthController::class, 'generarPassword']);
     
 /********************************/
 

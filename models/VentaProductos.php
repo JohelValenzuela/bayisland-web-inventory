@@ -13,6 +13,8 @@ class VentaProductos extends ActiveRecord {
     public $cantidad;
     public $precio;
     public $metodoPago;
+    public $cantidad_vendida ;
+    public $total_ingresos ;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
@@ -22,6 +24,8 @@ class VentaProductos extends ActiveRecord {
         $this->cantidad = $args['cantidad'] ?? 0;
         $this->precio = $args['precio'] ?? 0;
         $this->metodoPago = $args['metodoPago'] ?? '';
+        $this->cantidad_vendida  = $args['cantidad_vendida '] ?? '';
+        $this->total_ingresos  = $args['total_ingresos '] ?? '';
     }
 
     public function validar() {

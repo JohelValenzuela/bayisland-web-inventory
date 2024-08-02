@@ -18,6 +18,7 @@ class MaestroPedido extends ActiveRecord {
     public $usuarioIdAprueba;
     public $fechaCreacion;
     public $bodegaId;
+    public $fecha_creacion ;
 
     // Constructor de atributos
     public function __construct($args = []){
@@ -28,6 +29,7 @@ class MaestroPedido extends ActiveRecord {
         $this->usuarioIdAprueba = $args['usuarioIdAprueba'] ?? '';
         $this->fechaCreacion = $args['fechaCreacion'] ?? '';
         $this->bodegaId = $args['bodegaId'] ?? '';
+        $this->fecha_creacion  = $args['fecha_creacion '] ?? '';
     }
 
     public function validar() {

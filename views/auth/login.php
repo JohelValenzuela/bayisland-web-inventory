@@ -9,7 +9,7 @@
 
                 <form class="form-campo" action="/auth/login" method="POST">
                     <div class="campo campo-unido">
-                        <input id="correo" name="correo" type="email" placeholder="Correo Electrónico" class="formulario-input">
+                        <input id="correo" name="correo" type="text" placeholder="Correo Electrónico" class="formulario-input">
                     </div>
 
                     <div class="campo campo-unido">

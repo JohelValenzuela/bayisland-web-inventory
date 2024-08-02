@@ -6,32 +6,35 @@ class Auth extends ActiveRecord {
 
     // Base de datos
     protected static $tabla = 'usuarios';
-    protected static $columnasDB = ['id', 'nombre', 'apellido', 'correo', 'password', 'rolId', 'confirmado', 'token', 'estado'];
+    protected static $columnasDB = ['id', 'nombre', 'apellido', 'correo', 'username', 'password', 'token', 'tipo_usuario', 'confirmado', 'estado', 'rolId'];
 
     public $id;
     public $nombre;
     public $apellido;
     public $correo;
+    public $username;
     public $password;
-    public $rolId;
-    public $confirmado;
     public $token;
+    public $tipo_usuario;
+    public $confirmado;
     public $estado;
+    public $rolId; // Campo nuevo para el rol del usuario
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? NULL;
         $this->nombre = $args['nombre'] ?? '';
         $this->apellido = $args['apellido'] ?? '';
         $this->correo = $args['correo'] ?? '';
+        $this->username = $args['username'] ?? '';
         $this->password = $args['password'] ?? '';
-        $this->rolId = $args['rolId'] ?? '';
-        $this->confirmado = $args['confirmado'] ?? 0;
         $this->token = $args['token'] ?? '';
-        $this->estado = $args['estado'] ?? '';
+        $this->tipo_usuario = $args['tipo_usuario'] ?? 'regular';
+        $this->confirmado = $args['confirmado'] ?? 0;
+        $this->estado = $args['estado'] ?? 'Activo';
+        $this->rolId = $args['rolId'] ?? NULL; // Inicializar el rol del usuario
     }
 
-    // Mensajes de validación para la creción de un usuario
-
+    // Mensajes de validación para la creación de un usuario
     public function validarNuevoUsuario() {
 
         if(!$this->nombre){
@@ -51,7 +54,28 @@ class Auth extends ActiveRecord {
         }
 
         if(strlen($this->password) < 8){
-            self::$alertas['error'][] = "La contraseña debe contener almenos 8 caracteres";
+            self::$alertas['error'][] = "La contraseña debe contener al menos 8 caracteres";
+        }
+
+        if(!$this->estado) {
+            self::$alertas['error'][] = "El estado del usuario es obligatorio";
+        }
+
+        if(!$this->rolId) {
+            self::$alertas['error'][] = "Selecciona un rol para el usuario";
+        }
+
+        return self::$alertas;
+    }
+
+    public function validarNuevoUsuarioTemporal() {
+
+        if(!$this->nombre){
+            self::$alertas['error'][] = "Escribe un nombre de usuario";
+        }
+
+        if(!$this->apellido){
+            self::$alertas['error'][] = "Escribe el apellido de usuario";
         }
 
         if(!$this->estado) {
@@ -97,16 +121,40 @@ class Auth extends ActiveRecord {
         }
 
         if(strlen($this->password) < 8){
-            self::$alertas['error'][] = "La contraseña debe contener almenos 8 caracteres";
+            self::$alertas['error'][] = "La contraseña debe contener al menos 8 caracteres";
         }
 
         return self::$alertas;
     }
 
-    //? [a-zA-Z0-9._%+-]+: Permite letras (mayúsculas y minúsculas), números y algunos caracteres especiales como ._%+- en la parte local del correo electrónico (antes del símbolo @).
-    //? @[a-zA-Z0-9.-]+: Permite letras (mayúsculas y minúsculas), números, y el guión (-) en el dominio.
-    //? \.[a-zA-Z]{2,}$: Permite letras (mayúsculas y minúsculas) en el TLD (dominio de nivel superior) con al menos dos caracteres.
+    // Genera un nombre de usuario a partir del nombre y apellido
+    public static function generarUsername($nombre, $apellido) {
+        // Limpiar y convertir el nombre y apellido a minúsculas
+        $nombre = strtolower(trim($nombre));
+        $apellido = strtolower(trim($apellido));
+        
+        // Reemplazar espacios y caracteres especiales
+        $nombre = preg_replace('/[^a-z0-9]/', '', $nombre);
+        $apellido = preg_replace('/[^a-z0-9]/', '', $apellido);
     
+        // Generar un número aleatorio
+        $numeroRandom = rand(10, 99);
+    
+        // Crear el nombre de usuario
+        $username = $nombre . '' . $apellido . $numeroRandom;
+    
+        return $username;
+    }
+    
+    function generarPassword($username) {
+        // Añadimos algunos caracteres especiales y números al nombre de usuario
+        $caracteresEspeciales = ['!', '@', '#', '$', '%', '^', '&', '*'];
+        $caracterEspecial = $caracteresEspeciales[array_rand($caracteresEspeciales)];
+        $numeroRandom = rand(10, 99);
+    
+        // Combinamos el nombre de usuario con el carácter especial y número
+        return $username . $caracterEspecial . $numeroRandom;
+    }
 
     // Revisa si el usuario existe
     public function existeUsuario() {
@@ -114,14 +162,10 @@ class Auth extends ActiveRecord {
         // Expresión regular para validar el correo electrónico sin caracteres especiales
         $patron = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
 
-        //$email = "john(.doe)@exa//mple.com";
-        
         // Elimina caracteres no válidos
         $email = filter_var($this->correo, FILTER_SANITIZE_EMAIL);
-        //debug($email);
-        //debug(filter_var($email, FILTER_VALIDATE_EMAIL));
 
-        // Validate e-mail
+        // Validar e-mail
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // Valida el correo ingresado con la expresión regular
             if (preg_match($patron, $email)) {
@@ -135,7 +179,7 @@ class Auth extends ActiveRecord {
                 if($resultado->num_rows) {
                     self::$alertas['error'][] = 'El usuario ya está registrado';
                 }
-            }  else {
+            } else {
                 self::$alertas['error'][] = 'El correo ingresado no es válido';
             }
         } else {
@@ -145,7 +189,6 @@ class Auth extends ActiveRecord {
         // Retorna el resultado
         return $resultado;
     }
-    
 
     public function hashPassword() {
         // Lee el password escrito, aplica la función y lo vuelve a asignar en el mismo lugar.
@@ -161,19 +204,11 @@ class Auth extends ActiveRecord {
         // Verifica si la contraseña es correcta
         $resultado = password_verify($password, $this->password);
 
-        // Si la password es incorrecta o no está confirmado
+        // Si la contraseña es incorrecta o no está confirmado
         if(!$resultado || !$this->confirmado) {
             self::$alertas['error'][] = "La contraseña es incorrecta o su cuenta no ha sido confirmada";
         } else {
             return true;
         }
     }
-
-
-
-    
-
-
-
-
 }

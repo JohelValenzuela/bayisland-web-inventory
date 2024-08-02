@@ -16,6 +16,7 @@ class Cobro extends ActiveRecord {
     public $fecha_registro;
     public $estado;
     public $debe;
+    public $total_pagado;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
@@ -27,6 +28,7 @@ class Cobro extends ActiveRecord {
         $this->fecha_registro = $args['fecha_registro'] ?? '';
         $this->estado = $args['estado'] ?? '';
         $this->debe = $args['debe'] ?? '';
+        $this->total_pagado = $args['total_pagado'] ?? '';
     }
 
     public function validar() {

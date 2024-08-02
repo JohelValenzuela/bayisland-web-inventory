@@ -7,7 +7,7 @@ use Model\Cobro;
 use Model\Producto;
 use Model\Receta;
 use Model\Venta;
-use Model\VentaProductos; // Agrega el modelo de VentaProductos
+use Model\VentaProductos;
 use MVC\Router;
 
 class CobrosController {

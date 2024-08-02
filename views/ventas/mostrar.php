@@ -43,6 +43,7 @@
                     <th>ID</th>
                     <th>Cliente</th>
                     <th>Código Brazalete</th>
+                    <th>Vendedor</th>
                     <th>Fecha Venta</th>
                     <th>Cantidad por Pagar</th>
                     <th>Cantidad Pagada</th>
@@ -76,6 +77,7 @@
                             <td data-titulo="Id"><?php echo $ventas->id; ?></td>
                             <td data-titulo="Nombre"><?php echo $ventas->cliente->nombre;?></td>
                             <td data-titulo="Brazalete"><?php echo $ventas->cliente->codigo_brazalete;?></td>
+                            <td data-titulo="Vendedor"><?php echo $ventas->usuario->nombre . " " . $ventas->usuario->apellido; ?></td>
                             <td data-titulo="Fecha"><?php echo $fechaCreacionFormateada; ?></td>
                             <!-- Nuevas columnas para detalles del cobro -->
                             <?php

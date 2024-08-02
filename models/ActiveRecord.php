@@ -167,6 +167,13 @@ class ActiveRecord {
         return $resultado;
     }
 
+    public static function porUsuario($usuarioId) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE usuario_id = {$usuarioId}";
+        //debug($query);
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
     // Busca un registro por su id
     public static function find($id) {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE id = {$id}";
@@ -220,6 +227,14 @@ class ActiveRecord {
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
+
+    public static function findIngredientesReceta($receta_id) {
+        $query = "SELECT * FROM receta_ingredientes WHERE recetaId = {$receta_id}";
+        //debug($query);
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+    
 
     public static function findDetallePedido($id) {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE maestroId = {$id}";
@@ -479,5 +494,288 @@ class ActiveRecord {
         $resultado = self::$db->query($query);
         return $resultado;
     }
+
+
+
+
+
+
+    /*** GRAFICOS */
+
+    public static function graficoVentasPorDia() {
+        $query = "SELECT DATE(fecha) AS fecha, COUNT(*) AS cantidadVentas, SUM(vp.cantidad) AS cantidadProductos, SUM(vp.precio * vp.cantidad) AS montoTotal
+                  FROM ventas v
+                  JOIN venta_productos vp ON v.id = vp.venta_id
+                  GROUP BY DATE(fecha)
+                  ORDER BY Fecha";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+    
+    public static function graficoVentasPorProducto() {
+        $query = "SELECT p.nombre AS producto, COUNT(*) AS cantidadVentas, SUM(vp.cantidad) AS cantidadTotal, SUM(vp.precio * vp.cantidad) AS montoTotal
+                  FROM ventas v
+                  JOIN venta_productos vp ON v.id = vp.venta_id
+                  JOIN producto p ON vp.producto_id = p.id
+                  GROUP BY p.nombre
+                  ORDER BY cantidadVentas DESC";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    public static function reporteVentasPorProducto() {
+        $query = "SELECT p.nombre AS producto, 
+                         SUM(v.cantidad) AS cantidad_ventas, 
+                         SUM(v.precio) AS monto_total
+                  FROM venta_productos v
+                  JOIN producto p ON v.producto_id = p.id
+                  GROUP BY p.nombre";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+    
+
+    // Reporte de Ventas por Cliente
+    public static function reporteVentasPorCliente() {
+        $query = "SELECT c.nombre AS cliente, v.fecha AS fecha, vp.producto_id AS producto, vp.cantidad AS cantidad, vp.precio AS precio
+                FROM ventas v
+                JOIN clientes c ON v.cliente = c.id
+                JOIN venta_productos vp ON v.id = vp.venta_id
+                ORDER BY v.fecha";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Cobros por Cliente
+    public static function reporteCobrosPorCliente() {
+        $query = "SELECT c.nombre AS cliente, co.metodo_pago AS metodopago, co.cantidad_pagada AS cantidadpagada, co.fecha_registro AS fecharegistro
+                FROM cobros co
+                JOIN clientes c ON co.cliente_id = c.id
+                ORDER BY co.fecha_registro";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Stock por Producto y Bodega
+    public static function reporteStockPorProductoYBodega() {
+        $query = "SELECT p.nombre AS producto, b.nombre AS bodega, s.cantidad AS cantidad, s.movimiento AS movimiento, s.fechaCreacion AS fecha
+                FROM stock s
+                JOIN producto p ON s.productoId = p.id
+                JOIN bodegas b ON s.bodegaId = b.id
+                ORDER BY s.fechaCreacion";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Pedidos por Usuario
+    public static function reportePedidosPorUsuario() {
+        $query = "SELECT u.nombre AS usuario, mp.referencia AS referencia, mp.fechaCreacion AS fechaCreacion, mp.estado AS estado
+                FROM maestro_pedido mp
+                JOIN usuarios u ON mp.usuarioId = u.id
+                ORDER BY mp.fechaCreacion";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Productos Más Vendidos
+    public static function reporteProductosMasVendidos() {
+        $query = "SELECT p.nombre AS producto, SUM(vp.cantidad) AS cantidad_vendida, SUM(vp.precio * vp.cantidad) AS total_ingresos
+                FROM venta_productos vp
+                JOIN producto p ON vp.producto_id = p.id
+                GROUP BY p.nombre
+                ORDER BY cantidad_vendida DESC";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Kardex por Producto y Bodega
+    public static function reporteKardexPorProductoYBodega() {
+        $query = "SELECT p.nombre AS producto, b.nombre AS bodega, k.referencia AS referencia, k.cantidadEntrada AS entrada, k.cantidadSalida AS salida, k.cantidadTotal AS total, k.fechaCreacion AS fecha
+                FROM kardex k
+                JOIN producto p ON k.productoId = p.id
+                JOIN bodegas b ON k.bodegaId = b.id
+                ORDER BY k.fechaCreacion";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    //Reporte de Clientes con Deuda
+    public static function reporteClientesConDeuda() {
+        $query = "SELECT c.nombre AS cliente, SUM(co.debe) AS total_deuda
+                FROM cobros co
+                JOIN clientes c ON co.cliente_id = c.id
+                WHERE co.estado = 'pendiente'
+                GROUP BY c.nombre
+                ORDER BY total_deuda DESC";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+
+    // Reporte de Defectos por Producto y Bodega
+    public static function reporteDefectosPorProductoYBodega() {
+        $query = "SELECT p.nombre AS producto, b.nombre AS bodega, rd.cantidad AS cantidad, rd.observacion AS observacion, rd.fecha_reporte AS fecha
+                FROM reportes_defectos rd
+                JOIN producto p ON rd.producto_id = p.id
+                JOIN bodegas b ON rd.bodegaId = b.id
+                ORDER BY rd.fecha_reporte";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Regalias por Producto y Bodega
+    public static function reporteRegaliasPorProductoYBodega() {
+        $query = "SELECT p.nombre AS producto, b.nombre AS bodega, r.cantidad AS cantidad, r.observacion AS observacion, r.fecha_regalia AS fecha
+                FROM regalias r
+                JOIN producto p ON r.producto_id = p.id
+                JOIN bodegas b ON r.bodegaId = b.id
+                ORDER BY r.fecha_regalia";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Ventas de Última Hora
+    // public static function reporteVentasDeUltimaHora() {
+    //     $query = "SELECT vuh.nombre_persona AS nombre, vuh.nacionalidad AS nacionalidad, vuh.cantidad_personas AS cantidad_personas, vuh.total_dolares AS total_dolares, vuh.total_colones AS total_colones, vuh.fecha AS fecha
+    //               FROM ventas_ultima_hora vuh
+    //               ORDER BY vuh.fecha";
+    //               debug($query);
+    //     $resultado = self::consultarSQL($query);
+    //     return $resultado;
+    // }
+
+    // Reporte de Pasajeros por Guía
+    public static function reportePasajerosPorGuia() {
+        $query = "SELECT r.fecha AS fecha, g1.nombre AS guia1, r.guia1_pasajeros AS pasajeros_guia1, g2.nombre AS guia2, r.guia2_pasajeros AS pasajeros_guia2, g3.nombre AS guia3, r.guia3_pasajeros AS pasajeros_guia3, g4.nombre AS guia4, r.guia4_pasajeros AS pasajeros_guia4, g5.nombre AS guia5, r.guia5_pasajeros AS pasajeros_guia5
+                FROM reporte_pasajeros r
+                LEFT JOIN guias g1 ON r.guia1_id = g1.id
+                LEFT JOIN guias g2 ON r.guia2_id = g2.id
+                LEFT JOIN guias g3 ON r.guia3_id = g3.id
+                LEFT JOIN guias g4 ON r.guia4_id = g4.id
+                LEFT JOIN guias g5 ON r.guia5_id = g5.id
+                ORDER BY r.fecha";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Ventas por Mes
+    public static function reporteVentasPorMes() {
+        $query = "SELECT DATE_FORMAT(v.fecha, '%Y-%m') AS mes, SUM(vp.cantidad) AS cantidad_vendida, SUM(vp.precio * vp.cantidad) AS total_ingresos
+                FROM ventas v
+                JOIN venta_productos vp ON v.id = vp.venta_id
+                GROUP BY DATE_FORMAT(v.fecha, '%Y-%m')
+                ORDER BY mes";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Clientes Frecuentes
+    public static function reporteClientesFrecuentes() {
+        $query = "SELECT c.nombre AS cliente, COUNT(v.id) AS total_compras, SUM(vp.cantidad) AS total_productos, SUM(vp.precio * vp.cantidad) AS total_gastado
+                FROM clientes c
+                JOIN ventas v ON c.id = v.cliente
+                JOIN venta_productos vp ON v.id = vp.venta_id
+                GROUP BY c.nombre
+                HAVING COUNT(v.id) > 5
+                ORDER BY total_gastado DESC";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Productos con Mayor Stock
+    public static function reporteProductosConMayorStock() {
+        $query = "SELECT p.nombre AS producto, SUM(s.cantidad) AS total_stock
+                FROM producto p
+                JOIN stock s ON p.id = s.productoId
+                GROUP BY p.nombre
+                ORDER BY total_stock DESC";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    //Reporte de Productos Sin Movimiento
+    // public static function reporteProductosSinMovimiento() {
+    //     $query = "SELECT p.nombre AS producto, MAX(s.fechaCreacion) AS ultima_fecha_movimiento
+    //             FROM producto p
+    //             LEFT JOIN stock s ON p.id = s.productoId
+    //             GROUP BY p.nombre
+    //             HAVING MAX(s.fechaCreacion) < DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+    //             ORDER BY ultima_fecha_movimiento DESC";
+    //     $resultado = self::consultarSQL($query);
+    //     return $resultado;
+    // }
+
+    // public static function reporteProductosSinMovimiento() {
+    //     $query = "SELECT 
+    //             p.nombre AS producto,
+    //             s.bodegaId AS bodega,
+    //             MAX(s.fechaCreacion) AS ultima_fecha_movimiento
+    //             FROM producto p
+    //             LEFT JOIN stock s ON p.id = s.productoId
+    //             GROUP BY p.nombre, s.bodegaId
+    //             HAVING MAX(s.fechaCreacion) < DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+    //             ORDER BY ultima_fecha_movimiento DESC;";
+    //     $resultado = self::consultarSQL($query);
+    //     return $resultado;
+    // }
+
+    public static function reporteProductosSinMovimiento() {
+        $query = "SELECT 
+        p.nombre AS producto,
+        s.bodegaId AS bodega,
+        MAX(s.fechaCreacion) AS ultima_fecha_movimiento
+    FROM 
+        producto p
+    LEFT JOIN 
+        stock s ON p.id = s.productoId
+    GROUP BY 
+        p.nombre, s.bodegaId
+    HAVING 
+        MAX(s.fechaCreacion) < DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+    ORDER BY 
+        ultima_fecha_movimiento DESC;
+    ";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+    
+
+    // Reporte de Ventas por Categoría de Producto
+    public static function reporteVentasPorCategoriaDeProducto() {
+        $query = "SELECT cat.nombre AS categoria, SUM(vp.cantidad) AS cantidad_vendida, SUM(vp.precio * vp.cantidad) AS total_ingresos
+                FROM producto p
+                JOIN categoria cat ON p.categoriaId = cat.id
+                JOIN venta_productos vp ON p.id = vp.producto_id
+                GROUP BY cat.nombre
+                ORDER BY total_ingresos DESC";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+    // Reporte de Productos Devueltos por Cliente
+    // public static function reporteProductosDevueltosPorCliente() {
+    //     $query = "SELECT c.nombre AS cliente, p.nombre AS producto, d.cantidad AS cantidad_devuelta, d.fecha AS fecha
+    //               FROM devoluciones d
+    //               JOIN clientes c ON d.cliente_id = c.id
+    //               JOIN producto p ON d.producto_id = p.id
+    //               ORDER BY d.fecha";
+    //     $resultado = self::consultarSQL($query);
+    //     return $resultado;
+    // }
+
+    // Reporte de Ingresos y Egresos por Bodega
+    public static function reporteIngresosYEgresosPorBodega() {
+        $query = "SELECT b.nombre AS bodega,
+                        SUM(CASE WHEN s.movimiento = 'entrada' THEN s.cantidad ELSE 0 END) AS total_ingresos,
+                        SUM(CASE WHEN s.movimiento = 'salida' THEN s.cantidad ELSE 0 END) AS total_egresos
+                FROM stock s
+                JOIN bodegas b ON s.bodegaId = b.id
+                GROUP BY b.nombre
+                ORDER BY b.nombre";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
+
 
 }

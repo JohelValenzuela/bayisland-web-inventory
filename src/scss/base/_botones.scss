@@ -68,6 +68,12 @@
             color: v.$verde;
         }
 
+        &.generar {
+            color: v.$naranjaOscuro;
+            border: none;
+            background-color: transparent;
+        }
+
         &.carrito {
             color: v.$blanco;
             font-size: 5rem;

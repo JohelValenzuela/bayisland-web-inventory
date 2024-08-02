@@ -39,7 +39,15 @@
                 <tr>
                     <td><?php echo $regalia->id; ?></td>
                     <td><?php echo $regalia->usuario->nombre . " " . $regalia->usuario->apellido ; ?></td>
-                    <td><?php echo $regalia->producto->nombre . " " . $regalia->producto->presentacion  ; ?></td>
+                    <td data-titulo="Producto o Receta">
+                        <?php if ($regalia->producto_id !== 0 && $regalia->producto) {
+                            echo  $regalia->producto->nombre . " " . $regalia->producto->presentacion;
+                        } elseif ($regalia->receta_id !== 0 && $regalia->receta) {
+                            echo $regalia->receta->nombre;
+                        } else {
+                            echo 'Nada';
+                        } ?>
+                    </td> 
                     <td><?php echo $regalia->cantidad; ?></td>
                     <td><?php echo $regalia->observacion; ?></td>
                     <td><?php echo $fechaCreacionFormateada; ?></td>

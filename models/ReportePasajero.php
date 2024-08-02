@@ -24,6 +24,11 @@ class ReportePasajero extends ActiveRecord {
     public $guias_bote_ids;
     public $capitan_id;
     public $guia_muelle_id;
+    public $guia1;
+    public $guia2;
+    public $guia3;
+    public $guia4;
+    public $guia5;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
@@ -44,6 +49,11 @@ class ReportePasajero extends ActiveRecord {
         $this->guias_bote_ids = $args['guias_bote_ids'] ?? '';
         $this->capitan_id = $args['capitan_id'] ?? null;
         $this->guia_muelle_id = $args['guia_muelle_id'] ?? null;
+        $this->guia1 = $args['guia1'] ?? 0;
+        $this->guia2 = $args['guia2'] ?? 0;
+        $this->guia3 = $args['guia3'] ?? 0;
+        $this->guia4 = $args['guia4'] ?? 0;
+        $this->guia5 = $args['guia5'] ?? 0;
     }
 
     public function validar() {

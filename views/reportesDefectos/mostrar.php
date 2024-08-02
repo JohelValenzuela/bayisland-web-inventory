@@ -38,8 +38,16 @@
                     ?>
                     <tr>
                         <td><?php echo $reporte->id; ?></td>
-                        <td><?php echo $reporte->usuario->nombre . " " . $reporte->usuario->apellido; ?></td>
-                        <td><?php echo $reporte->producto->nombre . " " . $reporte->producto->presentacion; ?></td>
+                        <td><?php echo $reporte->usuario->nombre . " " . $reporte->usuario->apellido; ?></td>            
+                        <td data-titulo="Producto o Receta">
+                            <?php if ($reporte->producto_id !== 0 && $reporte->producto) {
+                                echo  $reporte->producto->nombre . " " . $reporte->producto->presentacion;
+                            } elseif ($reporte->receta_id !== 0 && $reporte->receta) {
+                                echo $reporte->receta->nombre;
+                            } else {
+                                echo 'Nada';
+                            } ?>
+                        </td>                    
                         <td><?php echo $reporte->cantidad; ?></td>
                         <td><?php echo $reporte->observacion; ?></td>
                         <td><?php echo $fechaCreacionFormateada; ?></td>

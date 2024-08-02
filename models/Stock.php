@@ -19,6 +19,10 @@ class Stock extends ActiveRecord {
     public $fechaCreacion;
     public $estado;  
     public $bodegaId;  
+    public $bodega  ;  
+    public $fecha_creacion;  
+    public $total_ingresos;  
+    public $total_egresos;  
 
 
 
@@ -32,6 +36,10 @@ class Stock extends ActiveRecord {
         $this->fechaCreacion = $args['fechaCreacion'] ?? '';
         $this->estado = $args['estado'] ?? '';
         $this->bodegaId = $args['bodegaId'] ?? '';
+        $this->bodega  = $args['bodega '] ?? '';
+        $this->fecha_creacion  = $args['fecha_creacion'] ?? '';
+        $this->total_ingresos  = $args['total_ingresos'] ?? '';
+        $this->total_egresos  = $args['total_egresos'] ?? '';
     }
 
     public function validar() {

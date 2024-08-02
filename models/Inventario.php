@@ -23,6 +23,10 @@ class Inventario extends ActiveRecord {
     public $usuarioId; 
     public $fechaCreacion;
     public $bodegaId; 
+    public $bodega ; 
+    public $entrada; 
+    public $salida ; 
+    public $total  ; 
 
 
 
@@ -37,6 +41,10 @@ class Inventario extends ActiveRecord {
         $this->usuarioId = $args['usuarioId'] ?? '';
         $this->fechaCreacion = $args['fechaCreacion'] ?? '';
         $this->bodegaId = $args['bodegaId'] ?? '';
+        $this->bodega  = $args['bodega'] ?? '';
+        $this->entrada = $args['entrada'] ?? '';
+        $this->salida  = $args['salida'] ?? '';
+        $this->total   = $args['total'] ?? '';
     }
 
     public function validar() {

@@ -55,5 +55,4 @@ class Receta extends ActiveRecord {
         }
 
 
-
 }

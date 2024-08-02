@@ -4,20 +4,37 @@ namespace Model;
 
 class Venta extends ActiveRecord {
     protected static $tabla = 'ventas';
-    protected static $columnasDB = ['id', 'cliente', 'fecha'];
+    protected static $columnasDB = ['id', 'cliente', 'fecha', 'usuario_id'];
 
     public $id;
     public $cliente;
     public $fecha;
+    public $usuario_id;
+    public $montoTotal;
+    public $cantidadVentas;
+    public $cantidadProductos;
+    public $cantidad_ventas;
+    public $monto_total;
+    public $mes;
+    public $total_ingresos;
+    public $cantidad_vendida;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
         $this->cliente = $args['cliente'] ?? '';
         $this->fecha = $args['fecha'] ?? '';
+        $this->usuario_id = $args['usuario_id'] ?? null;
+        $this->montoTotal = $args['montoTotal'] ?? 0;
+        $this->cantidadProductos = $args['cantidadProductos'] ?? 0;
+        $this->cantidad_ventas = $args['cantidad_ventas'] ?? 0;
+        $this->monto_total = $args['monto_total'] ?? 0;
+        $this->mes = $args['mes'] ?? 0;
+        $this->cantidad_vendida = $args['cantidad_vendida'] ?? 0;
+        $this->total_ingresos = $args['total_ingresos'] ?? 0;
     }
 
     public function validar() {
-        if(!$this->cliente) {
+        if (!$this->cliente) {
             self::$alertas['error'][] = "Escribe el nombre del cliente";
         }
 
@@ -40,7 +57,4 @@ class Venta extends ActiveRecord {
     //     // Retorna el resultado
     //     return $resultado;
     // }
-
-
-
 }

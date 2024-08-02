@@ -25,6 +25,11 @@ class Producto extends ActiveRecord {
     public $total;
     public $estado;
     public $imagen_nombre;
+    public $total_stock ;
+    public $cantidad_vendida ;
+    public $total_ingresos ;
+    public $bodega;
+    public $ultima_fecha_movimiento;
 
 
     // Constructor de atributos
@@ -43,6 +48,11 @@ class Producto extends ActiveRecord {
         $this->total = $args['total'] ?? 0;
         $this->estado = $args['estado'] ?? '';
         $this->imagen_nombre = $args['imagen_nombre'] ?? null;
+        $this->total_stock = $args['total_stock'] ?? null;
+        $this->cantidad_vendida = $args['cantidad_vendida'] ?? null;
+        $this->total_ingresos = $args['total_ingresos'] ?? null;
+        $this->bodega = $args['bodega'] ?? null;
+        $this->ultima_fecha_movimiento = $args['ultima_fecha_movimiento'] ?? null;
     }
 
     public function validar() {

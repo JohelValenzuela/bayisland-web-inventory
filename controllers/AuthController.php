@@ -42,6 +42,39 @@ class AuthController {
         }
     }
 
+    public static function mostrarTemporal(Router $router){
+
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+        }
+
+        $usuarios = Auth::all();
+        if(!empty($usuarios)){
+            
+            $usuarios = Auth::all();
+            $roles = Roles::all();
+
+
+            foreach ($usuarios as $usuario) {
+                $usuario->rol = Roles::find($usuario->rolId);
+                //debug($usuarios);
+            }
+
+
+            // muestra mensaje condicional
+            $resultado = $_GET['resultado'] ?? null; //le asigna el valor null en caso de que no esté resultado
+            
+            $router->render('auth/mostrarTemporal', [
+                'usuarios' => $usuarios,
+                'roles' => $roles,
+                'resultado' => $resultado
+            ]);
+        } else {
+            $router->render('auth/mostrarTemporal', []);
+        }
+    }
+
     public static function login(Router $router){
 
         $roles = Roles::all();
@@ -76,7 +109,7 @@ class AuthController {
                 
                 if($usuarios) { // Verifica password
                     if ($usuarios->passwordVerificado($auth->password)) {
-                        
+                         
                         // Autenticar al usuario
                         $_SESSION['id'] = $usuarios->id;
                         $_SESSION['nombre'] = $usuarios->nombre . " " . $usuarios->apellido;
@@ -178,6 +211,63 @@ class AuthController {
             'alertas' => $alertas
         ]);
     }
+
+    public static function crear_cuentaTemporal(Router $router) {
+        isAuth();
+        if (!isAdmin()) {
+            header('Location: /templates/error403');
+        }
+    
+        $usuarios = new Auth;
+        $roles = Roles::all();
+
+    
+        $alertas = [];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $usuarios->sincronizar($_POST);
+
+            // Genera un username y password únicos
+            $nombre = $usuarios->nombre ?? 'usuario';
+            $apellido = $usuarios->apellido ?? 'temporal';
+            $usuarios->username = $usuarios->generarUsername($nombre, $apellido);
+            $usuarios->password = $usuarios->generarPassword($usuarios->username);
+            $passwordTemporal = $usuarios->generarPassword($usuarios->username);
+            $usuarios->tipo_usuario = 'temporal';
+            $usuarios->correo = $usuarios->username;
+            $usuarios->rolId = $_POST['rolId'];
+
+            $alertas = $usuarios->validarNuevoUsuarioTemporal();
+            $alertas = $usuarios->validarRolUsuario();
+    
+            if (empty($alertas)) {
+                $resultado = $usuarios->existeUsuario();
+                if ($resultado->num_rows) {
+                    $alertas = Auth::getAlertas();
+                } else {
+                    $usuarios->hashPassword();
+                    $usuarios->crearToken();
+                    
+                    // Omitir el envío de correos para usuarios temporales
+                    //$correo = new Correo($nombrecompleto, $usuarios->correo, $usuarios->token, $password);
+                    //$correo->enviarConfirmacion();
+                    //$correo->enviarInstruccionesPassword();
+    
+                    $resultado = $usuarios->guardar();
+                    if ($resultado) {
+                        header('Location: /auth/detalles' . '?id=' . $resultado['id'] . '&password=' . urlencode($passwordTemporal));
+                    }
+                }
+            }
+        }
+    
+        $router->render('auth/crear_cuentaTemporal', [
+            'usuarios' => $usuarios,
+            'roles' => $roles,
+            'alertas' => $alertas
+        ]);
+    }
+    
+    
 
     public static function confirmar_cuenta(Router $router){
 
@@ -293,6 +383,10 @@ class AuthController {
         $router->render('auth/mensaje', []);
     }
 
+    public static function detalles(Router $router){
+        $router->render('auth/detalles', []);
+    }
+
     public static function logout(){
         session_start();        
         $_SESSION = []; // Limpia el array de session, dejandolo sin datos y perdiendo autenticación.
@@ -348,6 +442,35 @@ class AuthController {
         ]);
     }
 
+    public static function generarPassword(Router $router) {
+        isAuth();
+        if (!isAdmin()) {
+            header('Location: /templates/error403');
+        }
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $usuario = Auth::find($id);
+    
+            if ($usuario && $usuario->tipo_usuario === 'temporal') {
+                // Generar nueva contraseña
+                $nuevaPassword = $usuario->generarPassword($usuario->username);
+                // Almacenar la nueva contraseña en la sesión
+                $_SESSION['nueva_password'] = $nuevaPassword;
+                // Hashear la contraseña antes de guardarla en la base de datos
+                $usuario->password = password_hash($nuevaPassword, PASSWORD_BCRYPT);
+                $usuario->guardar();
+    
+                // Redirigir a la página de detalles
+                header('Location: /auth/detalles?id=' . $usuario->id);
+            } else {
+                header('Location: /auth');
+            }
+        }
+    }
+    
+    
+
     public static function desactivar(Router $router) {
 
         isAuth();
@@ -365,7 +488,7 @@ class AuthController {
             header('Location: /auth/mostrar');
           
       }
-    }
+    } 
 
     public static function activar() {
 
@@ -382,6 +505,43 @@ class AuthController {
             $usuario->guardar();
             
             header('Location: /auth/mostrar');
+      }
+    }
+
+    public static function activarTemporal() {
+
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+        }
+        
+      if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $usuario = Auth::find($id);
+            $usuario->estado = "Activo";
+            $usuario->confirmado = "1";
+            $usuario->guardar();
+            
+            header('Location: /auth/mostrarTemporal');
+      }
+    }
+
+    public static function desactivarTemporal(Router $router) {
+
+        isAuth();
+        if(!isAdmin()) {
+            header('Location: /templates/error403');
+        }
+      
+      if($_SERVER['REQUEST_METHOD'] === 'POST') {     
+            $id = $_POST['id'];
+            $usuario = Auth::find($id);
+            $usuario->estado = "Inactivo";
+            $usuario->confirmado = "0";
+            $usuario->guardar();
+
+            header('Location: /auth/mostrarTemporal');
+          
       }
     }
 

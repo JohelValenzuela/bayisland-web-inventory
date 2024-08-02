@@ -78,12 +78,8 @@ class DashboardController {
 
             // Reportar Pasajeros
             $ingredientesDash = RecetaIngredientes::cuentaCantidad();
-
-            
         
         /*** TERMINA CONSULTAS DASHBOARD */
-
-
 
         /** MOSTRAR DATOS DE TABLA STOCK EN DASHBOARD */
 
@@ -137,7 +133,7 @@ class DashboardController {
             'defectosDash' => $defectosDash,
             'regaliasDash' => $regaliasDash,
             'pasajerosDash' => $pasajerosDash,
-            'ingredientesDash' => $ingredientesDash,
+            'ingredientesDash' => $ingredientesDash
         ]);
     }
 

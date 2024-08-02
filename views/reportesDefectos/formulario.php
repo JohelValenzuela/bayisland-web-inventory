@@ -1,4 +1,3 @@
-
 <form method="POST" action="/reportesDefectos/crear">
 
     <div class="div-flex">
@@ -21,11 +20,14 @@
             </select>
         </div>
         <div class="campo campo-separado w-40">
-            <label for="producto_id">Producto</label>
-            <select class="buscar" name="producto_id" id="producto_id">
+            <label for="productoOrReceta">Producto o Receta</label>
+            <select class="buscar" name="productoOrReceta" id="productoOrReceta">
                 <option value="">-- Seleccione --</option>
                 <?php foreach ($productos as $producto) : ?>
-                    <option value="<?php echo $producto->id; ?>"><?php echo s($producto->nombre . " | " . $producto->presentacion . " | " . $producto->unidad_empaque . " | " . $producto->cantidad  . " unidades | "); ?></option>
+                    <option value="producto-<?php echo $producto->id; ?>"><?php echo s($producto->nombre . " | " . $producto->presentacion . " | " . $producto->unidad_empaque . " | " . $producto->cantidad  . " unidades | "); ?></option>
+                <?php endforeach; ?>
+                <?php foreach ($recetas as $receta) : ?>
+                    <option value="receta-<?php echo $receta->id; ?>"><?php echo s($receta->nombre); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>

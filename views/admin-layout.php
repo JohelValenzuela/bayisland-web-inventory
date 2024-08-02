@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="../build/css/datatables.css">
         <link rel="stylesheet" href="../build/css/select.css">
         <link rel="stylesheet" href="../build/css/responsive.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
 
     <body>
@@ -195,9 +196,11 @@
 
 
 
+
     <script src="../build/js/app.js"></script>
     <script src="../build/js/select2.js"></script>
     <script src="../build/js/clienteNuevo.js"></script> 
+    <script src="../build/js/VendedorNuevo.js"></script> 
     <script src="../build/js/guias.js"></script>
     <script src="../build/js/buscar.js"></script>
     <script src="../build/js/tablas.js"></script>

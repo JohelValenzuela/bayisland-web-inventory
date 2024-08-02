@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Model\Auth;
 use Model\Bodegas;
 use Model\Cliente;
 use Model\Cobro;
@@ -35,6 +36,7 @@ class VentasController {
 
        
         $clientes = Cliente::all();
+        $usuarios = Auth::all();
         $ventaProducto = VentaProductos::all();
         $cobros = Cobro::all();
        
@@ -46,6 +48,7 @@ class VentasController {
 
         foreach ($venta as $ventas) {
             $ventas->cliente = Cliente::find($ventas->cliente);
+            $ventas->usuario = Auth::find($ventas->usuario_id);
         }
 
         $resultado = $_GET['resultado'] ?? null;
@@ -55,7 +58,8 @@ class VentasController {
             'clientes' => $clientes,
             'ventaProducto' => $ventaProducto,
             'resultado' => $resultado,
-            'cobros' => $cobros
+            'cobros' => $cobros,
+            'usuarios' => $usuarios
         ]);
     }
 
@@ -68,6 +72,7 @@ class VentasController {
         $alertas = [];
         $productos = Producto::all();
         $recetas = Receta::all();
+        $usuario = Auth::all();
         $carrito = $_SESSION["carritoVentas"] ?? [];
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -149,7 +154,8 @@ class VentasController {
             'productos' => $productos,
             'recetas' => $recetas,
             'carrito' => $carrito,
-            'alertas' => $alertas
+            'alertas' => $alertas,
+            'usuario' => $usuario,
         ]);
     }
     
@@ -199,15 +205,15 @@ class VentasController {
     }
 
     public static function realizarVenta(Router $router) {
-       
         isAuth();
-        if(!tieneRol()) {
+        if (!tieneRol()) {
             header('Location: /templates/error403');
+            exit;
         }
-        
+    
         // Obtener los datos del carrito de ventas de la sesión
         $carrito = $_SESSION["carritoVentas"] ?? [];
-        
+    
         // Verificar si el carrito está vacío
         if (empty($carrito)) {
             Venta::setAlerta('error', 'El carrito está vacío');
@@ -215,42 +221,46 @@ class VentasController {
             header('Location: /ventas/carrito');
             exit;
         }
-        
+    
+        $usuario_id = $_SESSION['id']; // Default to current user
+    
+        // Si el rol es 'Usuario Fijo', tomar el usuario_id del select
+        if ($_SESSION['rol'] == 'Encargado' && isset($_POST['vendedor_id'])) {
+            $usuario_id = intval($_POST['vendedor_id']);
+        }
+    
         // Recorrer el carrito de ventas y guardar cada producto en la tabla venta_productos
         foreach ($carrito as $item) {
             // Obtener el ID del cliente del ítem actual del carrito
             $cliente_id = intval($item['cliente_id']);
             // Buscar ventas existentes para el cliente
             $ventasCliente = Venta::findCliente($cliente_id);
-
+    
             $ventaId = null; // Variable para almacenar el ID de la venta
-            
+    
             // Iterar sobre las ventas del cliente
             foreach ($ventasCliente as $ventaCliente) {
-
-                
                 // Verificar si existe un cobro para esta venta
                 $cobroExistente = Cobro::findVenta(intval($ventaCliente->id));
-                
-                
-                // Si no hay un cobro existente, usar esta venta
-                if (!$cobroExistente) {
+    
+                // Si no hay un cobro existente y el usuario de la venta coincide con el usuario actual, usar esta venta
+                if (!$cobroExistente && $ventaCliente->usuario_id == $usuario_id) {
                     $ventaId = intval($ventaCliente->id);
-                    break; // Salir del bucle una vez que se encuentra una venta sin cobro vinculado
+                    break; // Salir del bucle una vez que se encuentra una venta sin cobro vinculado y con el usuario coincidente
                 }
             }
-            
-            
-            // Si no se encontró una venta sin cobro vinculado, crear una nueva venta
+    
+            // Si no se encontró una venta sin cobro vinculado y con el usuario coincidente, crear una nueva venta
             if (!$ventaId) {
                 $venta = new Venta;
                 $venta->cliente = $cliente_id;
                 date_default_timezone_set('America/Costa_Rica');
                 $venta->fecha = date('Y-m-d H:i:s');
+                $venta->usuario_id = $usuario_id; 
                 $resultado = $venta->guardar(); // Llama a la función 'guardar' que has proporcionado
                 $ventaId = $resultado['id']; // Almacena el ID de la nueva venta
             }
-            
+    
             // Guardar el producto en ventaProductos usando el ID de la venta
             $ventaProducto = new VentaProductos;
             $ventaProducto->venta_id = $ventaId;
@@ -271,13 +281,13 @@ class VentasController {
                     Venta::setAlerta('error', 'No se encontraron ingredientes para la receta');
                     continue;
                 }
-
+    
                 foreach ($ingredientes as $ingrediente) {
                     if (empty($ingrediente->productoId)) {
                         Venta::setAlerta('error', 'El ingrediente no tiene un producto válido');
                         continue;
                     }
-
+    
                     $bodegaBote1 = 2;
                     $productoStock = Stock::findStockBodega($ingrediente->productoId, $bodegaBote1);
                     
@@ -302,7 +312,6 @@ class VentasController {
                         $kardex->usuarioId = $_SESSION['id'];
                         $kardex->fechaCreacion = date('Y-m-d H:i:s');
                         $kardex->bodegaId = $bodegaBote1;
-                        //debug($kardex);
                         $kardex->guardar();
                     } else {
                         // Manejar el caso en que el producto no se encuentra en el stock
@@ -310,10 +319,8 @@ class VentasController {
                     }
                 }
             } else {
-                
                 $bodegaBote1 = 2;
                 $productoStock = Stock::findStockBodega($ventaProducto->producto_id, $bodegaBote1);
-                
                 
                 // Verificar que se encontró el stock para el producto
                 if ($productoStock) {
@@ -336,24 +343,24 @@ class VentasController {
                     $kardex->usuarioId = $_SESSION['id'];
                     $kardex->fechaCreacion = date('Y-m-d H:i:s');
                     $kardex->bodegaId = $bodegaBote1;
-                    //debug($kardex);
-                    //debug($kardex);
                     $kardex->guardar();
                 } else {
                     // Manejar el caso en que el producto no se encuentra en el stock
-                    Venta::setAlerta('error', 'No se encontró stock para el producto ' . $ingrediente->productoId);
+                    Venta::setAlerta('error', 'No se encontró stock para el producto ' . $ventaProducto->producto_id);
                 }
             }
         }
-        
+    
         // Limpiar el carrito de ventas de la sesión
         unset($_SESSION["carritoVentas"]);
-        
+    
         // Mostrar mensaje de éxito y redirigir a la página de carrito
         Venta::setAlerta('exito', 'Se ha creado la venta');
         $_SESSION['msg'] = Venta::getAlertas();
         header('Location: /ventas/carrito');
         exit;
     }
+    
+
     
 }

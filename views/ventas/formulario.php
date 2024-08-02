@@ -1,15 +1,18 @@
 <?php
+
+use Model\Auth;
 use Model\Producto;
 use Model\Receta;
 use Model\Cliente;
 
 // Obtener todos los clientes
 $clientes = Cliente::all();
+$usuarios = Auth::all();
 ?>
 
 <form action="/ventas/carrito" method="POST">
     <div class="div-flex">
-    <div class="campo campo-separado w-40">
+        <div class="campo campo-separado w-40">
             <label for="cliente_switch">¿Cliente nuevo?</label>
             <div class="switch-container">
                 <label class="switch">
@@ -51,7 +54,7 @@ $clientes = Cliente::all();
     <div class="div-flex">
         <div class="campo campo-separado w-30">
             <label for="cantidad">Cantidad:</label>
-            <input type="number" name="cantidad" min="1"  value="1" required>
+            <input type="number" name="cantidad" min="1" value="1" required>
         </div>
         <div class="campo campo-separado w-30">
             <label for="precio">Precio:</label>
@@ -67,6 +70,20 @@ $clientes = Cliente::all();
                 <option value="efectivo-colones">Efectivo (Colones)</option>
             </select>
         </div>
+        <?php if ($_SESSION['rol'] === 'Encargado'): ?>
+            <div class="campo campo-separado w-50">
+                <label for="vendedor_id">Seleccionar Vendedor:</label>
+                <select class="buscar" name="vendedor_id">
+                    <option value="">Seleccione un vendedor</option>
+                    <?php foreach ($usuarios as $us): ?>
+                        <option value="<?php echo $us->id; ?>"><?php echo $us->nombre . " " . $us->apellido; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        <?php else: ?>
+            <!-- Campo oculto con el ID del usuario si no se muestra el select -->
+            <input type="hidden" name="vendedor_id" value="<?php echo htmlspecialchars($_SESSION['id']); ?>">
+        <?php endif; ?>
         <div class="campo campo-separado w-30">
             <label for="agregar">Agregar</label>
             <input type="submit" value="Agregar al Carrito" class="boton-exportar formulario">
@@ -75,10 +92,10 @@ $clientes = Cliente::all();
 </form>
 
 <section class="form form-contenido form-flex">
-    <?php if(!empty($carrito)): ?>
+    <?php if (!empty($carrito)): ?>
         <div style="width: inherit;">
             <h2 style="color: black; margin-bottom: 5rem;">Lista de Productos en el Carrito</h2>
-        </div>         
+        </div>
         <table class="tabla table_id">
             <thead>
                 <tr>
@@ -92,7 +109,7 @@ $clientes = Cliente::all();
                 </tr>
             </thead>
             <tbody>
-            <?php foreach($carrito as $indice => $item): ?>
+            <?php foreach ($carrito as $indice => $item): ?>
                 <?php
                     // Obtener el nombre del producto o receta
                     $nombreProducto = $item['productoId'] ? Producto::find($item['productoId'])->nombre : '-';
@@ -108,9 +125,9 @@ $clientes = Cliente::all();
                     <td><?php echo $codigoBrazalete; ?></td>
                     <td>
                         <?php
-                            if(isset($item['productoId'])) {
+                            if (isset($item['productoId'])) {
                                 $producto = $nombreProducto;
-                            } else if (isset($item['recetaId'])){
+                            } else if (isset($item['recetaId'])) {
                                 $producto = $nombreReceta;
                             }
                             echo $producto;
@@ -127,7 +144,6 @@ $clientes = Cliente::all();
                     </td>
                 </tr>
             <?php endforeach; ?>
-
             </tbody>
         </table>
 
@@ -140,6 +156,5 @@ $clientes = Cliente::all();
                 <input type="submit" value="Realizar Venta" class="boton-exportar formulario">
             </div>
         </form>
-        
     <?php endif; ?>
 </section>

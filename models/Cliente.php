@@ -10,11 +10,17 @@ class Cliente extends ActiveRecord {
     public $id;
     public $nombre;
     public $codigo_brazalete;
+    public $total_compras;
+    public $total_productos;
+    public $total_gastado;
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
         $this->nombre = $args['nombre'] ?? '';
         $this->codigo_brazalete = $args['codigo_brazalete'] ?? '';
+        $this->total_compras = $args['total_compras'] ?? '';
+        $this->total_productos = $args['total_productos'] ?? '';
+        $this->total_gastado = $args['total_gastado'] ?? '';
     }
 
     public function validar() {

@@ -1,20 +1,18 @@
 <section class="home-section">
     <div class="home-content">
-        <i class='bx bx-menu' ></i>
-        <span class="text">Control de Usuario Regular</span>
+      <i class='bx bx-menu' ></i>
+      <span class="text">Control de Usuario Temporal</span>
     </div>
     
     <form class="form form-contenido form-botones">
-        <a class="boton-exportar agregar" href="/auth/crear_cuenta"> <i class="fa-regular fa-square-plus"></i> Agregar</a>
-        
-        <a class="boton-exportar pdf" href="/fpdf/pdfUsuario" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF</a>  
+      <a class="boton-exportar agregar" href="/auth/crear_cuentaTemporal"> <i class="fa-regular fa-square-plus"></i> Agregar</a>
+      <a class="boton-exportar pdf" href="/fpdf/pdfUsuario" target="_blank"> <i class="fa-solid fa-file-pdf"></i> PDF</a>  
+
       
-      
-        <button id="btnExportar" class="boton-exportar">
-            <i class="fa-solid fa-file-excel"></i> EXCEL
-        </button>
-        
-        <a class="boton-exportar agregar" href="/auth/mostrarTemporal"> <i class="fa-regular fa-square-plus"></i> Gestionar Usuario Temporal</a>
+      <button id="btnExportar" class="boton-exportar">
+        <i class="fa-solid fa-file-excel"></i> EXCEL
+      </button>
+
     </form>
 
     <form class="form form-contenido form-botones">
@@ -50,7 +48,8 @@
             <tr>
                 <th>ID</th>
                 <th>Nombre Completo</th>
-                <th>Correo</th>
+                <th>Usuario</th>
+                <th>Generar</th>
                 <th>Rol</th>
                 <th>Acceso</th>
                 <th>Estado</th>
@@ -61,7 +60,7 @@
 
       <tbody>
         <?php foreach($usuarios as $usuario) : ?>
-            <?php if ($usuario->tipo_usuario === 'regular'): ?>
+            <?php if ($usuario->tipo_usuario === 'temporal'): ?>
                 <?php if($usuario->estado === 'Inactivo'){
                     $clase = 'estado deshabilitado';
                 } else {
@@ -70,7 +69,17 @@
             <tr class="<?php echo $clase ?>">
                 <td data-titulo="Id"><?php echo $usuario->id; ?></td>
                 <td data-titulo="Nombre"><?php echo $usuario->nombre . " " . $usuario->apellido  ; ?></td>
-                <td data-titulo="Correo"><?php echo $usuario->correo; ?></td>
+                <td data-titulo="Usuario"><?php echo $usuario->username; ?></td>
+                <td data-titulo="Generar">
+                    <form class="no-margin" action="/auth/generarPassword" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $usuario->id; ?>">  
+                        <button type="submit" value="" class="boton-accion generar" style="display: inline-block; padding: 1rem;"> 
+                            <a class="boton-accion editar">
+                                <i style="font-size: 3.4rem;" class='bx bx-rotate-right bx-rotate-180 accion'></i>                               
+                            </a>  
+                        </button>
+                    </form>
+                </td>
                 <td data-titulo="Rol"><?php echo $usuario->rol->tipoRol; ?></td>
                 <td data-titulo="Confirmado">
                     <?php if($usuario->confirmado === '1') : ?>
@@ -102,7 +111,7 @@
 
                         <?php if($usuario->estado === 'Activo') :?>
                             <a class="boton-accion">
-                                <form class="no-margin" action="/auth/desactivar" method="POST">
+                                <form class="no-margin" action="/auth/desactivarTemporal" method="POST">
                                     <input type="hidden" name="id" value="<?php echo $usuario->id; ?>">                      
                                     <button type="submit" value="" class="boton-accion eliminar"> 
                                         <i class="fa-solid fa-toggle-on toggle-on"></i>                              
@@ -111,7 +120,7 @@
                             </a>                              
                         <?php elseif($usuario->estado === 'Inactivo') :?>
                             <a class="boton-accion">
-                                <form class="no-margin" action="/auth/activar" method="POST">
+                                <form class="no-margin" action="/auth/activarTemporal" method="POST">
                                     <input type="hidden" name="id" value="<?php echo $usuario->id; ?>">                      
                                     <button type="submit" value="" class="boton-accion eliminar"> 
                                         <i class="fa-solid fa-toggle-off toggle-off"></i>                                
@@ -121,11 +130,11 @@
                         <?php endif ?>
 
                         
-                    <?php endif ?>
+                    <!-- < ?php endif ?> -->
                     </div>
                 </td>
             </tr>
-            <!-- < ?php endif; ?> -->
+            <?php endif; ?>
         <?php endforeach; ?>
       <tbody>
             </table>

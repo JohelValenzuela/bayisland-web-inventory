@@ -22,6 +22,7 @@ use Model\VentaUltimaHora;
 
     <form action="/dashboard" class="form form-contenido form-dashboard" method="POST" enctype="multipart/form-data">
       
+        
             <div class="cardline-flex">
                 <div class="card">
                     <div class="card-box">
@@ -209,7 +210,26 @@ use Model\VentaUltimaHora;
                 </div>
             </div> 
 
+
             <div class="card-tabla-flex">
+                <!-- Reporte XX: Pasajeros por Día -->
+                <div class="card-tabla">
+                    <div class="card-contenedor">
+                        <h3>Pasajeros por Día</h3>
+                        <div class="contenedor-tabla">
+                        <canvas id="pasajerosPorDiaChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Reporte XX: Ventas por Usuario -->
+                <div class="card-tabla">
+                    <div class="card-contenedor">
+                        <h3>Ventas por Usuario</h3>
+                        <div class="contenedor-tabla">
+                        <canvas id="ventasPorUsuarioChart"></canvas>
+                        </div>
+                    </div>
+                </div>
                 <!-- Reporte 1: Ventas por Día -->
                 <div class="card-tabla">
                     <div class="card-contenedor">
@@ -228,84 +248,12 @@ use Model\VentaUltimaHora;
                         </div>
                     </div>
                 </div>
-                <!-- Reporte 3: Cobros por Cliente -->
-                <div class="card-tabla">
-                    <div class="card-contenedor">
-                        <h3>Cobros por Cliente</h3>
-                        <div class="contenedor-tabla">
-                            <canvas id="cobrosPorClienteChart"></canvas>
-                        </div>
-                    </div>
-                </div>
                 <!-- Reporte 4: Stock por Producto y Bodega -->
                 <div class="card-tabla">
                     <div class="card-contenedor">
                         <h3>Stock por Producto y Bodega</h3>
                         <div class="contenedor-tabla">
                             <canvas id="stockPorProductoYBodegaChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <!-- Reporte 5: Pedidos por Usuario -->
-                <div class="card-tabla">
-                    <div class="card-contenedor">
-                        <h3>Pedidos por Usuario</h3>
-                        <div class="contenedor-tabla">
-                            <canvas id="pedidosPorUsuarioChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <!-- Reporte 6: Productos Vendidos -->
-                <div class="card-tabla">
-                    <div class="card-contenedor">
-                        <h3>Productos Vendidos</h3>
-                        <div class="contenedor-tabla">
-                            <canvas id="productosVendidosChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                 <!-- Reporte 7: Kardex de Productos -->
-                <div class="card-tabla">
-                    <div class="card-contenedor">
-                        <h3>Kardex de Productos</h3>
-                        <div class="contenedor-tabla">
-                            <canvas id="kardexProductosChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                 <!-- Reporte 8: Deudas por Cliente -->
-                <div class="card-tabla">
-                    <div class="card-contenedor">
-                        <h3>Deudas por Cliente</h3>
-                        <div class="contenedor-tabla">
-                            <canvas id="deudasPorClienteChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <!-- Reporte 9: Productos con Defectos -->
-                <div class="card-tabla">
-                    <div class="card-contenedor">
-                        <h3>Productos con Defectos</h3>
-                        <div class="contenedor-tabla">
-                            <canvas id="productosDefectosChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <!-- Reporte 10: Productos con Regalías -->
-                <div class="card-tabla">
-                    <div class="card-contenedor">
-                        <h3>Productos con Regalías</h3>
-                        <div class="contenedor-tabla">
-                            <canvas id="productosRegaliasChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <!-- Reporte 11: Pasajeros por Guía -->
-                <div class="card-tabla">
-                    <div class="card-contenedor">
-                        <h3>Pasajeros por Guía</h3>
-                        <div class="contenedor-tabla">
-                            <canvas id="pasajerosPorGuiaChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -336,15 +284,6 @@ use Model\VentaUltimaHora;
                         </div>
                     </div>
                 </div>
-                <!-- Reporte 15: Productos sin Movimiento -->
-                <div class="card-tabla">
-                    <div class="card-contenedor">
-                        <h3>Productos sin Movimiento</h3>
-                        <div class="contenedor-tabla">
-                            <canvas id="productosSinMovimientoChart"></canvas>
-                        </div>
-                    </div>
-                </div>
                 <!-- Reporte 16: Ventas por Categoría -->
                 <div class="card-tabla">
                     <div class="card-contenedor">
@@ -354,9 +293,74 @@ use Model\VentaUltimaHora;
                         </div>
                     </div>
                 </div>
+                <!-- Reporte 9: Productos con Defectos -->
+                <div class="card-tabla">
+                    <div class="card-contenedor">
+                        <h3>Productos con Defectos</h3>
+                        <div class="contenedor-tabla">
+                            <canvas id="defectosChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Reporte 10: Productos con Regalías -->
+                <div class="card-tabla">
+                    <div class="card-contenedor">
+                        <h3>Productos con Regalías</h3>
+                        <div class="contenedor-tabla">
+                            <canvas id="regaliasChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Reporte 3: Cobros por Cliente -->
+                <div class="card-tabla">
+                    <div class="card-contenedor">
+                        <h3>Ingresos y Egresos por Bodega</h3>
+                        <div class="contenedor-tabla">
+                            <canvas id="ingresosEgresosPorBodegaChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Reporte 3: Cobros por Cliente -->
+                <div class="card-tabla">
+                    <div class="card-contenedor">
+                        <h3>Cobros por Cliente</h3>
+                        <div class="contenedor-tabla">
+                            <canvas id="cobrosChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Reporte 5: Pedidos por Usuario -->
+                <div class="card-tabla">
+                    <div class="card-contenedor">
+                        <h3>Pedidos por Usuario</h3>
+                        <div class="contenedor-tabla">
+                            <canvas id="pedidosChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                
+                <!-- Reporte 6: Productos Vendidos -->
+                <div class="card-tabla">
+                    <div class="card-contenedor">
+                        <h3>Productos Vendidos</h3>
+                        <div class="contenedor-tabla">
+                            <canvas id="productosVendidosChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                 
+                
             </div>
-        </div>  
-        
+
+
             <div class="card-tabla-flex">
                 <div class="card-tabla">
                     <div class="card-contenedor">
@@ -449,6 +453,7 @@ use Model\VentaUltimaHora;
                 </div>
             </div>
 
+
             <div class="card-tabla contenedor-pedidos">
                 <div class="card-contenedor card-pedidos">
                     <h3>Pedidos Recientes</h3>
@@ -516,54 +521,10 @@ use Model\VentaUltimaHora;
 
     </form> 
 
-<?php   
-// Obtener los datos del reporte de ventas por día
-$ventasPorDia = Venta::graficoVentasPorDia();
 
-// Formatear los datos para Chart.js
-$fechas = [];
-$cantidadVentas = [];
-$cantidadProductos = [];
-$montoTotal = [];
-
-foreach ($ventasPorDia as $venta) {
-    $fechas[] = $venta->fecha;
-    $cantidadVentas[] = $venta->cantidadVentas;
-    $cantidadProductos[] = $venta->cantidadProductos;
-    $montoTotal[] = $venta->montoTotal;
-}
-
-// Convertir datos a formato JSON
-$fechasJson = json_encode($fechas);
-$cantidadVentasJson = json_encode($cantidadVentas);
-$cantidadProductosJson = json_encode($cantidadProductos);
-$montoTotalJson = json_encode($montoTotal);
-?>
-
-<?php   
-// Obtener los datos del reporte de ventas por producto
-$ventasPorProducto = Venta::reporteVentasPorProducto();
-
-// Formatear los datos para Chart.js
-$productos = [];
-$cantidadVentasProducto = [];
-$montoTotalProducto = [];
-
-foreach ($ventasPorProducto as $producto) {
-    $productos[] = $producto->producto;
-    $cantidadVentasProducto[] = $producto->cantidad_ventas;
-    $montoTotalProducto[] = $producto->monto_total;
-}
-
-// Convertir datos a formato JSON
-$productosJson = json_encode($productos);
-$cantidadVentasProductoJson = json_encode($cantidadVentasProducto);
-$montoTotalProductoJson = json_encode($montoTotalProducto);
-?>
-
-<?php   
+<?php //! Cobros por Cliente
 // Obtener los datos del reporte de cobros por cliente
-$cobrosPorCliente = Cobro::reporteCobrosPorCliente();
+$cobrosPorCliente = Cobro::reporteCobrosPorCliente(); // Asegúrate de que esta función sea la que devuelve los datos ajustados
 
 // Formatear los datos para Chart.js
 $clientes = [];
@@ -575,7 +536,7 @@ foreach ($cobrosPorCliente as $cobro) {
     $clientes[] = $cobro->cliente;
     $metodosPago[] = $cobro->metodo_pago;
     $cantidadesPagadas[] = $cobro->cantidad_pagada;
-    $fechasRegistro[] = $cobro->fecha_registro;
+    $fechasRegistro[] = $cobro->ultima_fecha;
 }
 
 // Convertir datos a formato JSON
@@ -585,32 +546,61 @@ $cantidadesPagadasJson = json_encode($cantidadesPagadas);
 $fechasRegistroJson = json_encode($fechasRegistro);
 ?>
 
-<?php   
-// Obtener los datos del reporte de stock por producto y bodega
-$stockPorProductoYBodega = Stock::reporteStockPorProductoYBodega();
+<script>
+        var ctx = document.getElementById('cobrosChart').getContext('2d');
 
-// Formatear los datos para Chart.js
-$productosStock = [];
-$bodegasStock = [];
-$cantidadesStock = [];
-$movimientosStock = [];
-$fechasCreacionStock = [];
+        // Configurar el gráfico
+        var cobrosChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
+            data: {
+                labels: <?php echo $clientesJson; ?>, // Etiquetas de clientes
+                datasets: [{
+                    label: 'Cantidad Pagada',
+                    data: <?php echo $cantidadesPagadasJson; ?>, // Datos de cantidades pagadas
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Clientes'
+                        },
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 90
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Cantidad Pagada'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
-foreach ($stockPorProductoYBodega as $stock) {
-    $productosStock[] = $stock->producto;
-    $bodegasStock[] = $stock->bodega;
-    $cantidadesStock[] = $stock->cantidad;
-    $movimientosStock[] = $stock->movimiento;
-    $fechasCreacionStock[] = $stock->fechaCreacion;
-}
 
-// Convertir datos a formato JSON
-$productosStockJson = json_encode($productosStock);
-$bodegasStockJson = json_encode($bodegasStock);
-$cantidadesStockJson = json_encode($cantidadesStock);
-$movimientosStockJson = json_encode($movimientosStock);
-$fechasCreacionStockJson = json_encode($fechasCreacionStock);
-?>
 
 <?php   
 // Obtener los datos del reporte de pedidos por usuario
@@ -618,23 +608,72 @@ $pedidosPorUsuario = MaestroPedido::reportePedidosPorUsuario();
 
 // Formatear los datos para Chart.js
 $usuarios = [];
-$referenciasPedidos = [];
-$fechasCreacionPedidos = [];
-$estadosPedidos = [];
+$cantidadPedidos = [];
 
 foreach ($pedidosPorUsuario as $pedido) {
     $usuarios[] = $pedido->usuario;
-    $referenciasPedidos[] = $pedido->referencia;
-    $fechasCreacionPedidos[] = $pedido->fecha_creacion;
-    $estadosPedidos[] = $pedido->estado;
+    $cantidadPedidos[] = $pedido->cantidad_pedidos;
 }
 
 // Convertir datos a formato JSON
 $usuariosJson = json_encode($usuarios);
-$referenciasPedidosJson = json_encode($referenciasPedidos);
-$fechasCreacionPedidosJson = json_encode($fechasCreacionPedidos);
-$estadosPedidosJson = json_encode($estadosPedidos);
+$cantidadPedidosJson = json_encode($cantidadPedidos);
 ?>
+
+
+<script>
+        var ctx = document.getElementById('pedidosChart').getContext('2d');
+
+        // Configurar el gráfico
+        var pedidosChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
+            data: {
+                labels: <?php echo $usuariosJson; ?>, // Etiquetas de usuarios
+                datasets: [{
+                    label: 'Cantidad de Pedidos',
+                    data: <?php echo $cantidadPedidosJson; ?>, // Datos de cantidad de pedidos
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Usuarios'
+                        },
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 90
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Cantidad de Pedidos'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
 <?php   
 // Obtener los datos del reporte de productos más vendidos
@@ -656,6 +695,58 @@ $productosVendidosJson = json_encode($productosVendidos);
 $cantidadesVendidasJson = json_encode($cantidadesVendidas);
 $totalesIngresosJson = json_encode($totalesIngresos);
 ?>
+
+<script>
+        var ctx = document.getElementById('productosMasVendidosChart').getContext('2d');
+        
+        // Configurar el gráfico
+        var productosMasVendidosChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
+            data: {
+                labels: <?php echo $productosVendidosJson; ?>, // Etiquetas de los productos
+                datasets: [
+                    {
+                        label: 'Cantidad Vendida',
+                        data: <?php echo $cantidadesVendidasJson; ?>, // Datos de cantidades vendidas
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Total de Ingresos',
+                        data: <?php echo $totalesIngresosJson; ?>, // Datos de totales de ingresos
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cantidad / Ingreso'
+                        }
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
 <?php   
 // Obtener los datos del reporte de kardex por producto y bodega
@@ -687,6 +778,71 @@ $totalesKardexJson = json_encode($totalesKardex);
 $fechasKardexJson = json_encode($fechasKardex);
 ?>
 
+<script>
+        var ctx = document.getElementById('kardexChart').getContext('2d');
+        
+        // Configurar el gráfico
+        var kardexChart = new Chart(ctx, {
+            type: 'line', // Tipo de gráfico
+            data: {
+                labels: <?php echo $fechasKardexJson; ?>, // Etiquetas de fechas
+                datasets: [
+                    {
+                        label: 'Entradas',
+                        data: <?php echo $entradasJson; ?>, // Datos de entradas
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: false
+                    },
+                    {
+                        label: 'Salidas',
+                        data: <?php echo $salidasJson; ?>, // Datos de salidas
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        fill: false
+                    },
+                    {
+                        label: 'Totales',
+                        data: <?php echo $totalesKardexJson; ?>, // Datos de totales
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fecha'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Cantidad'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
 <?php   
 // Obtener los datos del reporte de clientes con deuda
 $clientesConDeuda = Cobro::reporteClientesConDeuda();
@@ -705,89 +861,63 @@ $clientesDeudaJson = json_encode($clientesDeuda);
 $totalesDeudaJson = json_encode($totalesDeuda);
 ?>
 
-<?php   
-// Obtener los datos del reporte de defectos por producto y bodega
-$defectosPorProductoYBodega = ReporteDefecto::reporteDefectosPorProductoYBodega();
+ <script>
+        var ctx = document.getElementById('deudaChart').getContext('2d');
 
-// Formatear los datos para Chart.js
-$productosDefectos = [];
-$bodegasDefectos = [];
-$cantidadesDefectos = [];
-$observacionesDefectos = [];
-$fechasDefectos = [];
+        // Configurar el gráfico
+        var deudaChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
+            data: {
+                labels: <?php echo $clientesDeudaJson; ?>, // Etiquetas de clientes
+                datasets: [{
+                    label: 'Total Deuda',
+                    data: <?php echo $totalesDeudaJson; ?>, // Datos de deuda
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Clientes'
+                        },
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 90
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Total Deuda'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
-foreach ($defectosPorProductoYBodega as $defecto) {
-    $productosDefectos[] = $defecto->producto;
-    $bodegasDefectos[] = $defecto->bodega;
-    $cantidadesDefectos[] = $defecto->cantidad;
-    $observacionesDefectos[] = $defecto->observacion;
-    $fechasDefectos[] = $defecto->fecha;
-}
 
-// Convertir datos a formato JSON
-$productosDefectosJson = json_encode($productosDefectos);
-$bodegasDefectosJson = json_encode($bodegasDefectos);
-$cantidadesDefectosJson = json_encode($cantidadesDefectos);
-$observacionesDefectosJson = json_encode($observacionesDefectos);
-$fechasDefectosJson = json_encode($fechasDefectos);
-?>
 
-<?php   
-// Obtener los datos del reporte de regalías por producto y bodega
-$regaliasPorProductoYBodega = Regalia::reporteRegaliasPorProductoYBodega();
 
-// Formatear los datos para Chart.js
-$productosRegalias = [];
-$bodegasRegalias = [];
-$cantidadesRegalias = [];
-$observacionesRegalias = [];
-$fechasRegalias = [];
-
-foreach ($regaliasPorProductoYBodega as $regalia) {
-    $productosRegalias[] = $regalia->producto;
-    $bodegasRegalias[] = $regalia->bodega;
-    $cantidadesRegalias[] = $regalia->cantidad;
-    $observacionesRegalias[] = $regalia->observacion;
-    $fechasRegalias[] = $regalia->fecha;
-}
-
-// Convertir datos a formato JSON
-$productosRegaliasJson = json_encode($productosRegalias);
-$bodegasRegaliasJson = json_encode($bodegasRegalias);
-$cantidadesRegaliasJson = json_encode($cantidadesRegalias);
-$observacionesRegaliasJson = json_encode($observacionesRegalias);
-$fechasRegaliasJson = json_encode($fechasRegalias);
-?>
-
-<!-- < ?php   
-// Obtener los datos del reporte de ventas de última hora
-$ventasUltimaHora = VentaUltimaHora::reporteVentasUltimaHora();
-
-// Formatear los datos para Chart.js
-$nombres = [];
-$nacionalidades = [];
-$cantidadesPersonas = [];
-$totalesDolares = [];
-$totalesColones = [];
-$fechasUltimaHora = [];
-
-foreach ($ventasUltimaHora as $venta) {
-    $nombres[] = $venta->nombre;
-    $nacionalidades[] = $venta->nacionalidad;
-    $cantidadesPersonas[] = $venta->cantidad_personas;
-    $totalesDolares[] = $venta->total_dolares;
-    $totalesColones[] = $venta->total_colones;
-    $fechasUltimaHora[] = $venta->fecha;
-}
-
-// Convertir datos a formato JSON
-$nombresJson = json_encode($nombres);
-$nacionalidadesJson = json_encode($nacionalidades);
-$cantidadesPersonasJson = json_encode($cantidadesPersonas);
-$totalesDolaresJson = json_encode($totalesDolares);
-$totalesColonesJson = json_encode($totalesColones);
-$fechasUltimaHoraJson = json_encode($fechasUltimaHora);
-?> -->
 
 <?php   
 // Obtener los datos del reporte de pasajeros por guía
@@ -834,7 +964,558 @@ $guia5Json = json_encode($guia5);
 $pasajerosGuia5Json = json_encode($pasajerosGuia5);
 ?>
 
+<script>
+        var ctx = document.getElementById('pasajerosGuiaChart').getContext('2d');
+
+        // Configurar el gráfico
+        var pasajerosGuiaChart = new Chart(ctx, {
+            type: 'line', // Tipo de gráfico
+            data: {
+                labels: <?php echo $fechasPasajerosJson; ?>, // Etiquetas de fechas
+                datasets: [
+                    {
+                        label: 'Guía 1',
+                        data: <?php echo $pasajerosGuia1Json; ?>, // Datos de pasajeros para Guía 1
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        fill: false
+                    },
+                    {
+                        label: 'Guía 2',
+                        data: <?php echo $pasajerosGuia2Json; ?>, // Datos de pasajeros para Guía 2
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        fill: false
+                    },
+                    {
+                        label: 'Guía 3',
+                        data: <?php echo $pasajerosGuia3Json; ?>, // Datos de pasajeros para Guía 3
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: false
+                    },
+                    {
+                        label: 'Guía 4',
+                        data: <?php echo $pasajerosGuia4Json; ?>, // Datos de pasajeros para Guía 4
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        fill: false
+                    },
+                    {
+                        label: 'Guía 5',
+                        data: <?php echo $pasajerosGuia5Json; ?>, // Datos de pasajeros para Guía 5
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fecha'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Número de Pasajeros'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+
+
 <?php   
+// Obtener los datos del reporte de productos sin movimiento
+$productosSinMovimiento = Producto::reporteProductosSinMovimiento();
+
+// Formatear los datos para Chart.js
+$productosSinMovimientoNombres = [];
+$bodegasSinMovimiento = [];
+$ultimaFechaMovimiento = [];
+
+foreach ($productosSinMovimiento as $producto) {
+    $productosSinMovimientoNombres[] = $producto->producto;
+    $bodegasSinMovimiento[] = $producto->bodega;
+    $ultimaFechaMovimiento[] = $producto->ultima_fecha_movimiento;
+}
+
+// Convertir datos a formato JSON
+$productosSinMovimientoNombresJson = json_encode($productosSinMovimientoNombres);
+$bodegasSinMovimientoJson = json_encode($bodegasSinMovimiento);
+$ultimaFechaMovimientoJson = json_encode($ultimaFechaMovimiento);
+?> 
+
+<script>
+        var ctx = document.getElementById('productosSinMovimientoChart').getContext('2d');
+
+        // Configurar el gráfico
+        var productosSinMovimientoChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
+            data: {
+                labels: <?php echo $productosSinMovimientoNombresJson; ?>, // Nombres de productos sin movimiento
+                datasets: [{
+                    label: 'Última Fecha de Movimiento',
+                    data: <?php echo $ultimaFechaMovimientoJson; ?>, // Fechas de última actividad
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Productos'
+                        },
+                        ticks: {
+                            autoSkip: false, // Mostrar todas las etiquetas en el eje X
+                            maxRotation: 90, // Rotar etiquetas si es necesario
+                            minRotation: 30
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Fecha del Último Movimiento'
+                        },
+                        type: 'time',
+                        time: {
+                            unit: 'month',
+                            displayFormats: {
+                                month: 'MMM YYYY'
+                            }
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                var date = new Date(value);
+                                return date.toLocaleDateString('es-ES'); // Formatear fecha
+                            }
+                        }
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+
+
+<?php   
+// Obtener los datos del reporte de ingresos y egresos por bodega
+$ingresosYEgresosPorBodega = Stock::reporteIngresosYEgresosPorBodega();
+
+// Formatear los datos para Chart.js
+$bodegasIngresosEgresos = [];
+$totalIngresosBodega = [];
+$totalEgresosBodega = [];
+
+foreach ($ingresosYEgresosPorBodega as $bodega) {
+    $bodegasIngresosEgresos[] = $bodega->bodega;
+    $totalIngresosBodega[] = $bodega->total_ingresos;
+    $totalEgresosBodega[] = $bodega->total_egresos;
+}
+
+// Convertir datos a formato JSON
+$bodegasIngresosEgresosJson = json_encode($bodegasIngresosEgresos);
+$totalIngresosBodegaJson = json_encode($totalIngresosBodega);
+$totalEgresosBodegaJson = json_encode($totalEgresosBodega);
+?>
+
+<script>
+        var ctx = document.getElementById('ingresosEgresosPorBodegaChart').getContext('2d');
+
+        // Configurar el gráfico
+        var ingresosEgresosPorBodegaChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
+            data: {
+                labels: <?php echo $bodegasIngresosEgresosJson; ?>, // Bodegas
+                datasets: [{
+                    label: 'Ingresos',
+                    data: <?php echo $totalIngresosBodegaJson; ?>, // Total de ingresos por bodega
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Egresos',
+                    data: <?php echo $totalEgresosBodegaJson; ?>, // Total de egresos por bodega
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Bodegas'
+                        },
+                        ticks: {
+                            autoSkip: false, // Mostrar todas las etiquetas en el eje X
+                            maxRotation: 90, // Rotar etiquetas si es necesario
+                            minRotation: 30
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Monto'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+
+<?php //! Ventas por Usuario
+// Obtener los datos del reporte de ventas por usuario
+$ventasPorUsuario = Venta::reporteVentasPorUsuario();
+
+// Formatear los datos para Chart.js
+$usuarios = [];
+$totalVentas = [];
+
+foreach ($ventasPorUsuario as $venta) {
+    $usuarios[] = $venta->usuario; // Usa el nombre del usuario
+    $totalVentas[] = $venta->total_ventas; // Usa el total de ventas
+}
+
+// Convertir datos a formato JSON
+$usuariosJson = json_encode($usuarios);
+$totalVentasJson = json_encode($totalVentas);
+
+?>
+
+<script>
+    // Reporte XX: Ventas por Usuario
+    var ctx = document.getElementById('ventasPorUsuarioChart').getContext('2d');
+        var usuarios = <?php echo $usuariosJson; ?>;
+        var totalVentas = <?php echo $totalVentasJson; ?>;
+
+        var ventasPorUsuarioChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: usuarios,
+                datasets: [{
+                    label: 'Total Ventas',
+                    data: totalVentas,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+</script>
+
+
+
+
+<?php //! Pasajeros por Día
+// Obtener los datos del reporte de pasajeros por día
+$pasajerosPorDia = ReportePasajero::obtenerPasajerosPorDia();
+
+// Formatear los datos para Chart.js
+$fechas = [];
+$pasajerosTotales = [];
+
+foreach ($pasajerosPorDia as $registro) {
+    $fechas[] = $registro->fecha;
+    $pasajerosTotales[] = $registro->total_pasajeros;
+}
+
+// Convertir datos a formato JSON
+$fechasJson = json_encode($fechas);
+$pasajerosTotalesJson = json_encode($pasajerosTotales);
+?>
+
+<script>
+    // Reporte XX: Pasajeros por Día
+    var fechas = <?php echo $fechasPasajerosJson; ?>;
+    var totalPasajeros = <?php echo $pasajerosTotalesJson; ?>;
+
+    var ctx = document.getElementById('pasajerosPorDiaChart').getContext('2d');
+        
+        // Datos de PHP en JavaScript
+        var fechas = <?php echo $fechasJson; ?>;
+        var totalPasajeros = <?php echo $pasajerosTotalesJson; ?>;
+        
+        // Crear gráfico
+        var pasajerosPorDiaChart = new Chart(ctx, {
+            type: 'bar', // Puedes cambiar el tipo a 'bar', 'line', etc.
+            data: {
+                labels: fechas, // Etiquetas del eje x
+                datasets: [{
+                    label: 'Total Pasajeros',
+                    data: totalPasajeros, // Datos del gráfico
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+</script>
+
+
+<?php //! Ventas por Día  
+// Obtener los datos del reporte de ventas por día
+$ventasPorDia = Venta::graficoVentasPorDia();
+// Formatear los datos para Chart.js
+$fechas = [];
+$cantidadVentas = [];
+$cantidadProductos = [];
+$montoTotal = [];
+
+foreach ($ventasPorDia as $venta) {
+    $fechas[] = $venta->fecha;
+    $cantidadVentas[] = $venta->cantidadVentas;
+    $cantidadProductos[] = $venta->cantidadProductos;
+    $montoTotal[] = $venta->montoTotal;
+}
+
+// Convertir datos a formato JSON
+$fechasJson = json_encode($fechas);
+$cantidadVentasJson = json_encode($cantidadVentas);
+$cantidadProductosJson = json_encode($cantidadProductos);
+$montoTotalJson = json_encode($montoTotal);
+?>
+
+<script>
+        var ctx = document.getElementById('ventasPorDiaChart').getContext('2d');
+        var ventasPorDiaChart = new Chart(ctx, {
+            type: 'line', // Puedes cambiar el tipo de gráfico según tu preferencia
+            data: {
+                labels: <?php echo $fechasJson; ?>,
+                datasets: [
+                    {
+                        label: 'Cantidad de Ventas',
+                        data: <?php echo $cantidadVentasJson; ?>,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Cantidad de Productos',
+                        data: <?php echo $cantidadProductosJson; ?>,
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Monto Total',
+                        data: <?php echo $montoTotalJson; ?>,
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+
+<?php   //! Ventas por Producto 
+// Obtener los datos del reporte de ventas por producto
+$ventasPorProducto = Venta::reporteVentasPorProducto();
+
+// Formatear los datos para Chart.js
+$productos = [];
+$cantidadVentasProducto = [];
+$montoTotalProducto = [];
+
+foreach ($ventasPorProducto as $producto) {
+    $productos[] = $producto->producto;
+    $cantidadVentasProducto[] = $producto->cantidad_ventas;
+    $montoTotalProducto[] = $producto->monto_total;
+}
+
+// Convertir datos a formato JSON
+$productosJson = json_encode($productos);
+$cantidadVentasProductoJson = json_encode($cantidadVentasProducto);
+$montoTotalProductoJson = json_encode($montoTotalProducto);
+?>
+
+<script>
+        var ctx = document.getElementById('ventasPorProductoChart').getContext('2d');
+        var ventasPorProductoChart = new Chart(ctx, {
+            type: 'bar', // Cambia el tipo de gráfico según tu preferencia
+            data: {
+                labels: <?php echo $productosJson; ?>,
+                datasets: [
+                    {
+                        label: 'Cantidad de Ventas por Producto',
+                        data: <?php echo $cantidadVentasProductoJson; ?>,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Monto Total por Producto',
+                        data: <?php echo $montoTotalProductoJson; ?>,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+<?php //! Stock por producto y Bodega
+// Obtener los datos del reporte de stock por producto y bodega
+$stockPorProductoYBodega = Stock::reporteStockPorProductoYBodega();
+
+// Formatear los datos para Chart.js
+$productosStock = [];
+$bodegasStock = [];
+$cantidadesStock = [];
+$movimientosStock = [];
+$fechasCreacionStock = [];
+
+foreach ($stockPorProductoYBodega as $stock) {
+    $productosStock[] = $stock->producto;
+    $bodegasStock[] = $stock->bodega;
+    $cantidadesStock[] = $stock->cantidad;
+    $movimientosStock[] = $stock->movimiento;
+    $fechasCreacionStock[] = $stock->fechaCreacion;
+}
+
+// Convertir datos a formato JSON
+$productosStockJson = json_encode($productosStock);
+$bodegasStockJson = json_encode($bodegasStock);
+$cantidadesStockJson = json_encode($cantidadesStock);
+$movimientosStockJson = json_encode($movimientosStock);
+$fechasCreacionStockJson = json_encode($fechasCreacionStock);
+?>
+
+<script>
+        var ctx = document.getElementById('stockPorProductoYBodegaChart').getContext('2d');
+        
+        // Configurar el gráfico
+        var stockPorProductoYBodegaChart = new Chart(ctx, {
+            type: 'bar', // Cambia el tipo de gráfico según tu preferencia
+            data: {
+                labels: <?php echo $productosStockJson; ?>, // Etiquetas de los productos
+                datasets: [
+                    {
+                        label: 'Cantidad de Stock',
+                        data: <?php echo $cantidadesStockJson; ?>,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Movimientos de Stock',
+                        data: <?php echo $movimientosStockJson; ?>,
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+
+<?php  //! Ventas por Mes  
 // Obtener los datos del reporte de ventas por mes
 $ventasPorMes = Venta::reporteVentasPorMes();
 
@@ -855,7 +1536,65 @@ $cantidadVendidaMesJson = json_encode($cantidadVendidaMes);
 $totalIngresosMesJson = json_encode($totalIngresosMes);
 ?>
 
-<?php   
+<script>
+        var ctx = document.getElementById('ventasPorMesChart').getContext('2d');
+
+        // Configurar el gráfico
+        var ventasPorMesChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
+            data: {
+                labels: <?php echo $mesesJson; ?>, // Etiquetas de meses
+                datasets: [
+                    {
+                        label: 'Cantidad Vendida',
+                        data: <?php echo $cantidadVendidaMesJson; ?>, // Datos de cantidad vendida por mes
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Total Ingresos',
+                        data: <?php echo $totalIngresosMesJson; ?>, // Datos de total de ingresos por mes
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Mes'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Cantidad / Ingresos'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+<?php  //! Clientes Frecuentes  
 // Obtener los datos del reporte de clientes frecuentes
 $clientesFrecuentes = Cliente::reporteClientesFrecuentes();
 
@@ -879,7 +1618,72 @@ $totalProductosJson = json_encode($totalProductos);
 $totalGastadoJson = json_encode($totalGastado);
 ?>
 
-<?php   
+<script>
+        var ctx = document.getElementById('clientesFrecuentesChart').getContext('2d');
+
+        // Configurar el gráfico
+        var clientesFrecuentesChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
+            data: {
+                labels: <?php echo $clientesFrecuentesNombresJson; ?>, // Nombres de clientes frecuentes
+                datasets: [
+                    {
+                        label: 'Total Compras',
+                        data: <?php echo $totalComprasJson; ?>, // Datos de total de compras
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Total Productos',
+                        data: <?php echo $totalProductosJson; ?>, // Datos de total de productos
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Total Gastado',
+                        data: <?php echo $totalGastadoJson; ?>, // Datos de total gastado
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Clientes'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Cantidad'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+<?php //! Productos con mayor stock
 // Obtener los datos del reporte de productos con mayor stock
 $productosConMayorStock = Producto::reporteProductosConMayorStock();
 
@@ -897,29 +1701,57 @@ $productosMayorStockJson = json_encode($productosMayorStock);
 $totalStockJson = json_encode($totalStock);
 ?>
 
-<?php   
-// Obtener los datos del reporte de productos sin movimiento
-$productosSinMovimiento = Producto::reporteProductosSinMovimiento();
+<script>
+        var ctx = document.getElementById('productosMayorStockChart').getContext('2d');
 
-// Formatear los datos para Chart.js
-$productosSinMovimientoNombres = [];
-$bodegasSinMovimiento = [];
-$ultimaFechaMovimiento = [];
+        // Configurar el gráfico
+        var productosMayorStockChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
+            data: {
+                labels: <?php echo $productosMayorStockJson; ?>, // Nombres de los productos con mayor stock
+                datasets: [{
+                    label: 'Total Stock',
+                    data: <?php echo $totalStockJson; ?>, // Datos de total de stock
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Productos'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Cantidad de Stock'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
-foreach ($productosSinMovimiento as $producto) {
-    $productosSinMovimientoNombres[] = $producto->producto;
-    $bodegasSinMovimiento[] = $producto->bodega;
-    $ultimaFechaMovimiento[] = $producto->ultima_fecha_movimiento;
-}
 
-// Convertir datos a formato JSON
-$productosSinMovimientoNombresJson = json_encode($productosSinMovimientoNombres);
-$bodegasSinMovimientoJson = json_encode($bodegasSinMovimiento);
-$ultimaFechaMovimientoJson = json_encode($ultimaFechaMovimiento);
-?> 
-
-
-<?php   
+<?php //! Ventas por Categoría
 // Obtener los datos del reporte de ventas por categoría de producto
 $ventasPorCategoria = Producto::reporteVentasPorCategoriaDeProducto();
 
@@ -940,421 +1772,211 @@ $cantidadVendidaCategoriaJson = json_encode($cantidadVendidaCategoria);
 $totalIngresosCategoriaJson = json_encode($totalIngresosCategoria);
 ?>
 
-<!-- < ?php   
-// Obtener los datos del reporte de productos devueltos por cliente
-$productosDevueltosPorCliente = Reporte::reporteProductosDevueltosPorCliente();
-
-// Formatear los datos para Chart.js
-$clientesDevueltos = [];
-$productosDevueltos = [];
-$cantidadesDevueltas = [];
-$fechasDevueltas = [];
-
-foreach ($productosDevueltosPorCliente as $devolucion) {
-    $clientesDevueltos[] = $devolucion->cliente;
-    $productosDevueltos[] = $devolucion->producto;
-    $cantidadesDevueltas[] = $devolucion->cantidad_devuelta;
-    $fechasDevueltas[] = $devolucion->fecha;
-}
-
-// Convertir datos a formato JSON
-$clientesDevueltosJson = json_encode($clientesDevueltos);
-$productosDevueltosJson = json_encode($productosDevueltos);
-$cantidadesDevueltasJson = json_encode($cantidadesDevueltas);
-$fechasDevueltasJson = json_encode($fechasDevueltas);
-?> -->
-
-<?php   
-// Obtener los datos del reporte de ingresos y egresos por bodega
-$ingresosYEgresosPorBodega = Stock::reporteIngresosYEgresosPorBodega();
-
-// Formatear los datos para Chart.js
-$bodegasIngresosEgresos = [];
-$totalIngresosBodega = [];
-$totalEgresosBodega = [];
-
-foreach ($ingresosYEgresosPorBodega as $bodega) {
-    $bodegasIngresosEgresos[] = $bodega->bodega;
-    $totalIngresosBodega[] = $bodega->total_ingresos;
-    $totalEgresosBodega[] = $bodega->total_egresos;
-}
-
-// Convertir datos a formato JSON
-$bodegasIngresosEgresosJson = json_encode($bodegasIngresosEgresos);
-$totalIngresosBodegaJson = json_encode($totalIngresosBodega);
-$totalEgresosBodegaJson = json_encode($totalEgresosBodega);
-?>
-
-
 <script>
-    // Datos de los reportes
-    var fechas = <?php echo $fechasJson; ?>;
-    var cantidadVentas = <?php echo $cantidadVentasJson; ?>;
-    var cantidadProductos = <?php echo $cantidadProductosJson; ?>;
-    var montoTotal = <?php echo $montoTotalJson; ?>;
+        var ctx = document.getElementById('ventasPorCategoriaChart').getContext('2d');
 
-    var productos = <?php echo $productosJson; ?>;
-    var cantidadVentasProducto = <?php echo $cantidadVentasProductoJson; ?>;
-    var montoTotalProducto = <?php echo $montoTotalProductoJson; ?>;
-
-    var clientes = <?php echo $clientesJson; ?>;
-    var metodosPago = <?php echo $metodosPagoJson; ?>;
-    var cantidadesPagadas = <?php echo $cantidadesPagadasJson; ?>;
-    var fechasRegistro = <?php echo $fechasRegistroJson; ?>;
-
-    var productosStock = <?php echo $productosStockJson; ?>;
-    var bodegasStock = <?php echo $bodegasStockJson; ?>;
-    var cantidadesStock = <?php echo $cantidadesStockJson; ?>;
-    var movimientosStock = <?php echo $movimientosStockJson; ?>;
-    var fechasCreacionStock = <?php echo $fechasCreacionStockJson; ?>;
-
-    var usuarios = <?php echo $usuariosJson; ?>;
-    var referenciasPedidos = <?php echo $referenciasPedidosJson; ?>;
-    var fechasCreacionPedidos = <?php echo $fechasCreacionPedidosJson; ?>;
-    var estadosPedidos = <?php echo $estadosPedidosJson; ?>;
-
-    var productosVendidos = <?php echo $productosVendidosJson; ?>;
-    var cantidadesVendidas = <?php echo $cantidadesVendidasJson; ?>;
-    var totalesIngresos = <?php echo $totalesIngresosJson; ?>;
-
-    var productosKardex = <?php echo $productosKardexJson; ?>;
-    var bodegasKardex = <?php echo $bodegasKardexJson; ?>;
-    var entradas = <?php echo $entradasJson; ?>;
-    var salidas = <?php echo $salidasJson; ?>;
-    var totalesKardex = <?php echo $totalesKardexJson; ?>;
-    var fechasKardex = <?php echo $fechasKardexJson; ?>;
-
-    var clientesDeuda = <?php echo $clientesDeudaJson; ?>;
-    var totalesDeuda = <?php echo $totalesDeudaJson; ?>;
-
-    var productosDefectos = <?php echo $productosDefectosJson; ?>;
-    var bodegasDefectos = <?php echo $bodegasDefectosJson; ?>;
-    var cantidadesDefectos = <?php echo $cantidadesDefectosJson; ?>;
-    var observacionesDefectos = <?php echo $observacionesDefectosJson; ?>;
-    var fechasDefectos = <?php echo $fechasDefectosJson; ?>;
-
-    var productosRegalias = <?php echo $productosRegaliasJson; ?>;
-    var bodegasRegalias = <?php echo $bodegasRegaliasJson; ?>;
-    var cantidadesRegalias = <?php echo $cantidadesRegaliasJson; ?>;
-    var observacionesRegalias = <?php echo $observacionesRegaliasJson; ?>;
-    var fechasRegalias = <?php echo $fechasRegaliasJson; ?>;
-
-    var fechasPasajeros = <?php echo $fechasPasajerosJson; ?>;
-    var guia1 = <?php echo $guia1Json; ?>;
-    var pasajerosGuia1 = <?php echo $pasajerosGuia1Json; ?>;
-    var guia2 = <?php echo $guia2Json; ?>;
-    var pasajerosGuia2 = <?php echo $pasajerosGuia2Json; ?>;
-    var guia3 = <?php echo $guia3Json; ?>;
-    var pasajerosGuia3 = <?php echo $pasajerosGuia3Json; ?>;
-    var guia4 = <?php echo $guia4Json; ?>;
-    var pasajerosGuia4 = <?php echo $pasajerosGuia4Json; ?>;
-    var guia5 = <?php echo $guia5Json; ?>;
-    var pasajerosGuia5 = <?php echo $pasajerosGuia5Json; ?>;
-
-    var meses = <?php echo $mesesJson; ?>;
-    var cantidadVendidaMes = <?php echo $cantidadVendidaMesJson; ?>;
-    var totalIngresosMes = <?php echo $totalIngresosMesJson; ?>;
-
-    var clientesFrecuentesNombres = <?php echo $clientesFrecuentesNombresJson; ?>;
-    var totalCompras = <?php echo $totalComprasJson; ?>;
-    var totalProductos = <?php echo $totalProductosJson; ?>;
-    var totalGastado = <?php echo $totalGastadoJson; ?>;
-
-    var productosMayorStock = <?php echo $productosMayorStockJson; ?>;
-    var totalStock = <?php echo $totalStockJson; ?>;
-
-    var productosSinMovimientoNombres = <?php echo $productosSinMovimientoNombresJson; ?>;
-    var ultimaFechaMovimiento = <?php echo $ultimaFechaMovimientoJson; ?>;
-
-    var categorias = <?php echo $categoriasJson; ?>;
-    var cantidadVendidaCategoria = <?php echo $cantidadVendidaCategoriaJson; ?>;
-    var totalIngresosCategoria = <?php echo $totalIngresosCategoriaJson; ?>;
-
-    // Configuración de los gráficos
-    function crearGrafico(ctx, tipo, labels, datasets) {
-        return new Chart(ctx, {
-            type: tipo,
+        // Configurar el gráfico
+        var ventasPorCategoriaChart = new Chart(ctx, {
+            type: 'bar', // Tipo de gráfico
             data: {
-                labels: labels,
-                datasets: datasets
+                labels: <?php echo $categoriasJson; ?>, // Categorías de productos
+                datasets: [{
+                    label: 'Cantidad Vendida',
+                    data: <?php echo $cantidadVendidaCategoriaJson; ?>, // Cantidades vendidas por categoría
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Total Ingresos',
+                    data: <?php echo $totalIngresosCategoriaJson; ?>, // Total de ingresos por categoría
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
             },
             options: {
                 scales: {
                     x: {
-                        beginAtZero: true
+                        title: {
+                            display: true,
+                            text: 'Categorías de Producto'
+                        },
+                        ticks: {
+                            autoSkip: false, // Mostrar todas las etiquetas en el eje X
+                            maxRotation: 90, // Rotar etiquetas si es necesario
+                            minRotation: 30
+                        }
                     },
                     y: {
+                        title: {
+                            display: true,
+                            text: 'Cantidad / Total Ingresos'
+                        },
                         beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
                     }
                 }
             }
         });
-    }
+    </script>
 
-    // Reporte 1: Ventas por Día
-    var ctxVentasPorDia = document.getElementById('ventasPorDiaChart').getContext('2d');
-    var ventasPorDiaChart = crearGrafico(ctxVentasPorDia, 'bar', fechas, [
-        {
-            label: 'Cantidad de Ventas',
-            data: cantidadVentas,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
+<?php    //! Defectos por Bodega
+// Obtener los datos del reporte de defectos por bodega
+$defectosPorBodega = ReporteDefecto::reporteDefectosPorBodega();
+
+// Formatear los datos para Chart.js
+$bodegasDefectos = [];
+$cantidadesDefectos = [];
+
+foreach ($defectosPorBodega as $defecto) {
+    $bodegasDefectos[] = $defecto->bodega;
+    $cantidadesDefectos[] = $defecto->cantidad_defectos; 
+}
+
+// Convertir datos a formato JSON
+$bodegasDefectosJson = json_encode($bodegasDefectos);
+$cantidadesDefectosJson = json_encode($cantidadesDefectos);
+?>
+
+<script>
+    var ctx = document.getElementById('defectosChart').getContext('2d');
+
+    // Configurar el gráfico
+    var defectosChart = new Chart(ctx, {
+        type: 'bar', // Tipo de gráfico
+        data: {
+            labels: <?php echo $bodegasDefectosJson; ?>, // Etiquetas de bodegas
+            datasets: [{
+                label: 'Cantidad de Defectos',
+                data: <?php echo $cantidadesDefectosJson; ?>, // Datos de defectos
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
         },
-        {
-            label: 'Cantidad de Productos Vendidos',
-            data: cantidadProductos,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Monto Total de Ventas',
-            data: montoTotal,
-            backgroundColor: 'rgba(255, 206, 86, 0.2)',
-            borderColor: 'rgba(255, 206, 86, 1)',
-            borderWidth: 1
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Bodegas'
+                    },
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 90,
+                        minRotation: 90
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Cantidad de Defectos'
+                    },
+                    beginAtZero: true
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
         }
-    ]);
-
-    // Reporte 2: Ventas por Producto
-    var ctxVentasPorProducto = document.getElementById('ventasPorProductoChart').getContext('2d');
-    var ventasPorProductoChart = crearGrafico(ctxVentasPorProducto, 'bar', productos, [
-        {
-            label: 'Cantidad de Ventas por Producto',
-            data: cantidadVentasProducto,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Monto Total por Producto',
-            data: montoTotalProducto,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 3: Cobros por Cliente
-    var ctxCobrosPorCliente = document.getElementById('cobrosPorClienteChart').getContext('2d');
-    var cobrosPorClienteChart = crearGrafico(ctxCobrosPorCliente, 'bar', clientes, [
-        {
-            label: 'Cantidad Pagada',
-            data: cantidadesPagadas,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 4: Stock por Producto y Bodega
-    var ctxStockPorProductoYBodega = document.getElementById('stockPorProductoYBodegaChart').getContext('2d');
-    var stockPorProductoYBodegaChart = crearGrafico(ctxStockPorProductoYBodega, 'bar', productosStock, [
-        {
-            label: 'Cantidad en Stock',
-            data: cantidadesStock,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 5: Pedidos por Usuario
-    var ctxPedidosPorUsuario = document.getElementById('pedidosPorUsuarioChart').getContext('2d');
-    var pedidosPorUsuarioChart = crearGrafico(ctxPedidosPorUsuario, 'bar', usuarios, [
-        {
-            label: 'Cantidad de Pedidos',
-            data: referenciasPedidos,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 6: Productos Vendidos
-    var ctxProductosVendidos = document.getElementById('productosVendidosChart').getContext('2d');
-    var productosVendidosChart = crearGrafico(ctxProductosVendidos, 'bar', productosVendidos, [
-        {
-            label: 'Cantidad Vendida',
-            data: cantidadesVendidas,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Total Ingresos',
-            data: totalesIngresos,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 7: Kardex de Productos
-    var ctxKardexProductos = document.getElementById('kardexProductosChart').getContext('2d');
-    var kardexProductosChart = crearGrafico(ctxKardexProductos, 'bar', productosKardex, [
-        {
-            label: 'Entradas',
-            data: entradas,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Salidas',
-            data: salidas,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Total',
-            data: totalesKardex,
-            backgroundColor: 'rgba(255, 206, 86, 0.2)',
-            borderColor: 'rgba(255, 206, 86, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 8: Deudas por Cliente
-    var ctxDeudasPorCliente = document.getElementById('deudasPorClienteChart').getContext('2d');
-    var deudasPorClienteChart = crearGrafico(ctxDeudasPorCliente, 'bar', clientesDeuda, [
-        {
-            label: 'Total Deuda',
-            data: totalesDeuda,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 9: Productos con Defectos
-    var ctxProductosDefectos = document.getElementById('productosDefectosChart').getContext('2d');
-    var productosDefectosChart = crearGrafico(ctxProductosDefectos, 'bar', productosDefectos, [
-        {
-            label: 'Cantidad Defectuosa',
-            data: cantidadesDefectos,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 10: Productos con Regalías
-    var ctxProductosRegalias = document.getElementById('productosRegaliasChart').getContext('2d');
-    var productosRegaliasChart = crearGrafico(ctxProductosRegalias, 'bar', productosRegalias, [
-        {
-            label: 'Cantidad Regalías',
-            data: cantidadesRegalias,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 11: Pasajeros por Guía
-    var ctxPasajerosPorGuia = document.getElementById('pasajerosPorGuiaChart').getContext('2d');
-    var pasajerosPorGuiaChart = crearGrafico(ctxPasajerosPorGuia, 'bar', guia1, [
-        {
-            label: 'Pasajeros',
-            data: pasajerosGuia1,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 12: Ventas por Mes
-    var ctxVentasPorMes = document.getElementById('ventasPorMesChart').getContext('2d');
-    var ventasPorMesChart = crearGrafico(ctxVentasPorMes, 'bar', meses, [
-        {
-            label: 'Cantidad Vendida por Mes',
-            data: cantidadVendidaMes,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Total Ingresos por Mes',
-            data: totalIngresosMes,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 13: Clientes Frecuentes
-    var ctxClientesFrecuentes = document.getElementById('clientesFrecuentesChart').getContext('2d');
-    var clientesFrecuentesChart = crearGrafico(ctxClientesFrecuentes, 'bar', clientesFrecuentesNombres, [
-        {
-            label: 'Total Compras',
-            data: totalCompras,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Total Productos',
-            data: totalProductos,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Total Gastado',
-            data: totalGastado,
-            backgroundColor: 'rgba(255, 206, 86, 0.2)',
-            borderColor: 'rgba(255, 206, 86, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 14: Productos con Mayor Stock
-    var ctxProductosMayorStock = document.getElementById('productosMayorStockChart').getContext('2d');
-    var productosMayorStockChart = crearGrafico(ctxProductosMayorStock, 'bar', productosMayorStock, [
-        {
-            label: 'Total Stock',
-            data: totalStock,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 15: Productos sin Movimiento
-    var ctxProductosSinMovimiento = document.getElementById('productosSinMovimientoChart').getContext('2d');
-    var productosSinMovimientoChart = crearGrafico(ctxProductosSinMovimiento, 'line', productosSinMovimientoNombres, [
-        {
-            label: 'Última Fecha de Movimiento',
-            data: ultimaFechaMovimiento,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }
-    ]);
-
-    // Reporte 16: Ventas por Categoría
-    var ctxVentasPorCategoria = document.getElementById('ventasPorCategoriaChart').getContext('2d');
-    var ventasPorCategoriaChart = crearGrafico(ctxVentasPorCategoria, 'bar', categorias, [
-        {
-            label: 'Cantidad Vendida por Categoría',
-            data: cantidadVendidaCategoria,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        },
-        {
-            label: 'Total Ingresos por Categoría',
-            data: totalIngresosCategoria,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        }
-    ]);
-    
+    });
 </script>
 
 
+<?php //! Regalias por Bodega
+// Obtener los datos del reporte de regalías por bodega
+$regaliasPorBodega = Regalia::reporteRegaliasPorBodega();
 
+// Formatear los datos para Chart.js
+$bodegasRegalias = [];
+$cantidadesRegalias = [];
+
+foreach ($regaliasPorBodega as $regalia) {
+    $bodegasRegalias[] = $regalia->bodega;
+    $cantidadesRegalias[] = $regalia->cantidad_regalias; // Aquí es donde debes usar la cantidad total de regalías
+}
+
+// Convertir datos a formato JSON
+$bodegasRegaliasJson = json_encode($bodegasRegalias);
+$cantidadesRegaliasJson = json_encode($cantidadesRegalias);
+?>
+
+
+<script>
+    var ctx = document.getElementById('regaliasChart').getContext('2d');
+
+    // Configurar el gráfico
+    var regaliasChart = new Chart(ctx, {
+        type: 'bar', // Tipo de gráfico
+        data: {
+            labels: <?php echo $bodegasRegaliasJson; ?>, // Etiquetas de bodegas
+            datasets: [{
+                label: 'Cantidad de Regalías',
+                data: <?php echo $cantidadesRegaliasJson; ?>, // Datos de regalías
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Bodegas'
+                    },
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 90,
+                        minRotation: 90
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Cantidad de Regalías'
+                    },
+                    beginAtZero: true
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+    
 </section>   

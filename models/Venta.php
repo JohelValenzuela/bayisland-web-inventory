@@ -30,7 +30,6 @@ class Venta extends ActiveRecord {
         $this->monto_total = $args['monto_total'] ?? 0;
         $this->mes = $args['mes'] ?? 0;
         $this->cantidad_vendida = $args['cantidad_vendida'] ?? 0;
-        $this->total_ingresos = $args['total_ingresos'] ?? 0;
     }
 
     public function validar() {
@@ -57,4 +56,14 @@ class Venta extends ActiveRecord {
     //     // Retorna el resultado
     //     return $resultado;
     // }
+
+    // Método para agregar una propiedad dinámica
+    public function __set($nombre, $valor) {
+        $this->$nombre = $valor;
+    }
+
+    // Método para obtener una propiedad dinámica
+    public function __get($nombre) {
+        return $this->$nombre;
+    }
 }

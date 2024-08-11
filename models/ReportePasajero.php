@@ -88,4 +88,15 @@ class ReportePasajero extends ActiveRecord {
 
         return self::$alertas;
     }
+
+    // Método para agregar una propiedad dinámica
+    public function __set($nombre, $valor) {
+        $this->$nombre = $valor;
+    }
+
+    // Método para obtener una propiedad dinámica
+    public function __get($nombre) {
+        return $this->$nombre;
+    }
+    
 }

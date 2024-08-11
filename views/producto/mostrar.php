@@ -59,10 +59,10 @@
                     <th>Medida</th>
                     <th>Tipo Empaque</th>
                     <th>Cant. por Empaque</th>
-                    <th>Total Medida</th>
-                    <th>Precio Producto</th>
-                    <th>Precio por Medida</th>
-                    <th>Total</th>
+                    <!-- <th>Total Medida</th> -->
+                    <!-- <th>Precio Producto</th> -->
+                    <!-- <th>Precio por Medida</th> -->
+                    <!-- <th>Total</th> -->
                     <th>Estado</th>
                     <th>Editar</th>
                     <!-- <th>Eliminar</th> -->
@@ -85,10 +85,10 @@
                             <td data-titulo="Medida"><?php echo $productos->medida->nombre; ?></td>
                             <td data-titulo="Empaque"><?php echo $productos->unidad_empaque; ?></td>
                             <td data-titulo="Cantidad"><?php echo $productos->cantidad; ?></td>
-                            <td data-titulo="Cantidad Medida"><?php echo $productos->totalMedida; ?></td>
-                            <td data-titulo="Precio Producto"><?php echo $productos->precioUnidad; ?></td>
-                            <td data-titulo="Precio Medida"><?php echo $productos->precioMedida; ?></td>
-                            <td data-titulo="Total"><?php echo $productos->total; ?></td>
+                            <!-- <td data-titulo="Cantidad Medida"><?php echo $productos->totalMedida; ?></td> -->
+                            <!-- <td data-titulo="Precio Producto"><?php echo $productos->precioUnidad; ?></td> -->
+                            <!-- <td data-titulo="Precio Medida"><?php echo $productos->precioMedida; ?></td> -->
+                            <!-- <td data-titulo="Total"><?php echo $productos->total; ?></td> -->
                             <td data-titulo="Estado">
                             <?php if($productos->estado === 'Activo') : ?>
                                 <a class="estado activo"> Activado </a>

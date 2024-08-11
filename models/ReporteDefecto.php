@@ -16,6 +16,7 @@ class ReporteDefecto extends ActiveRecord {
     public $estado;
     public $bodegaId; 
     public $bodega; 
+    public $cantidad_defectos; 
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
@@ -28,6 +29,7 @@ class ReporteDefecto extends ActiveRecord {
         $this->estado = $args['estado'] ?? 'pendiente'; // Estado por defecto
         $this->bodegaId = $args['bodegaId'] ?? '';
         $this->bodega  = $args['bodega'] ?? '';
+        $this->cantidad_defectos  = $args['cantidad_defectos'] ?? '';
     }
 
     public function validar() {

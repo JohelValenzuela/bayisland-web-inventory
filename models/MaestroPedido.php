@@ -8,7 +8,7 @@ class MaestroPedido extends ActiveRecord {
     protected static $tabla = 'maestro_pedido';
 
     // Columnas
-    protected static $columnasDB = ['id', 'referencia', 'estado', 'usuarioId', 'usuarioIdAprueba', 'fechaCreacion', 'bodegaId'];
+    protected static $columnasDB = ['id', 'referencia', 'estado', 'usuarioId', 'usuarioIdAprueba', 'fechaCreacion', 'bodegaId', 'cantidad_pedidos'];
 
     // Atributos
     public $id;
@@ -18,7 +18,8 @@ class MaestroPedido extends ActiveRecord {
     public $usuarioIdAprueba;
     public $fechaCreacion;
     public $bodegaId;
-    public $fecha_creacion ;
+    public $fecha_creacion;
+    public $cantidad_pedidos;
 
     // Constructor de atributos
     public function __construct($args = []){
@@ -30,6 +31,7 @@ class MaestroPedido extends ActiveRecord {
         $this->fechaCreacion = $args['fechaCreacion'] ?? '';
         $this->bodegaId = $args['bodegaId'] ?? '';
         $this->fecha_creacion  = $args['fecha_creacion '] ?? '';
+        $this->cantidad_pedidos  = $args['cantidad_pedidos '] ?? '';
     }
 
     public function validar() {

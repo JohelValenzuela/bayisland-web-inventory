@@ -548,10 +548,15 @@ class ActiveRecord {
 
     // Reporte de Cobros por Cliente
     public static function reporteCobrosPorCliente() {
-        $query = "SELECT c.nombre AS cliente, co.metodo_pago AS metodopago, co.cantidad_pagada AS cantidadpagada, co.fecha_registro AS fecharegistro
-                FROM cobros co
-                JOIN clientes c ON co.cliente_id = c.id
-                ORDER BY co.fecha_registro";
+        $query = "SELECT 
+                c.nombre AS cliente,
+                co.metodo_pago AS metodo_pago,
+                SUM(co.cantidad_pagada) AS cantidad_pagada,
+                MAX(co.fecha_registro) AS ultima_fecha
+                FROM  cobros co
+                JOIN  clientes c ON co.cliente_id = c.id
+                GROUP BY  c.nombre, co.metodo_pago
+                ORDER BY ultima_fecha DESC";
         $resultado = self::consultarSQL($query);
         return $resultado;
     }
@@ -569,10 +574,13 @@ class ActiveRecord {
 
     // Reporte de Pedidos por Usuario
     public static function reportePedidosPorUsuario() {
-        $query = "SELECT u.nombre AS usuario, mp.referencia AS referencia, mp.fechaCreacion AS fechaCreacion, mp.estado AS estado
-                FROM maestro_pedido mp
-                JOIN usuarios u ON mp.usuarioId = u.id
-                ORDER BY mp.fechaCreacion";
+        $query = "SELECT 
+        u.nombre AS usuario, 
+        COUNT(mp.id) AS cantidad_pedidos
+        FROM maestro_pedido mp
+        JOIN usuarios u ON mp.usuarioId = u.id
+        GROUP BY  u.nombre
+        ORDER BY cantidad_pedidos DESC";
         $resultado = self::consultarSQL($query);
         return $resultado;
     }
@@ -613,36 +621,49 @@ class ActiveRecord {
 
 
     // Reporte de Defectos por Producto y Bodega
-    public static function reporteDefectosPorProductoYBodega() {
-        $query = "SELECT p.nombre AS producto, b.nombre AS bodega, rd.cantidad AS cantidad, rd.observacion AS observacion, rd.fecha_reporte AS fecha
-                FROM reportes_defectos rd
-                JOIN producto p ON rd.producto_id = p.id
-                JOIN bodegas b ON rd.bodegaId = b.id
-                ORDER BY rd.fecha_reporte";
+    // public static function reporteDefectosPorProductoYBodega() {
+    //     $query = "SELECT p.nombre AS producto, b.nombre AS bodega, rd.cantidad AS cantidad, rd.observacion AS observacion, rd.fecha_reporte AS fecha
+    //             FROM reportes_defectos rd
+    //             JOIN producto p ON rd.producto_id = p.id
+    //             JOIN bodegas b ON rd.bodegaId = b.id
+    //             ORDER BY rd.fecha_reporte";
+    //     $resultado = self::consultarSQL($query);
+    //     return $resultado;
+    // }
+
+    // // Reporte de Regalias por Producto y Bodega
+    // public static function reporteRegaliasPorProductoYBodega() {
+    //     $query = "SELECT p.nombre AS producto, b.nombre AS bodega, r.cantidad AS cantidad, r.observacion AS observacion, r.fecha_regalia AS fecha
+    //             FROM regalias r
+    //             JOIN producto p ON r.producto_id = p.id
+    //             JOIN bodegas b ON r.bodegaId = b.id
+    //             ORDER BY r.fecha_regalia";
+    //     $resultado = self::consultarSQL($query);
+    //     return $resultado;
+    // }
+
+    // Reporte de Defectos por Producto y Bodega
+    public static function reporteDefectosPorBodega() {
+        $query = "SELECT b.nombre AS bodega, COUNT(rd.id) AS cantidad_defectos
+                  FROM reportes_defectos rd
+                  JOIN bodegas b ON rd.bodegaId = b.id
+                  GROUP BY b.nombre
+                  ORDER BY b.nombre";
         $resultado = self::consultarSQL($query);
         return $resultado;
     }
 
     // Reporte de Regalias por Producto y Bodega
-    public static function reporteRegaliasPorProductoYBodega() {
-        $query = "SELECT p.nombre AS producto, b.nombre AS bodega, r.cantidad AS cantidad, r.observacion AS observacion, r.fecha_regalia AS fecha
+    public static function reporteRegaliasPorBodega() {
+        $query = "SELECT b.nombre AS bodega, COUNT(r.id) AS cantidad_regalias
                 FROM regalias r
-                JOIN producto p ON r.producto_id = p.id
                 JOIN bodegas b ON r.bodegaId = b.id
-                ORDER BY r.fecha_regalia";
+                GROUP BY b.nombre
+                ORDER BY cantidad_regalias DESC";
         $resultado = self::consultarSQL($query);
         return $resultado;
     }
 
-    // Reporte de Ventas de Última Hora
-    // public static function reporteVentasDeUltimaHora() {
-    //     $query = "SELECT vuh.nombre_persona AS nombre, vuh.nacionalidad AS nacionalidad, vuh.cantidad_personas AS cantidad_personas, vuh.total_dolares AS total_dolares, vuh.total_colones AS total_colones, vuh.fecha AS fecha
-    //               FROM ventas_ultima_hora vuh
-    //               ORDER BY vuh.fecha";
-    //               debug($query);
-    //     $resultado = self::consultarSQL($query);
-    //     return $resultado;
-    // }
 
     // Reporte de Pasajeros por Guía
     public static function reportePasajerosPorGuia() {
@@ -775,6 +796,48 @@ class ActiveRecord {
         $resultado = self::consultarSQL($query);
         return $resultado;
     }
+
+    //Reporte de Ventas por Usuario
+    public static function reporteVentasPorUsuario() {
+        // Consulta SQL para obtener ventas totales por usuario
+        $query = "SELECT
+            u.nombre AS usuario,
+            COALESCE(SUM(vp.precio * vp.cantidad), 0) AS total_ventas
+        FROM ventas v
+        JOIN venta_productos vp ON v.id = vp.venta_id
+        JOIN usuarios u ON v.usuario_id = u.id
+        GROUP BY u.id
+        ORDER BY total_ventas DESC";
+    
+        $resultado = self::$db->query($query);
+    
+        $resultados = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $registro = new self();
+            $registro->usuario = $fila['usuario']; // Usa el nombre del usuario en lugar del ID
+            $registro->total_ventas = $fila['total_ventas']; // Usa la propiedad dinámica
+            $resultados[] = $registro;
+        }
+        return $resultados;
+    }
+    
+
+    
+    //Reporte de Pasajeros por Día
+    public static function obtenerPasajerosPorDia() {
+        $query = "SELECT fecha, (guia1_pasajeros + guia2_pasajeros + guia3_pasajeros + guia4_pasajeros + guia5_pasajeros) AS total_pasajeros FROM reporte_pasajeros";
+        $resultado = self::$db->query($query);
+    
+        $resultados = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $registro = new self();
+            $registro->fecha = $fila['fecha'];
+            $registro->total_pasajeros = $fila['total_pasajeros'];
+            $resultados[] = $registro;
+        }
+        return $resultados;
+    }
+    
 
 
 

@@ -16,6 +16,7 @@ class Regalia extends ActiveRecord {
     public $estado;
     public $bodegaId; 
     public $bodega; 
+    public $cantidad_regalias; 
 
     public function __construct($args = []) {
         $this->id = $args['id'] ?? null;
@@ -28,6 +29,7 @@ class Regalia extends ActiveRecord {
         $this->estado = $args['estado'] ?? 'pendiente'; // Estado por defecto
         $this->bodegaId = $args['bodegaId'] ?? '';
         $this->bodega  = $args['bodega'] ?? '';
+        $this->cantidad_regalias  = $args['cantidad_regalias'] ?? '';
     }
 
     public function validar() {

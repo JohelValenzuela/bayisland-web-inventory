@@ -373,10 +373,12 @@ label {
 	text-decoration: none;
 	border-radius: 5px;
 	text-align: center;
+	border: 1px solid v.$azulPrincipal;
 
 	&.categoria-seleccionada{
-		background-color: red;
-		color: #fff;
+		background-color: v.$blanco;
+		color: v.$azulPrincipal;
+		font-weight: bold;
 	}
 }
 
